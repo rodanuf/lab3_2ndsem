@@ -20,12 +20,15 @@ public:
         array_iterator operator++(int);
         array_iterator &operator--();
         array_iterator operator--(int);
+        array_iterator &operator=(const array_iterator &other);
         array_iterator operator+(size_t n);
         array_iterator operator-(size_t n);
         T &operator*();
         T &operator[](size_t index);
         bool operator==(const array_iterator &other);
         bool operator!=(const array_iterator &other);
+        void set(const T &element);
+        void erase();
     };
     class const_array_iterator
     {
@@ -38,6 +41,7 @@ public:
         const_array_iterator operator++(int);
         const_array_iterator &operator--();
         const_array_iterator operator--(int);
+        const_array_iterator &operator=(const const_array_iterator &other);
         const_array_iterator operator-(size_t n);
         const_array_iterator operator+(size_t n);
         const T &operator*();
@@ -46,8 +50,8 @@ public:
         bool operator!=(const const_array_iterator &other);
     };
     dynamic_array();
-    dynamic_array(size_t capacity);
-    dynamic_array(const T *data, const size_t size);
+    dynamic_array(const size_t &size);
+    dynamic_array(const T *data, const size_t &size);
     dynamic_array(const dynamic_array &other);
     ~dynamic_array();
     T &get(const int index);
@@ -64,5 +68,5 @@ public:
     array_iterator erase(const int index);
     const_array_iterator cbegin();
     const_array_iterator cend();
-    const_array_iterator erase(const int index) const;
+    const_array_iterator cerase(const int index) const;
 };

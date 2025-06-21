@@ -20,12 +20,15 @@ public:
         as_iterator operator++(int) override;
         as_iterator &operator--() override;
         as_iterator operator--(int) override;
+        as_iterator &operator=(const as_iterator &other);
         as_iterator operator+(const size_t n) override;
         as_iterator operator-(const size_t n) override;
         T &operator*() override;
         T &operator[](const int index) override;
         bool operator==(const as_iterator &other) override;
         bool operator!=(const as_iterator &other) override;
+        void set(const T &value);
+        void erase();
     };
     class const_as_iterator : public sequence<T>::const_iterator
     {
@@ -46,8 +49,8 @@ public:
         bool operator!=(const const_as_iterator &other) override;
     };
     arrray_sequence();
-    array_sequence(size_t capacity);
-    array_sequence(T *items, const size_t size);
+    array_sequence(const size_t &size);
+    array_sequence(T *items, const size_t &size);
     array_sequence(const dynamic_array<T> &array);
     ~array_sequence();
     T &get(int index) override;
@@ -65,4 +68,8 @@ public:
     sequence<T> *immutable_concat(sequence<T> *other) override;
     void print() override;
     void clear() override;
+    iterator begin() override;
+    iterator end() override;
+    const_iterator cbegin() const override;
+    const_iterator cend() const override;
 };
