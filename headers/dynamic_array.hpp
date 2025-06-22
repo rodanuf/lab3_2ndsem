@@ -12,10 +12,11 @@ public:
     class array_iterator
     {
     private:
-        T *ptr;
+        T *current;
 
     public:
         array_iterator(T *ptr);
+        array_iterator(const array_iterator &other);
         array_iterator &operator++();
         array_iterator operator++(int);
         array_iterator &operator--();
@@ -57,7 +58,7 @@ public:
     T &get(const int index);
     T &get_first();
     T &get_last();
-    int get_length();
+    size_t get_length();
     void append_element(const T &element);
     void prepend_element(const T &element);
     void insert_element(const T &element, const int index);
@@ -70,3 +71,5 @@ public:
     const_array_iterator cend();
     const_array_iterator cerase(const int index) const;
 };
+
+#include "../templates/dynamic_array.tpp"

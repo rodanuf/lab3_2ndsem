@@ -65,7 +65,7 @@ public:
     T &get(const int &index) const;
     T &get_first() const;
     T &get_last() const;
-    int get_length() const;
+    size_t get_length() const;
     void append_element(const T &element);
     void prepend_element(const T &element);
     void insert_element(const T &element, const int &index);

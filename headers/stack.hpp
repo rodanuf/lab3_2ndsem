@@ -27,10 +27,10 @@ public:
         st_iterator &operator--();
         st_iterator operator--(int);
         st_iterator operator=(const st_iterator &other);
-        st_iterator operator+(const int &index);
-        st_iterator operator-(const int &index);
+        st_iterator operator+(const int &n);
+        st_iterator operator-(const int &n);
         T &operator*();
-        T &operator[](const int &index);
+        T &operator[](const int &n);
         bool operator==(const iterator &other) const;
         bool operator!=(const iterator &other) const;
         void set(const T &element) override;
@@ -48,10 +48,10 @@ public:
         const_st_iterator &operator--();
         const_st_iterator operator--(int);
         const_st_iterator operator=(const const_st_iterator &other);
-        const_st_iterator operator+(const int &index);
-        const_st_iterator operator-(const int &index);
+        const_st_iterator operator+(const int &n);
+        const_st_iterator operator-(const int &n);
         const T &operator*();
-        const T &operator[](const int &index);
+        const T &operator[](const int &n);
         bool operator==(const const_iterator &other) const;
         bool operator!=(const const_iterator &other) const;
     };
