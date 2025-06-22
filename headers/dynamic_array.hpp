@@ -5,7 +5,7 @@ class dynamic_array
 {
 private:
     T *data;
-    size_t size;
+    size_t length;
     size_t capacity;
 
 public:
@@ -34,10 +34,11 @@ public:
     class const_array_iterator
     {
     private:
-        const T *ptr;
+        const T *current;
 
     public:
         const_array_iterator(const T *ptr);
+        const_array_iterator(const const_array_iterator &other);
         const_array_iterator &operator++();
         const_array_iterator operator++(int);
         const_array_iterator &operator--();
@@ -50,26 +51,26 @@ public:
         bool operator==(const const_array_iterator &other);
         bool operator!=(const const_array_iterator &other);
     };
+    array_iterator begin();
+    array_iterator end();
+    const_array_iterator cbegin() const;
+    const_array_iterator cend() const;
     dynamic_array();
     dynamic_array(const size_t &size);
     dynamic_array(const T *data, const size_t &size);
+    dynamic_array(const std::initializer_list<T> &list);
     dynamic_array(const dynamic_array &other);
     ~dynamic_array();
-    T &get(const int index);
+    T &get(const int &index);
     T &get_first();
     T &get_last();
-    size_t get_length();
+    size_t get_length() const;
+    void resize(const size_t &new_size);
     void append_element(const T &element);
     void prepend_element(const T &element);
-    void insert_element(const T &element, const int index);
-    void print();
+    void insert_element(const T &element, int &index);
+    void print() const;
     void clear();
-    array_iterator begin();
-    array_iterator end();
-    array_iterator erase(const int index);
-    const_array_iterator cbegin();
-    const_array_iterator cend();
-    const_array_iterator cerase(const int index) const;
 };
 
 #include "../templates/dynamic_array.tpp"
