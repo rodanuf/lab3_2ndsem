@@ -251,7 +251,7 @@ dynamic_array<T>::~dynamic_array()
 template <typename T>
 T &dynamic_array<T>::get(const int &index)
 {
-    if (index > 0)
+    if (index >= 0)
     {
         return data[index];
     }
@@ -309,7 +309,7 @@ void dynamic_array<T>::append_element(const T &element)
     {
         length++;
     }
-    data[length - 1] = element;
+    *(end() - 1) = element;
 }
 
 template <typename T>
@@ -323,13 +323,15 @@ void dynamic_array<T>::prepend_element(const T &element)
     {
         length++;
     }
-    array_iterator it = end() - 1;
-    while (it != begin())
+    array_iterator dest = end() - 1;
+    array_iterator src = end() - 2;
+    while (dest != begin())
     {
-        *it = *(it - 1);
-        --it;
+        *dest = *src;
+        --dest;
+        --src;
     }
-    *it = element;
+    *begin() = element;
 }
 
 template <typename T>
