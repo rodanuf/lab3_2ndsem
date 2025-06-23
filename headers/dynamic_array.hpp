@@ -26,8 +26,8 @@ public:
         array_iterator operator-(size_t n);
         T &operator*();
         T &operator[](size_t index);
-        bool operator==(const array_iterator &other);
-        bool operator!=(const array_iterator &other);
+        bool operator==(const array_iterator &other) const;
+        bool operator!=(const array_iterator &other) const;
         void set(const T &element);
         void erase();
     };
@@ -48,8 +48,8 @@ public:
         const_array_iterator operator+(size_t n);
         const T &operator*();
         const T &operator[](size_t index);
-        bool operator==(const const_array_iterator &other);
-        bool operator!=(const const_array_iterator &other);
+        bool operator==(const const_array_iterator &other) const;
+        bool operator!=(const const_array_iterator &other) const;
     };
     array_iterator begin();
     array_iterator end();

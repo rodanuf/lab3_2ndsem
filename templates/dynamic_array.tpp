@@ -74,13 +74,13 @@ T &dynamic_array<T>::array_iterator::operator[](size_t index)
 }
 
 template <typename T>
-bool dynamic_array<T>::array_iterator::operator==(const array_iterator &other)
+bool dynamic_array<T>::array_iterator::operator==(const array_iterator &other) const
 {
     return current == other.current;
 }
 
 template <typename T>
-bool dynamic_array<T>::array_iterator::operator!=(const array_iterator &other)
+bool dynamic_array<T>::array_iterator::operator!=(const array_iterator &other) const
 {
     return current != other.current;
 }
@@ -182,13 +182,13 @@ const T &dynamic_array<T>::const_array_iterator::operator[](size_t index)
 }
 
 template <typename T>
-bool dynamic_array<T>::const_array_iterator::operator==(const const_array_iterator &other)
+bool dynamic_array<T>::const_array_iterator::operator==(const const_array_iterator &other) const
 {
     return current == other.current;
 }
 
 template <typename T>
-bool dynamic_array<T>::const_array_iterator::operator!=(const const_array_iterator &other)
+bool dynamic_array<T>::const_array_iterator::operator!=(const const_array_iterator &other) const
 {
     return current != other.current;
 }

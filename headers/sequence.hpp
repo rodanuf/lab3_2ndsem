@@ -8,13 +8,6 @@ public:
     {
     public:
         ~iterator() = default;
-        virtual iterator &operator++() = 0;
-        virtual iterator operator++(int) = 0;
-        virtual iterator &operator--() = 0;
-        virtual iterator operator--(int) = 0;
-        virtual iterator &operator=(const iterator &other) = 0;
-        virtual iterator operator+(const size_t n) = 0;
-        virtual iterator operator-(const size_t n) = 0;
         virtual T &operator*() = 0;
         virtual T &operator[](size_t n) = 0;
         virtual bool operator==(const iterator &other) const = 0;
@@ -26,13 +19,6 @@ public:
     {
     public:
         ~const_iterator() = default;
-        virtual const_iterator &operator++() = 0;
-        virtual const_iterator operator++(int) = 0;
-        virtual const_iterator &operator--() = 0;
-        virtual const_iterator operator--(int) = 0;
-        virtual const_iterator &operator=(const const_iterator &other) = 0;
-        virtual const_iterator operator+(const size_t n) = 0;
-        virtual const_iterator operator-(const size_t n) = 0;
         virtual const T &operator*() = 0;
         virtual const T &operator[](size_t n) = 0;
         virtual bool operator==(const const_iterator &other) const = 0;
@@ -54,8 +40,4 @@ public:
     virtual sequence<T> *immutable_concat(const sequence<T> &container) const = 0;
     virtual void print() const = 0;
     virtual void clear() = 0;
-    virtual iterator begin() = 0;
-    virtual iterator end() = 0;
-    virtual const_iterator cbegin() const = 0;
-    virtual const_iterator cend() const = 0;
 };

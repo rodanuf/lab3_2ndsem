@@ -48,7 +48,7 @@ TEST(test_array_sequence_iterator_operators, pref_operator_decrement)
     array_sequence<int>::as_iterator as_it_one(it_one);
     array_sequence<int>::as_iterator as_it_two(it_two);
     ASSERT_NE(*as_it_one, *as_it_two);
-    --it_one;
+    --as_it_one;
     EXPECT_EQ(*as_it_one, *as_it_two);
     EXPECT_EQ(*as_it_one, 1);
 }

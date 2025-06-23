@@ -8,14 +8,14 @@ template <typename T>
 array_sequence<T>::as_iterator::as_iterator(const as_iterator &other) : it(other.it) {}
 
 template <typename T>
-typename sequence<T>::iterator &array_sequence<T>::as_iterator::operator++()
+typename array_sequence<T>::as_iterator &array_sequence<T>::as_iterator::operator++()
 {
     ++it;
     return *this;
 }
 
 template <typename T>
-typename sequence<T>::iterator array_sequence<T>::as_iterator::operator++(int)
+typename array_sequence<T>::as_iterator array_sequence<T>::as_iterator::operator++(int)
 {
     as_iterator tmp(*this);
     ++it;
@@ -23,14 +23,14 @@ typename sequence<T>::iterator array_sequence<T>::as_iterator::operator++(int)
 }
 
 template <typename T>
-typename sequence<T>::iterator &array_sequence<T>::as_iterator::operator--()
+typename array_sequence<T>::as_iterator &array_sequence<T>::as_iterator::operator--()
 {
     --it;
     return *this;
 }
 
 template <typename T>
-typename sequence<T>::iterator array_sequence<T>::as_iterator::operator--(int)
+typename array_sequence<T>::as_iterator array_sequence<T>::as_iterator::operator--(int)
 {
     as_iterator tmp(*this);
     --it;
@@ -38,7 +38,7 @@ typename sequence<T>::iterator array_sequence<T>::as_iterator::operator--(int)
 }
 
 template <typename T>
-typename sequence<T>::iterator &array_sequence<T>::as_iterator::operator=(const typename sequence<T>::iterator &other)
+typename array_sequence<T>::as_iterator &array_sequence<T>::as_iterator::operator=(const as_iterator &other)
 {
     const as_iterator &derived = dynamic_cast<const as_iterator &>(other);
     it = derived.it;
@@ -46,16 +46,16 @@ typename sequence<T>::iterator &array_sequence<T>::as_iterator::operator=(const 
 }
 
 template <typename T>
-typename sequence<T>::iterator array_sequence<T>::as_iterator::operator+(const size_t n)
+typename array_sequence<T>::as_iterator array_sequence<T>::as_iterator::operator+(const size_t n)
 {
-    it += n;
+    it = it + n;
     return *this;
 }
 
 template <typename T>
-typename sequence<T>::iterator array_sequence<T>::as_iterator::operator-(const size_t n)
+typename array_sequence<T>::as_iterator array_sequence<T>::as_iterator::operator-(const size_t n)
 {
-    it -= n;
+    it = it - n;
     return *this;
 }
 
@@ -68,19 +68,21 @@ T &array_sequence<T>::as_iterator::operator*()
 template <typename T>
 T &array_sequence<T>::as_iterator::operator[](const size_t n)
 {
-    return *(it + n);
+    return it[n];
 }
 
 template <typename T>
 bool array_sequence<T>::as_iterator::operator==(const typename sequence<T>::iterator &other) const
 {
-    return it == other.it;
+    const as_iterator &derived = dynamic_cast<const as_iterator &>(other);
+    return it == derived.it;
 }
 
 template <typename T>
 bool array_sequence<T>::as_iterator::operator!=(const typename sequence<T>::iterator &other) const
 {
-    return it != other.it;
+    const as_iterator &derived = dynamic_cast<const as_iterator &>(other);
+    return it != derived.it;
 }
 
 template <typename T>
@@ -96,13 +98,13 @@ void array_sequence<T>::as_iterator::erase()
 }
 
 template <typename T>
-typename sequence<T>::iterator array_sequence<T>::begin()
+typename array_sequence<T>::as_iterator array_sequence<T>::begin()
 {
     return as_iterator(a_sequence->begin());
 }
 
 template <typename T>
-typename sequence<T>::iterator array_sequence<T>::end()
+typename array_sequence<T>::as_iterator array_sequence<T>::end()
 {
     return as_iterator(a_sequence->end());
 }
@@ -114,14 +116,14 @@ template <typename T>
 array_sequence<T>::const_as_iterator::const_as_iterator(const const_as_iterator &other) : it(other.it) {}
 
 template <typename T>
-typename sequence<T>::const_iterator &array_sequence<T>::const_as_iterator::operator++()
+typename array_sequence<T>::const_as_iterator &array_sequence<T>::const_as_iterator::operator++()
 {
     ++it;
     return *this;
 }
 
 template <typename T>
-typename sequence<T>::const_iterator array_sequence<T>::const_as_iterator::operator++(int)
+typename array_sequence<T>::const_as_iterator array_sequence<T>::const_as_iterator::operator++(int)
 {
     const_as_iterator tmp(*this);
     ++it;
@@ -129,14 +131,14 @@ typename sequence<T>::const_iterator array_sequence<T>::const_as_iterator::opera
 }
 
 template <typename T>
-typename sequence<T>::const_iterator &array_sequence<T>::const_as_iterator::operator--()
+typename array_sequence<T>::const_as_iterator &array_sequence<T>::const_as_iterator::operator--()
 {
     --it;
     return *this;
 }
 
 template <typename T>
-typename sequence<T>::const_iterator array_sequence<T>::const_as_iterator::operator--(int)
+typename array_sequence<T>::const_as_iterator array_sequence<T>::const_as_iterator::operator--(int)
 {
     const_as_iterator tmp(*this);
     --it;
@@ -144,7 +146,7 @@ typename sequence<T>::const_iterator array_sequence<T>::const_as_iterator::opera
 }
 
 template <typename T>
-typename sequence<T>::const_iterator &array_sequence<T>::const_as_iterator::operator=(const typename sequence<T>::const_iterator &other)
+typename array_sequence<T>::const_as_iterator &array_sequence<T>::const_as_iterator::operator=(const typename array_sequence<T>::const_as_iterator &other)
 {
     if (it != &other)
     {
@@ -154,51 +156,55 @@ typename sequence<T>::const_iterator &array_sequence<T>::const_as_iterator::oper
 }
 
 template <typename T>
-typename sequence<T>::const_iterator array_sequence<T>::const_as_iterator::operator+(const size_t n)
+typename array_sequence<T>::const_as_iterator array_sequence<T>::const_as_iterator::operator+(const size_t n) const
 {
-    it += n;
-    return *this;
+    auto temp = *this;
+    temp.it = temp.it + n;
+    return temp;
 }
 
 template <typename T>
-typename sequence<T>::const_iterator array_sequence<T>::const_as_iterator::operator-(const size_t n)
+typename array_sequence<T>::const_as_iterator array_sequence<T>::const_as_iterator::operator-(const size_t n) const
 {
-    it -= n;
-    return *this;
+    auto temp = *this;
+    temp.it = temp.it - n;
+    return temp;
 }
 
 template <typename T>
-T &array_sequence<T>::const_as_iterator::operator*()
+const T &array_sequence<T>::const_as_iterator::operator*()
 {
     return *it;
 }
 
 template <typename T>
-T &array_sequence<T>::const_as_iterator::operator[](const size_t n)
+const T &array_sequence<T>::const_as_iterator::operator[](const size_t n)
 {
     return *(it + n);
 }
 
 template <typename T>
-bool sequence<T>::const_iterator::operator==(const typename sequence<T>::const_iterator &other) const
+bool array_sequence<T>::const_as_iterator::operator==(const typename sequence<T>::const_iterator &other) const
 {
-    return it == other.it;
+    const const_as_iterator &derived = dynamic_cast<const const_as_iterator &>(other);
+    return it == derived.it;
 }
 
 template <typename T>
 bool array_sequence<T>::const_as_iterator::operator!=(const typename sequence<T>::const_iterator &other) const
 {
-    return it != other.it;
+    const const_as_iterator &derived = dynamic_cast<const const_as_iterator &>(other);
+    return it != derived.it;
 }
 
 template <typename T>
-typename sequence<T>::const_iterator array_sequence<T>::cbegin() const
+typename array_sequence<T>::const_as_iterator array_sequence<T>::cbegin() const
 {
     return const_as_iterator(a_sequence->cbegin());
 }
 
 template <typename T>
-typename sequence<T>::const_iterator array_sequence<T>::cend() const
+typename array_sequence<T>::const_as_iterator array_sequence<T>::cend() const
 {
     return const_as_iterator(a_sequence->cend());
 }
@@ -272,7 +278,8 @@ sequence<T> *array_sequence<T>::get_subsequence(int start_index, int end_index) 
         throw std::out_of_range("Index out of range");
     }
     array_sequence<T> *result = new array_sequence<T>();
-    for (as_iterator it = begin() + start_index; it != begin() + end_index + 1; ++it)
+    auto begin_it = cbegin();
+    for (auto it = begin_it + start_index; it != begin_it + end_index + 1; ++it)
     {
         result->append_element(*it);
     }
