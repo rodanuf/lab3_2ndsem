@@ -98,6 +98,18 @@ void dynamic_array<T>::array_iterator::erase()
 }
 
 template <typename T>
+typename dynamic_array<T>::array_iterator dynamic_array<T>::begin()
+{
+    return array_iterator(data);
+}
+
+template <typename T>
+typename dynamic_array<T>::array_iterator dynamic_array<T>::end()
+{
+    return array_iterator(data + length);
+}
+
+template <typename T>
 dynamic_array<T>::const_array_iterator::const_array_iterator(const T *ptr) : current(ptr) {}
 
 template <typename T>
@@ -182,18 +194,6 @@ bool dynamic_array<T>::const_array_iterator::operator!=(const const_array_iterat
 }
 
 template <typename T>
-typename dynamic_array<T>::array_iterator dynamic_array<T>::begin()
-{
-    return array_iterator(data);
-}
-
-template <typename T>
-typename dynamic_array<T>::array_iterator dynamic_array<T>::end()
-{
-    return array_iterator(data + length);
-}
-
-template <typename T>
 typename dynamic_array<T>::const_array_iterator dynamic_array<T>::cbegin() const
 {
     return const_array_iterator(data);
@@ -249,7 +249,7 @@ dynamic_array<T>::~dynamic_array()
 }
 
 template <typename T>
-T &dynamic_array<T>::get(const int &index)
+T &dynamic_array<T>::get(int index)
 {
     if (index >= 0)
     {
@@ -335,7 +335,7 @@ void dynamic_array<T>::prepend_element(const T &element)
 }
 
 template <typename T>
-void dynamic_array<T>::insert_element(const T &element, int &index)
+void dynamic_array<T>::insert_element(const T &element, int index)
 {
     int old_length = length;
     if (index < 0)

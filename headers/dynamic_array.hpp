@@ -61,14 +61,14 @@ public:
     dynamic_array(const std::initializer_list<T> &list);
     dynamic_array(const dynamic_array &other);
     ~dynamic_array();
-    T &get(const int &index);
+    T &get(int index);
     T &get_first();
     T &get_last();
     size_t get_length() const;
     void resize(const size_t &new_size);
     void append_element(const T &element);
     void prepend_element(const T &element);
-    void insert_element(const T &element, int &index);
+    void insert_element(const T &element, int index);
     void print() const;
     void clear();
 };

@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include "../headers/dynamic_array.hpp"
+#include "../headers/array_sequence.hpp"
 
 #include "test_dynamic_array.inc"
+#include "test_array_sequence.inc"
 
 int main(int argc, char **argv)
 {
