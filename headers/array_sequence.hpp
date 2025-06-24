@@ -6,7 +6,7 @@ template <typename T>
 class array_sequence : public sequence<T>
 {
 private:
-    dynamic_array<T> *a_sequence;
+    dynamic_array<T> a_sequence;
 
 public:
     class as_iterator : public sequence<T>::iterator
@@ -44,8 +44,8 @@ public:
         const_as_iterator &operator--();
         const_as_iterator operator--(int);
         const_as_iterator &operator=(const const_as_iterator &other);
-        const_as_iterator operator+(const size_t n) const;
-        const_as_iterator operator-(const size_t n) const;
+        const_as_iterator operator+(const size_t n);
+        const_as_iterator operator-(const size_t n);
         const T &operator*() override;
         const T &operator[](const size_t index) override;
         bool operator==(const typename sequence<T>::const_iterator &other) const override;
@@ -57,7 +57,7 @@ public:
     const_as_iterator cend() const;
     array_sequence();
     array_sequence(const size_t &size);
-    array_sequence(T *items, const size_t &size);
+    array_sequence(T *items, const size_t size);
     array_sequence(std::initializer_list<T> items);
     array_sequence(const sequence<T> &other);
     ~array_sequence();

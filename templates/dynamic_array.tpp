@@ -48,17 +48,15 @@ typename dynamic_array<T>::array_iterator &dynamic_array<T>::array_iterator::ope
 }
 
 template <typename T>
-typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator+(size_t n)
+typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator+(const size_t n)
 {
-    current += n;
-    return *this;
+    return array_iterator(current + n);
 }
 
 template <typename T>
-typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator-(size_t n)
+typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator-(const size_t n)
 {
-    current -= n;
-    return *this;
+    return array_iterator(current - n);
 }
 
 template <typename T>
@@ -156,17 +154,15 @@ typename dynamic_array<T>::const_array_iterator &dynamic_array<T>::const_array_i
 }
 
 template <typename T>
-typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator+(size_t n)
+typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator+(const size_t n)
 {
-    current += n;
-    return *this;
+    return const_array_iterator(current + n);
 }
 
 template <typename T>
-typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator-(size_t n)
+typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator-(const size_t n)
 {
-    current -= n;
-    return *this;
+    return const_array_iterator(current - n);
 }
 
 template <typename T>
@@ -249,7 +245,7 @@ dynamic_array<T>::~dynamic_array()
 }
 
 template <typename T>
-T &dynamic_array<T>::get(int index)
+T &dynamic_array<T>::get(int index) const
 {
     if (index >= 0)
     {
@@ -262,13 +258,13 @@ T &dynamic_array<T>::get(int index)
 }
 
 template <typename T>
-T &dynamic_array<T>::get_first()
+T &dynamic_array<T>::get_first() const
 {
     return data[0];
 }
 
 template <typename T>
-T &dynamic_array<T>::get_last()
+T &dynamic_array<T>::get_last() const
 {
     return data[length - 1];
 }
@@ -290,7 +286,7 @@ void dynamic_array<T>::resize(const size_t &new_size)
     }
     capacity = 2 * new_size;
     T *new_data = new T[capacity];
-    for (size_t i = 0; i < new_size; i++)
+    for (size_t i = 0; i < old_length; i++)
     {
         new_data[i] = data[i];
     }
@@ -305,10 +301,7 @@ void dynamic_array<T>::append_element(const T &element)
     {
         resize(capacity);
     }
-    else
-    {
-        length++;
-    }
+    length++;
     *(end() - 1) = element;
 }
 
@@ -319,10 +312,7 @@ void dynamic_array<T>::prepend_element(const T &element)
     {
         resize(capacity);
     }
-    else
-    {
-        length++;
-    }
+    length++;
     array_iterator dest = end() - 1;
     array_iterator src = end() - 2;
     while (dest != begin())
@@ -395,6 +385,3 @@ void dynamic_array<T>::clear()
     length = 0;
     capacity = 1;
 }
-
-template class dynamic_array<int>;
-template class dynamic_array<int>::array_iterator;

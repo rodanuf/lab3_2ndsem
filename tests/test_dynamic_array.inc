@@ -73,7 +73,7 @@ TEST(test_dynamic_array_iterator_operators, operator_increment_on)
     int array[] = {1, 2, 3, 4, 5};
     dynamic_array<int>::array_iterator it(&array[0]);
     ASSERT_NE(*it, 5);
-    it + 4;
+    it = it + 4;
     EXPECT_EQ(*it, 5);
 }
 
@@ -82,7 +82,7 @@ TEST(test_dynamic_array_iterator_operators, operator_decrement_on)
     int array[] = {1, 2, 3, 4, 5};
     dynamic_array<int>::array_iterator it(&array[3]);
     ASSERT_NE(*it, 1);
-    it - 3;
+    it = it - 3;
     EXPECT_EQ(*it, 1);
 }
 
@@ -212,7 +212,7 @@ TEST(test_dynamic_const_array_iterator_operators, operator_increment_on)
     int array[] = {1, 2, 3, 4, 5};
     dynamic_array<int>::const_array_iterator it(&array[0]);
     ASSERT_NE(*it, 5);
-    it + 4;
+    it = it + 4;
     EXPECT_EQ(*it, 5);
 }
 
@@ -221,7 +221,7 @@ TEST(test_dynamic_const_array_iterator_operators, operator_decrement_on)
     int array[] = {1, 2, 3, 4, 5};
     dynamic_array<int>::const_array_iterator it(&array[3]);
     ASSERT_NE(*it, 1);
-    it - 3;
+    it = it - 3;
     EXPECT_EQ(*it, 1);
 }
 
@@ -346,6 +346,7 @@ TEST(test_dynamic_array_functions, method_resize)
     EXPECT_EQ(array.get_length(), 9);
     EXPECT_EQ(array.get_first(), 1);
     EXPECT_EQ(array.get(3), 4);
+    EXPECT_EQ(array.get(4), 5);
 }
 
 TEST(test_dynamic_array_functions, method_append_element)
