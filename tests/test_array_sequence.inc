@@ -420,7 +420,62 @@ TEST(test_array_sequence_functions, method_insert_element)
 
 TEST(test_array_sequence_functions, method_concat)
 {
+    int ar_one[] = {1, 2, 3, 4}; 
+    sequence<int> *array = new array_sequence<int>(ar_one, 4);
+    int ar_two[] = {5, 6, 7, 8};
+    sequence<int> *other = new array_sequence<int>(ar_two, 4);
+    array = array->concat(*other);
+    EXPECT_EQ(array->get_length(), 8);
+    EXPECT_EQ(array->get(7), 8);
+    EXPECT_EQ(array->get(5), 6);
+    EXPECT_EQ(array->get(3), 4);
+}
+
+TEST(test_array_sequence_functions, method_immutable_append_element)
+{
     array_sequence<int> array = {1, 2, 3, 4};
-    sequence<int> *other = new array_sequence<int>;
-    int ar[] = {5, 6, 7, 8};
+    sequence<int> *other = array.immutable_append_element(5);
+    EXPECT_EQ(other->get_last(), 5);
+    EXPECT_EQ(other->get(3), 4);
+    EXPECT_EQ(other->get_length(), 5);
+    EXPECT_EQ(array.get_last(), 4);
+}
+
+TEST(test_array_sequence_functions, method_immutable_prepend_element)
+{
+    array_sequence<int> array = {1, 2, 3, 4};
+    sequence<int> *other = array.immutable_prepend_element(-1);
+    EXPECT_EQ(other->get_first(), -1);
+    EXPECT_EQ(other->get(3), 3);
+    EXPECT_EQ(other->get_length(), 5);
+    EXPECT_EQ(array.get_first(), 1);
+}
+
+TEST(test_array_sequence_functions, method_immutable_insert_element)
+{
+    array_sequence<int> array = {1, 2, 3, 4};
+    sequence<int> *other = array.immutable_insert_element(5, 2);
+    EXPECT_EQ(other->get(2), 5);
+    EXPECT_EQ(other->get(3), 3);
+    EXPECT_EQ(other->get_length(), 5);
+    EXPECT_EQ(array.get(2), 3);
+}
+
+TEST(test_array_sequence_functions, method_immutable_concat)
+{
+    int ar_one[] = {1, 2, 3, 4};
+    sequence<int> *array = new array_sequence<int>(ar_one, 4);
+    int ar_two[] = {5, 6, 7, 8};
+    sequence<int> *other = new array_sequence<int>(ar_two, 4);
+    const sequence<int> *other_two= array->immutable_concat(*other);
+    EXPECT_EQ(other_two->get(7), 8);
+    EXPECT_EQ(other_two->get_length(), 8);
+    EXPECT_EQ(array->get_last(), 4);
+}
+
+TEST(test_array_sequence_functions, method_clear)
+{
+    array_sequence<int> array = {1, 2, 3, 4};
+    array.clear();
+    EXPECT_EQ(array.get_length(), 0);
 }
