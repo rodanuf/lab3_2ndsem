@@ -8,7 +8,7 @@ class linked_list
         T element;
         node *next;
         node *prev;
-        node(const T &e);
+        node(const T &item);
         ~node();
     };
 
@@ -24,15 +24,16 @@ public:
 
     public:
         list_iterator(node *point);
+        list_iterator(const list_iterator &other);
         list_iterator &operator++();
         list_iterator operator++(int);
         list_iterator &operator--();
         list_iterator operator--(int);
-        list_iterator operator=(const list_iterator &other);
-        list_iterator operator+(const int &index);
-        list_iterator operator-(const int &index);
+        list_iterator &operator=(const list_iterator &other);
+        list_iterator operator+(const size_t n);
+        list_iterator operator-(const size_t n);
         T &operator*();
-        T &operator[](const int &index);
+        T &operator[](const size_t &index);
         bool operator==(const list_iterator &other) const;
         bool operator!=(const list_iterator &other) const;
         void set(const T &element);
@@ -45,18 +46,23 @@ public:
 
     public:
         const_list_iterator(const node *point);
+        const_list_iterator(const const_list_iterator &other);
         const_list_iterator &operator++();
         const_list_iterator operator++(int);
         const_list_iterator &operator--();
         const_list_iterator operator--(int);
-        const_list_iterator operator=(const const_list_iterator &other);
-        const_list_iterator operator+(const int &index);
-        const_list_iterator operator-(const int &index);
+        const_list_iterator &operator=(const const_list_iterator &other);
+        const_list_iterator operator+(const size_t n);
+        const_list_iterator operator-(const size_t n);
         const T &operator*();
-        const T &operator[](const int &index);
+        const T &operator[](const size_t index);
         bool operator==(const const_list_iterator &other) const;
         bool operator!=(const const_list_iterator &other) const;
     };
+    list_iterator begin();
+    list_iterator end();
+    const_list_iterator cbegin() const;
+    const_list_iterator cend() const;
     linked_list();
     linked_list(const size_t &size);
     linked_list(const T *data, const size_t &size);
@@ -71,8 +77,6 @@ public:
     void insert_element(const T &element, const int &index);
     void print();
     void clear();
-    list_iterator begin();
-    list_iterator end();
-    const_list_iterator cbegin() const;
-    const_list_iterator cend() const;
 };
+
+#include "../templates/linked_list.tpp"
