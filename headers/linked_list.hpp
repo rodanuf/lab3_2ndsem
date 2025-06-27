@@ -33,7 +33,7 @@ public:
         list_iterator operator+(const size_t n);
         list_iterator operator-(const size_t n);
         T &operator*();
-        T &operator[](const size_t &index);
+        T &operator[](const size_t index);
         bool operator==(const list_iterator &other) const;
         bool operator!=(const list_iterator &other) const;
         void set(const T &element);
@@ -66,16 +66,17 @@ public:
     linked_list();
     linked_list(const size_t &size);
     linked_list(const T *data, const size_t &size);
+    linked_list(const std::initializer_list<T> &ini_list);
     linked_list(const linked_list &other);
     ~linked_list();
-    T &get(const int &index) const;
+    T &get(int index) const;
     T &get_first() const;
     T &get_last() const;
     size_t get_length() const;
     void append_element(const T &element);
     void prepend_element(const T &element);
-    void insert_element(const T &element, const int &index);
-    void print();
+    void insert_element(const T &element, int index);
+    void print() const;
     void clear();
 };
 
