@@ -3,6 +3,7 @@
 template <typename T>
 class linked_list
 {
+private:
     struct node
     {
         T element;
@@ -32,7 +33,7 @@ public:
         list_iterator &operator=(const list_iterator &other);
         list_iterator operator+(const size_t n);
         list_iterator operator-(const size_t n);
-        T &operator*();
+        node *operator*();
         T &operator[](const size_t index);
         bool operator==(const list_iterator &other) const;
         bool operator!=(const list_iterator &other) const;
@@ -42,10 +43,10 @@ public:
     class const_list_iterator
     {
     private:
-        const node **current;
+        node **current;
 
     public:
-        const_list_iterator(const node *point);
+        const_list_iterator(node *point);
         const_list_iterator(const const_list_iterator &other);
         const_list_iterator &operator++();
         const_list_iterator operator++(int);
@@ -54,7 +55,7 @@ public:
         const_list_iterator &operator=(const const_list_iterator &other);
         const_list_iterator operator+(const size_t n);
         const_list_iterator operator-(const size_t n);
-        const T &operator*();
+        const node *operator*() const;
         const T &operator[](const size_t index);
         bool operator==(const const_list_iterator &other) const;
         bool operator!=(const const_list_iterator &other) const;
@@ -70,8 +71,8 @@ public:
     linked_list(const linked_list &other);
     ~linked_list();
     T &get(int index) const;
-    T &get_first() const;
-    T &get_last() const;
+    T &get_first();
+    T &get_last();
     size_t get_length() const;
     void append_element(const T &element);
     void prepend_element(const T &element);
