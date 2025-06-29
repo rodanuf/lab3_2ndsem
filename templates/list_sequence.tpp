@@ -52,7 +52,7 @@ template <typename T>
 typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator+(const size_t n)
 {
     ls_iterator tmp(*this);
-    for (int i = 0; i < n; ++i)
+    for (size_t i = 0; i < n; ++i)
     {
         ++tmp;
     }
@@ -63,7 +63,7 @@ template <typename T>
 typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator-(const size_t n)
 {
     ls_iterator tmp(*this);
-    for (int i = 0; i < n; ++i)
+    for (size_t i = 0; i < n; ++i)
     {
         --tmp;
     }
