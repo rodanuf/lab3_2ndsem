@@ -2,7 +2,7 @@
 #include "../headers/list_sequence.hpp"
 
 template <typename T>
-list_sequence<T>::ls_iterator::ls_iterator(typename linked_list<T>::list_iterator it) : it(it) {}
+list_sequence<T>::ls_iterator::ls_iterator(typename linked_list<T>::list_iterator &it) : it(it) {}
 
 template <typename T>
 list_sequence<T>::ls_iterator::ls_iterator(const ls_iterator &other) : it(other.it) {}
@@ -18,7 +18,7 @@ template <typename T>
 typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator++(int)
 {
     ls_iterator tmp(*this);
-    ++(*this);
+    it++;
     return tmp;
 }
 
@@ -33,7 +33,7 @@ template <typename T>
 typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator--(int)
 {
     ls_iterator tmp(*this);
-    --(*this);
+    it--;
     return tmp;
 }
 
@@ -121,7 +121,7 @@ typename list_sequence<T>::ls_iterator list_sequence<T>::end()
 }
 
 template <typename T>
-list_sequence<T>::const_ls_iterator::const_ls_iterator(typename linked_list<T>::const_list_iterator it) : it(it) {}
+list_sequence<T>::const_ls_iterator::const_ls_iterator(typename linked_list<T>::const_list_iterator &it) : it(it) {}
 
 template <typename T>
 list_sequence<T>::const_ls_iterator::const_ls_iterator(const const_ls_iterator &other) : it(other.it) {}
@@ -137,7 +137,7 @@ template <typename T>
 typename list_sequence<T>::const_ls_iterator list_sequence<T>::const_ls_iterator::operator++(int)
 {
     const_ls_iterator tmp(*this);
-    ++(*this);
+    it++;
     return tmp;
 }
 
@@ -152,7 +152,7 @@ template <typename T>
 typename list_sequence<T>::const_ls_iterator list_sequence<T>::const_ls_iterator::operator--(int)
 {
     const_ls_iterator tmp(*this);
-    --(*this);
+    it--;
     return tmp;
 }
 
@@ -255,7 +255,7 @@ list_sequence<T>::~list_sequence() {}
 template <typename T>
 T &list_sequence<T>::get(const int index) const
 {
-    if (index >= l_sequence.get_length() || (-index) >= l_sequence.get_length())
+    if (index >= static_cast<int>(l_sequence.get_length()) || (-index) >= static_cast<int>(l_sequence.get_length()))
     {
         throw std::out_of_range("Index out of range");
     }

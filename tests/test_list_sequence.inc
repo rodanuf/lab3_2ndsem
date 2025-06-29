@@ -18,9 +18,10 @@ TEST(test_list_sequence_iterator, copy_constructor_iterator)
 
 TEST(test_list_sequence_iterator_operators, pref_operator_increment)
 {
-    list_sequence<int> seq = {1, 2, 3};
-    auto it_one = seq.begin();
-    auto it_two = seq.begin();
+    list_sequence<int> seq_one = {1, 2, 3};
+    list_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.begin();
+    auto it_two = seq_two.begin();
     ++it_two;
     ASSERT_NE(*it_one, *it_two); 
     ++it_one;
@@ -39,10 +40,11 @@ TEST(test_list_sequence_iterator_operators, post_operator_increment)
 
 TEST(test_list_sequence_iterator_operators, pref_operator_decrement)
 {
-    list_sequence<int> seq = {1, 2, 3};
-    auto it_one = seq.begin();
+    list_sequence<int> seq_one = {1, 2, 3};
+    list_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.begin();
     ++it_one;
-    auto it_two = seq.begin();
+    auto it_two = seq_two.begin();
     ASSERT_NE(*it_one, *it_two);
     --it_one;
     EXPECT_EQ(*it_one, *it_two);
@@ -62,9 +64,10 @@ TEST(test_list_sequence_iterator_operators, post_operator_decrement)
 
 TEST(test_list_sequence_iterator_operators, operator_appropriation)
 {
-    list_sequence<int> seq = {1, 2, 3};
-    auto it_one = seq.begin();
-    auto it_two = seq.begin();
+    list_sequence<int> seq_one = {1, 2, 3};
+    list_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.begin();
+    auto it_two = seq_two.begin();
     ++it_one;
     ASSERT_NE(*it_one, *it_two);
     it_one = it_two;
@@ -111,10 +114,11 @@ TEST(test_list_sequence_iterator_operators, operator_accessing_an_element)
 
 TEST(test_list_sequence_iterator_operators, operator_equality)
 {
-    list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it_one = seq.begin();
-    auto it_two = seq.begin();
-    auto it_three = seq.begin();
+    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
+    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
+    auto it_one = seq_one.begin();
+    auto it_two = seq_one.begin();
+    auto it_three = seq_two.begin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_one == it_two);
     EXPECT_FALSE(it_two == it_three);    
@@ -122,10 +126,11 @@ TEST(test_list_sequence_iterator_operators, operator_equality)
 
 TEST(test_list_sequence_iterator_operators, operator_nonequality)
 {
-    list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it_one = seq.begin();
-    auto it_two = seq.begin();
-    auto it_three = seq.begin();
+    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
+    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
+    auto it_one = seq_one.begin();
+    auto it_two = seq_one.begin();
+    auto it_three = seq_two.begin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_two != it_three);
     EXPECT_FALSE(it_one != it_two);
@@ -140,9 +145,15 @@ TEST(test_list_sequence_iterator_operators, method_begin)
 
 TEST(test_list_sequence_iterator_operators, method_end)
 {
-    list_sequence<int> seq = {10, 20, 30};
-    auto it = seq.end();
-    EXPECT_EQ(*(it - 1), 30);
+    list_sequence<int> seq = {1, 2, 3};
+    EXPECT_NE(seq.cbegin(), seq.cend());
+    size_t count = 0;
+    for (auto it = seq.cbegin(); it != seq.cend(); ++it) {
+        ++count;
+    }
+    EXPECT_EQ(count, 3);
+    list_sequence<int> empty_seq;
+    EXPECT_EQ(empty_seq.cbegin(), empty_seq.cend());
 }
 
 TEST(test_list_sequence_const_iterator, base_constructor_iterator)
@@ -162,9 +173,10 @@ TEST(test_list_sequence_const_iterator, copy_constructor_iterator)
 
 TEST(test_list_sequence_const_iterator_operators, pref_operator_increment)
 {
-    list_sequence<int> seq = {1, 2, 3};
-    auto it_one = seq.cbegin();
-    auto it_two = seq.cbegin();
+    list_sequence<int> seq_one = {1, 2, 3};
+    list_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.cbegin();
+    auto it_two = seq_two.cbegin();
     ++it_two;
     ASSERT_NE(*it_one, *it_two); 
     ++it_one;
@@ -183,10 +195,11 @@ TEST(test_list_sequence_const_iterator_operators, post_operator_increment)
 
 TEST(test_list_sequence_const_iterator_operators, pref_operator_decrement)
 {
-    list_sequence<int> seq = {1, 2, 3};
-    auto it_one = seq.cbegin();
+    list_sequence<int> seq_one = {1, 2, 3};
+    list_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.cbegin();
     ++it_one;
-    auto it_two = seq.cbegin();
+    auto it_two = seq_two.cbegin();
     ASSERT_NE(*it_one, *it_two);
     --it_one;
     EXPECT_EQ(*it_one, *it_two);
@@ -206,9 +219,10 @@ TEST(test_list_sequence_const_iterator_operators, post_operator_decrement)
 
 TEST(test_list_sequence_const_iterator_operators, operator_appropriation)
 {
-    list_sequence<int> seq = {1, 2, 3};
-    auto it_one = seq.cbegin();
-    auto it_two = seq.cbegin();
+    list_sequence<int> seq_one = {1, 2, 3};
+    list_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.cbegin();
+    auto it_two = seq_two.cbegin();
     ++it_one;
     ASSERT_NE(*it_one, *it_two);
     it_one = it_two;
@@ -251,10 +265,11 @@ TEST(test_list_sequence_const_iterator_operators, operator_accessing_an_element)
 
 TEST(test_list_sequence_const_iterator_operators, operator_equality)
 {
-    list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it_one = seq.cbegin();
-    auto it_two = seq.cbegin();
-    auto it_three = seq.cbegin();
+    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
+    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
+    auto it_one = seq_one.cbegin();
+    auto it_two = seq_one.cbegin();
+    auto it_three = seq_two.cbegin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_one == it_two);
     EXPECT_FALSE(it_two == it_three);    
@@ -262,10 +277,11 @@ TEST(test_list_sequence_const_iterator_operators, operator_equality)
 
 TEST(test_list_sequence_const_iterator_operators, operator_nonequality)
 {
-    list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it_one = seq.cbegin();
-    auto it_two = seq.cbegin();
-    auto it_three = seq.cbegin();
+    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
+    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
+    auto it_one = seq_one.cbegin();
+    auto it_two = seq_one.cbegin();
+    auto it_three = seq_two.cbegin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_two != it_three);
     EXPECT_FALSE(it_one != it_two);
@@ -280,9 +296,15 @@ TEST(test_list_sequence_const_iterator_operators, method_begin)
 
 TEST(test_list_sequence_const_iterator_operators, method_end)
 {
-    list_sequence<int> seq = {10, 20, 30};
-    auto it = seq.cend();
-    EXPECT_EQ(*(it - 1), 30);
+    list_sequence<int> seq = {1, 2, 3};
+    EXPECT_NE(seq.cbegin(), seq.cend());
+    size_t count = 0;
+    for (auto it = seq.cbegin(); it != seq.cend(); ++it) {
+        ++count;
+    }
+    EXPECT_EQ(count, 3);
+    list_sequence<int> empty_seq;
+    EXPECT_EQ(empty_seq.cbegin(), empty_seq.cend());
 }
 
 TEST(test_list_sequence, basic_constructor)

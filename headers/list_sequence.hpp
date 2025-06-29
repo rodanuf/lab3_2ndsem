@@ -15,7 +15,7 @@ public:
         typename linked_list<T>::list_iterator it;
 
     public:
-        ls_iterator(typename linked_list<T>::list_iterator it);
+        ls_iterator(typename linked_list<T>::list_iterator &it);
         ls_iterator(const ls_iterator &other);
         ls_iterator &operator++();
         ls_iterator operator++(int);
@@ -37,7 +37,7 @@ public:
         typename linked_list<T>::const_list_iterator it;
 
     public:
-        const_ls_iterator(typename linked_list<T>::const_list_iterator it);
+        const_ls_iterator(typename linked_list<T>::const_list_iterator &it);
         const_ls_iterator(const const_ls_iterator &other);
         const_ls_iterator &operator++();
         const_ls_iterator operator++(int);

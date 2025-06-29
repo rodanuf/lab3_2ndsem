@@ -25,6 +25,7 @@ public:
 
     public:
         list_iterator(node *point);
+        list_iterator(node **point);
         list_iterator(const list_iterator &other);
         list_iterator &operator++();
         list_iterator operator++(int);
@@ -47,6 +48,7 @@ public:
 
     public:
         const_list_iterator(node *point);
+        const_list_iterator(node **point);
         const_list_iterator(const const_list_iterator &other);
         const_list_iterator &operator++();
         const_list_iterator operator++(int);
@@ -73,7 +75,7 @@ public:
     T &get(int index) const;
     T &get_first() const;
     T &get_last() const;
-    size_t get_length() const;
+    int get_length() const;
     void append_element(const T &element);
     void prepend_element(const T &element);
     void insert_element(const T &element, int index);
