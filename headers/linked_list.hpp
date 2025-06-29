@@ -71,8 +71,8 @@ public:
     linked_list(const linked_list &other);
     ~linked_list();
     T &get(int index) const;
-    T &get_first();
-    T &get_last();
+    T &get_first() const;
+    T &get_last() const;
     size_t get_length() const;
     void append_element(const T &element);
     void prepend_element(const T &element);

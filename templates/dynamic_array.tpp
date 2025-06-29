@@ -66,7 +66,7 @@ T &dynamic_array<T>::array_iterator::operator*()
 }
 
 template <typename T>
-T &dynamic_array<T>::array_iterator::operator[](size_t index)
+T &dynamic_array<T>::array_iterator::operator[](const size_t index)
 {
     return *(current + index);
 }
@@ -172,7 +172,7 @@ const T &dynamic_array<T>::const_array_iterator::operator*()
 }
 
 template <typename T>
-const T &dynamic_array<T>::const_array_iterator::operator[](size_t index)
+const T &dynamic_array<T>::const_array_iterator::operator[](const size_t index)
 {
     return *(current + index);
 }

@@ -2,10 +2,12 @@
 #include "../headers/dynamic_array.hpp"
 #include "../headers/array_sequence.hpp"
 #include "../headers/linked_list.hpp"
+#include "../headers/list_sequence.hpp"
 
 #include "test_dynamic_array.inc"
 #include "test_array_sequence.inc"
 #include "test_linked_list.inc"
+#include "test_list_sequence.inc"
 
 int main(int argc, char **argv)
 {

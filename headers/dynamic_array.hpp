@@ -25,7 +25,7 @@ public:
         array_iterator operator+(const size_t n);
         array_iterator operator-(const size_t n);
         T &operator*();
-        T &operator[](size_t index);
+        T &operator[](const size_t index);
         bool operator==(const array_iterator &other) const;
         bool operator!=(const array_iterator &other) const;
         void set(const T &element);
@@ -47,7 +47,7 @@ public:
         const_array_iterator operator-(const size_t n);
         const_array_iterator operator+(const size_t n);
         const T &operator*();
-        const T &operator[](size_t index);
+        const T &operator[](const size_t index);
         bool operator==(const const_array_iterator &other) const;
         bool operator!=(const const_array_iterator &other) const;
     };

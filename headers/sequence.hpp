@@ -9,7 +9,7 @@ public:
     public:
         ~iterator() = default;
         virtual T &operator*() = 0;
-        virtual T &operator[](size_t n) = 0;
+        virtual T &operator[](const size_t n) = 0;
         virtual bool operator==(const iterator &other) const = 0;
         virtual bool operator!=(const iterator &other) const = 0;
         virtual void set(const T &element) = 0;
@@ -20,7 +20,7 @@ public:
     public:
         ~const_iterator() = default;
         virtual const T &operator*() = 0;
-        virtual const T &operator[](size_t n) = 0;
+        virtual const T &operator[](const size_t n) = 0;
         virtual bool operator==(const const_iterator &other) const = 0;
         virtual bool operator!=(const const_iterator &other) const = 0;
     };

@@ -148,7 +148,7 @@ TEST(test_linked_list_iterator_functions, method_begin)
 TEST(test_linked_list_iterator_functions, method_end) {
     linked_list<int> list = {10, 20, 30};
     auto it = list.end();
-    EXPECT_EQ((*it)->element, 30);
+    EXPECT_EQ(*it, nullptr);
 }
 
 TEST(test_linked_list_const_iterator, base_constructor_iterator) 
@@ -288,7 +288,7 @@ TEST(test_linked_list_const_iterator_functions, method_end)
 {
     linked_list<int> list = {10, 20, 30};
     auto it = list.cend();
-    EXPECT_EQ((*it)->element, 30);
+    EXPECT_EQ(*it, nullptr);
 }
 
 TEST(test_linked_list, basic_constructor) 
@@ -366,7 +366,7 @@ TEST(test_linked_list_functions, method_prepend_element)
 {
     linked_list<int> list = {1, 2, 3, 4};
     list.prepend_element(-1);
-    EXPECT_EQ(list.get_first(), 0);
+    EXPECT_EQ(list.get_first(), -1);
     EXPECT_EQ(list.get_length(), 5);
 }
 
@@ -383,6 +383,4 @@ TEST(test_linked_list_functions, method_clear)
     linked_list<int> list = {1, 2, 3, 4};
     list.clear();
     EXPECT_EQ(list.get_length(), 0);
-    EXPECT_EQ(list.get_first(), 0);
-    EXPECT_EQ(list.get_last(), 0);
 }
