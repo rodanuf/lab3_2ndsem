@@ -5,8 +5,8 @@ class dynamic_array
 {
 private:
     T *data;
-    size_t length;
-    size_t capacity;
+    int length;
+    int capacity;
 
 public:
     class array_iterator
@@ -22,10 +22,10 @@ public:
         array_iterator &operator--();
         array_iterator operator--(int);
         array_iterator &operator=(const array_iterator &other);
-        array_iterator operator+(const size_t n);
-        array_iterator operator-(const size_t n);
+        array_iterator operator+(const int n);
+        array_iterator operator-(const int n);
         T &operator*();
-        T &operator[](const size_t index);
+        T &operator[](const int index);
         bool operator==(const array_iterator &other) const;
         bool operator!=(const array_iterator &other) const;
         void set(const T &element);
@@ -44,10 +44,10 @@ public:
         const_array_iterator &operator--();
         const_array_iterator operator--(int);
         const_array_iterator &operator=(const const_array_iterator &other);
-        const_array_iterator operator-(const size_t n);
-        const_array_iterator operator+(const size_t n);
+        const_array_iterator operator-(const int n);
+        const_array_iterator operator+(const int n);
         const T &operator*();
-        const T &operator[](const size_t index);
+        const T &operator[](const int index);
         bool operator==(const const_array_iterator &other) const;
         bool operator!=(const const_array_iterator &other) const;
     };
@@ -56,16 +56,16 @@ public:
     const_array_iterator cbegin() const;
     const_array_iterator cend() const;
     dynamic_array();
-    dynamic_array(const size_t &size);
-    dynamic_array(const T *data, const size_t &size);
+    dynamic_array(const int &size);
+    dynamic_array(const T *data, const int &size);
     dynamic_array(const std::initializer_list<T> &list);
     dynamic_array(const dynamic_array &other);
     ~dynamic_array();
-    T &get(int index) const;
+    T &get(const int index) const;
     T &get_first() const;
     T &get_last() const;
-    size_t get_length() const;
-    void resize(const size_t &new_size);
+    int get_length() const;
+    void resize(const int &new_size);
     void append_element(const T &element);
     void prepend_element(const T &element);
     void insert_element(const T &element, int index);

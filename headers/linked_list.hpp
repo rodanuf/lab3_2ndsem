@@ -15,7 +15,7 @@ private:
 
     node *head;
     node *tail;
-    size_t length;
+    int length;
 
 public:
     class list_iterator
@@ -32,10 +32,11 @@ public:
         list_iterator &operator--();
         list_iterator operator--(int);
         list_iterator &operator=(const list_iterator &other);
-        list_iterator operator+(const size_t n);
-        list_iterator operator-(const size_t n);
+        list_iterator operator+(const int n);
+        list_iterator operator-(const int n);
         node *operator*();
-        T &operator[](const size_t index);
+        const node *operator*() const;
+        T &operator[](const int index);
         bool operator==(const list_iterator &other) const;
         bool operator!=(const list_iterator &other) const;
         void set(const T &element);
@@ -55,10 +56,10 @@ public:
         const_list_iterator &operator--();
         const_list_iterator operator--(int);
         const_list_iterator &operator=(const const_list_iterator &other);
-        const_list_iterator operator+(const size_t n);
-        const_list_iterator operator-(const size_t n);
+        const_list_iterator operator+(const int n);
+        const_list_iterator operator-(const int n);
         const node *operator*() const;
-        const T &operator[](const size_t index);
+        const T &operator[](const int index);
         bool operator==(const const_list_iterator &other) const;
         bool operator!=(const const_list_iterator &other) const;
     };
@@ -67,12 +68,12 @@ public:
     const_list_iterator cbegin() const;
     const_list_iterator cend() const;
     linked_list();
-    linked_list(const size_t &size);
-    linked_list(const T *data, const size_t &size);
+    linked_list(const int &size);
+    linked_list(const T *data, const int &size);
     linked_list(const std::initializer_list<T> &ini_list);
     linked_list(const linked_list &other);
     ~linked_list();
-    T &get(int index) const;
+    T &get(const int index) const;
     T &get_first() const;
     T &get_last() const;
     int get_length() const;

@@ -49,10 +49,10 @@ typename list_sequence<T>::ls_iterator &list_sequence<T>::ls_iterator::operator=
 }
 
 template <typename T>
-typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator+(const size_t n)
+typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator+(const int n)
 {
     ls_iterator tmp(*this);
-    for (size_t i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i)
     {
         ++tmp;
     }
@@ -60,10 +60,10 @@ typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator+(
 }
 
 template <typename T>
-typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator-(const size_t n)
+typename list_sequence<T>::ls_iterator list_sequence<T>::ls_iterator::operator-(const int n)
 {
     ls_iterator tmp(*this);
-    for (size_t i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i)
     {
         --tmp;
     }
@@ -77,7 +77,7 @@ T &list_sequence<T>::ls_iterator::operator*()
 }
 
 template <typename T>
-T &list_sequence<T>::ls_iterator::operator[](const size_t index)
+T &list_sequence<T>::ls_iterator::operator[](const int index)
 {
     return it[index];
 }
@@ -86,14 +86,14 @@ template <typename T>
 bool list_sequence<T>::ls_iterator::operator==(const typename sequence<T>::iterator &other) const
 {
     const ls_iterator &derived = dynamic_cast<const ls_iterator &>(other);
-    return it == derived.it;
+    return *it == *derived.it;
 }
 
 template <typename T>
 bool list_sequence<T>::ls_iterator::operator!=(const typename sequence<T>::iterator &other) const
 {
     const ls_iterator &derived = dynamic_cast<const ls_iterator &>(other);
-    return it != derived.it;
+    return *it != *derived.it;
 }
 
 template <typename T>
@@ -168,7 +168,7 @@ typename list_sequence<T>::const_ls_iterator &list_sequence<T>::const_ls_iterato
 }
 
 template <typename T>
-typename list_sequence<T>::const_ls_iterator list_sequence<T>::const_ls_iterator::operator+(const size_t n)
+typename list_sequence<T>::const_ls_iterator list_sequence<T>::const_ls_iterator::operator+(const int n)
 {
     const_ls_iterator tmp(*this);
     for (int i = 0; i < n; ++i)
@@ -179,7 +179,7 @@ typename list_sequence<T>::const_ls_iterator list_sequence<T>::const_ls_iterator
 }
 
 template <typename T>
-typename list_sequence<T>::const_ls_iterator list_sequence<T>::const_ls_iterator::operator-(const size_t n)
+typename list_sequence<T>::const_ls_iterator list_sequence<T>::const_ls_iterator::operator-(const int n)
 {
     const_ls_iterator tmp(*this);
     for (int i = 0; i < n; ++i)
@@ -196,7 +196,7 @@ const T &list_sequence<T>::const_ls_iterator::operator*()
 }
 
 template <typename T>
-const T &list_sequence<T>::const_ls_iterator::operator[](const size_t index)
+const T &list_sequence<T>::const_ls_iterator::operator[](const int index)
 {
     return it[index];
 }
@@ -205,14 +205,14 @@ template <typename T>
 bool list_sequence<T>::const_ls_iterator::operator==(const typename sequence<T>::const_iterator &other) const
 {
     const const_ls_iterator &derived = dynamic_cast<const const_ls_iterator &>(other);
-    return it == derived.it;
+    return *it == *derived.it;
 }
 
 template <typename T>
 bool list_sequence<T>::const_ls_iterator::operator!=(const typename sequence<T>::const_iterator &other) const
 {
     const const_ls_iterator &derived = dynamic_cast<const const_ls_iterator &>(other);
-    return it != derived.it;
+    return *it != *derived.it;
 }
 
 template <typename T>
@@ -228,13 +228,13 @@ typename list_sequence<T>::const_ls_iterator list_sequence<T>::cend() const
 }
 
 template <typename T>
-list_sequence<T>::list_sequence() : l_sequence(linked_list<T>()) {}
+list_sequence<T>::list_sequence() : l_sequence() {}
 
 template <typename T>
-list_sequence<T>::list_sequence(const size_t &size) : l_sequence(linked_list<T>(size)) {}
+list_sequence<T>::list_sequence(const int &size) : l_sequence(size) {}
 
 template <typename T>
-list_sequence<T>::list_sequence(const T *items, const size_t &size) : l_sequence(linked_list<T>(items, size)) {}
+list_sequence<T>::list_sequence(const T *items, const int &size) : l_sequence(items, size) {}
 
 template <typename T>
 list_sequence<T>::list_sequence(const std::initializer_list<T> &items) : l_sequence(linked_list<T>(items)) {}
@@ -255,7 +255,7 @@ list_sequence<T>::~list_sequence() {}
 template <typename T>
 T &list_sequence<T>::get(const int index) const
 {
-    if (index >= static_cast<int>(l_sequence.get_length()) || (-index) >= static_cast<int>(l_sequence.get_length()))
+    if (index >= l_sequence.get_length() || (-index) >= l_sequence.get_length())
     {
         throw std::out_of_range("Index out of range");
     }
@@ -287,7 +287,7 @@ T &list_sequence<T>::get_last() const
 }
 
 template <typename T>
-size_t list_sequence<T>::get_length() const
+int list_sequence<T>::get_length() const
 {
     return l_sequence.get_length();
 }

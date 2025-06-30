@@ -9,7 +9,6 @@ public:
     public:
         ~iterator() = default;
         virtual T &operator*() = 0;
-        virtual T &operator[](const size_t n) = 0;
         virtual bool operator==(const iterator &other) const = 0;
         virtual bool operator!=(const iterator &other) const = 0;
         virtual void set(const T &element) = 0;
@@ -20,19 +19,18 @@ public:
     public:
         ~const_iterator() = default;
         virtual const T &operator*() = 0;
-        virtual const T &operator[](const size_t n) = 0;
         virtual bool operator==(const const_iterator &other) const = 0;
         virtual bool operator!=(const const_iterator &other) const = 0;
     };
     virtual ~sequence() = default;
-    virtual T &get(int index) const = 0;
+    virtual T &get(const int index) const = 0;
     virtual T &get_first() const = 0;
     virtual T &get_last() const = 0;
-    virtual size_t get_length() const = 0;
-    virtual sequence<T> *get_subsequence(int firs_index, int last_index) const = 0;
+    virtual int get_length() const = 0;
+    virtual sequence<T> *get_subsequence(const int firs_index, const int last_index) const = 0;
     virtual sequence<T> *append_element(const T &element) = 0;
     virtual sequence<T> *prepend_element(const T &element) = 0;
-    virtual sequence<T> *insert_element(const T &element, int index) = 0;
+    virtual sequence<T> *insert_element(const T &element, const int index) = 0;
     virtual sequence<T> *concat(const sequence<T> &container) = 0;
     virtual sequence<T> *immutable_append_element(const T &element) const = 0;
     virtual sequence<T> *immutable_prepend_element(const T &element) const = 0;

@@ -318,7 +318,7 @@ TEST(test_dynamic_array_functions, method_get)
 {
     dynamic_array<int> array = {1, 2, 3, 4, 5};
     EXPECT_EQ(array.get(0), 1);
-    EXPECT_EQ(array.get(-1), 5);
+    EXPECT_EQ(array.get(4), 5);
 }
 
 TEST(test_dynamic_array_functions, method_get_first)

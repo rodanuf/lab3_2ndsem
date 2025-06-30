@@ -23,8 +23,8 @@ typename stack<T>::st_iterator &stack<T>::st_iterator::operator++()
 template <typename T>
 typename stack<T>::st_iterator stack<T>::st_iterator::operator++(int)
 {
-    st_iterator temp = *this;
-    ++(*this);
+    st_iterator temp(*this);
+    current = &((*current)->next);
     return temp;
 }
 
@@ -36,9 +36,9 @@ typename stack<T>::st_iterator &stack<T>::st_iterator::operator=(const st_iterat
 }
 
 template <typename T>
-typename stack<T>::st_iterator stack<T>::st_iterator::operator+(const size_t n)
+typename stack<T>::st_iterator stack<T>::st_iterator::operator+(const int n)
 {
-    for (size_t i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i)
     {
         ++(*this);
     }
@@ -46,20 +46,15 @@ typename stack<T>::st_iterator stack<T>::st_iterator::operator+(const size_t n)
 }
 
 template <typename T>
-T &stack<T>::st_iterator::operator*()
+typename stack<T>::node *stack<T>::st_iterator::operator*() const
 {
-    return (*current)->element;
+    return *current;
 }
 
 template <typename T>
-T &stack<T>::st_iterator::operator[](const size_t n)
+T &stack<T>::st_iterator::operator*()
 {
-    st_iterator temp = static_cast<stack<T> *>(this)->begin();
-    for (size_t i = 0; i < n; ++i)
-    {
-        ++temp;
-    }
-    return *temp;
+    return (*current)->element;
 }
 
 template <typename T>
@@ -97,5 +92,345 @@ typename stack<T>::st_iterator stack<T>::begin()
 template <typename T>
 typename stack<T>::st_iterator stack<T>::end()
 {
-    return st_iterator(nullptr);
+    return st_iterator(static_cast<node *>(nullptr));
+}
+
+template <typename T>
+stack<T>::const_st_iterator::const_st_iterator(node *point) : current(&point) {}
+
+template <typename T>
+stack<T>::const_st_iterator::const_st_iterator(node **point) : current(point) {}
+
+template <typename T>
+stack<T>::const_st_iterator::const_st_iterator(const const_st_iterator &other) : current(other.current) {}
+
+template <typename T>
+typename stack<T>::const_st_iterator &stack<T>::const_st_iterator::operator++()
+{
+    *current = (*current)->next;
+    return *this;
+}
+
+template <typename T>
+typename stack<T>::const_st_iterator stack<T>::const_st_iterator::operator++(int)
+{
+    const_st_iterator temp(*this);
+    current = &((*current)->next);
+    return temp;
+}
+
+template <typename T>
+typename stack<T>::const_st_iterator &stack<T>::const_st_iterator::operator=(const const_st_iterator &other)
+{
+    current = other.current;
+    return *this;
+}
+
+template <typename T>
+typename stack<T>::const_st_iterator stack<T>::const_st_iterator::operator+(const int n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        ++(*this);
+    }
+    return *this;
+}
+
+template <typename T>
+const typename stack<T>::node *stack<T>::const_st_iterator::operator*() const
+{
+    return *current;
+}
+
+template <typename T>
+const T &stack<T>::const_st_iterator::operator*()
+{
+    return (*current)->element;
+}
+
+template <typename T>
+bool stack<T>::const_st_iterator::operator==(const typename sequence<T>::const_iterator &other) const
+{
+    const const_st_iterator &derived = dynamic_cast<const const_st_iterator &>(other);
+    return current == derived.current;
+}
+
+template <typename T>
+bool stack<T>::const_st_iterator::operator!=(const typename sequence<T>::const_iterator &other) const
+{
+    const const_st_iterator &derived = dynamic_cast<const const_st_iterator &>(other);
+    return current != derived.current;
+}
+
+template <typename T>
+typename stack<T>::const_st_iterator stack<T>::cbegin() const
+{
+    return const_st_iterator(const_cast<node **>(&head));
+}
+
+template <typename T>
+typename stack<T>::const_st_iterator stack<T>::cend() const
+{
+    return const_st_iterator(static_cast<node *>(nullptr));
+}
+
+template <typename T>
+stack<T>::stack() : head(nullptr), length(0) {}
+
+template <typename T>
+stack<T>::stack(const int &size)
+{
+    if (size < 0)
+    {
+        throw std::invalid_argument("Size cannot be negative");
+    }
+    head = nullptr;
+    length = 0;
+    for (int i = 0; i < size; ++i)
+    {
+        append_element(T());
+    }
+}
+
+template <typename T>
+stack<T>::stack(const T *items, const int &size)
+{
+    if (size < 0)
+    {
+        throw std::invalid_argument("Size cannot be negative");
+    }
+    head = nullptr;
+    length = 0;
+    for (int i = 0; i < size; ++i)
+    {
+        append_element(items[i]);
+    }
+}
+
+template <typename T>
+stack<T>::stack(const std::initializer_list<T> &items)
+{
+    head = nullptr;
+    length = 0;
+    for (const T &item : items)
+    {
+        append_element(item);
+    }
+}
+
+template <typename T>
+stack<T>::stack(const sequence<T> &sequence) : head(nullptr), length(0)
+{
+    for (int i = 0; i < sequence.get_length(); ++i)
+    {
+        append_element(sequence.get(i));
+    }
+}
+
+template <typename T>
+stack<T>::~stack()
+{
+    while (head)
+    {
+        node *temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+
+template <typename T>
+T &stack<T>::get(const int index) const
+{
+    if (index < 0 || index >= length)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    node *current = head;
+    for (int i = 0; i < index; ++i)
+    {
+        current = current->next;
+    }
+    return current->element;
+}
+
+template <typename T>
+T &stack<T>::get_first() const
+{
+    return head->element;
+}
+
+template <typename T>
+T &stack<T>::get_last() const
+{
+    node *current = head;
+    while (current->next)
+    {
+        current = current->next;
+    }
+    return current->element;
+}
+
+template <typename T>
+int stack<T>::get_length() const
+{
+    return length;
+}
+
+template <typename T>
+sequence<T> *stack<T>::get_subsequence(const int start_index, const int end_index) const
+{
+    if (start_index < 0 || end_index >= length || start_index > end_index)
+    {
+        throw std::out_of_range("Invalid range");
+    }
+    stack<T> *subsequence = new stack<T>();
+    node *current = head;
+    for (int i = 0; i < start_index; ++i)
+    {
+        current = current->next;
+    }
+    for (int i = start_index; i <= end_index; ++i)
+    {
+        subsequence->append_element(current->element);
+        current = current->next;
+    }
+    return subsequence;
+}
+
+template <typename T>
+sequence<T> *stack<T>::append_element(const T &element)
+{
+    node *new_node = new node(element);
+    new_node->next = head;
+    head = new_node;
+    length++;
+    return this;
+}
+
+template <typename T>
+sequence<T> *stack<T>::prepend_element(const T &element)
+{
+    if (!head)
+    {
+        return append_element(element);
+    }
+    stack<T> *new_stack = new stack<T>(*this);
+    node *new_node = new node(element);
+    clear();
+    head = new_node;
+    for (int i = new_stack->get_length() - 1; i > -1; i--)
+    {
+        append_element(new_stack->get(i));
+        length++;
+    }
+    delete new_stack;
+    length++;
+    return this;
+}
+
+template <typename T>
+sequence<T> *stack<T>::insert_element(const T &element, const int index)
+{
+    if (!head)
+    {
+        return append_element(element);
+    }
+    stack<T> *new_stack = new stack<T>();
+    for (int i = 0; i < index; i++)
+    {
+        new_stack->append_element(get(i));
+        node *current = head;
+        head = head->next;
+        delete current;
+    }
+    append_element(element);
+    for (int i = 0; i < new_stack->get_length(); i++)
+    {
+        append_element(new_stack->get(i));
+    }
+    delete new_stack;
+    length++;
+    return this;
+}
+
+template <typename T>
+sequence<T> *stack<T>::concat(const sequence<T> &sequence)
+{
+    stack<T> *new_stack = new stack<T>(*this);
+    clear();
+    for (int i = 0; i < sequence.get_length(); i++)
+    {
+        append_element(sequence.get(i));
+        length++;
+    }
+    for (int i = 0; i < new_stack->get_length(); i++)
+    {
+        append_element(new_stack->get(i));
+        length++;
+    }
+    return this;
+}
+
+template <typename T>
+sequence<T> *stack<T>::immutable_append_element(const T &element) const
+{
+    stack<T> *new_stack = new stack<T>(*this);
+    new_stack->append_element(element);
+    return new_stack;
+}
+
+template <typename T>
+sequence<T> *stack<T>::immutable_prepend_element(const T &element) const
+{
+    stack<T> *new_stack = new stack<T>(*this);
+    new_stack->prepend_element(element);
+    return new_stack;
+}
+
+template <typename T>
+sequence<T> *stack<T>::immutable_insert_element(const T &element, const int index) const
+{
+    stack<T> *new_stack = new stack<T>(*this);
+    new_stack->insert_element(element, index);
+    return new_stack;
+}
+
+template <typename T>
+sequence<T> *stack<T>::immutable_concat(const sequence<T> &other) const
+{
+    stack<T> *new_stack = new stack<T>(*this);
+    new_stack->concat(other);
+    return new_stack;
+}
+
+template <typename T>
+void stack<T>::clear()
+{
+    while (head)
+    {
+        node *temp = head;
+        head = head->next;
+        delete temp;
+    }
+    length = 0;
+}
+
+template <typename T>
+void stack<T>::print() const
+{
+    node *current = head;
+    while (current)
+    {
+        std::cout << "| data=" << current->element;
+        if (current->next)
+        {
+            std::cout << " |->";
+        }
+        else
+        {
+            std::cout << " |";
+        }
+        current = current->next;
+    }
+    std::cout << std::endl;
 }
