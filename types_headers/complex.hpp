@@ -1,0 +1,33 @@
+#pragma once
+
+class complex
+{
+private:
+    double real;
+    double imag;
+
+public:
+    complex();
+    complex(double real);
+    complex(double real, double imag);
+    complex operator+(const complex &other);
+    complex operator-(const complex &other);
+    complex operator*(const complex &other);
+    complex operator/(const complex &other);
+    bool operator==(const complex &other);
+    bool operator!=(const complex &other);
+    bool operator<(const complex &other);
+    bool operator>(const complex &other);
+    bool operator<=(const complex &other);
+    bool operator>=(const complex &other);
+    double get_modulus() const;
+    double get_real() const;
+    double get_imag() const;
+    void set_real(double real);
+    void set_imag(double imag);
+};
+
+inline std::istream &operator>>(std::istream &is, complex &c);
+inline std::ostream &operator<<(std::ostream &os, const complex &c);
+
+#include "../types_source/complex.cpp"

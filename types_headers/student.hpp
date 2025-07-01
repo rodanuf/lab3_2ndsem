@@ -1,0 +1,35 @@
+#pragma once
+
+class student
+{
+private:
+    std::string name;
+    std::string surname;
+    std::string patronymic;
+    std::string group_number;
+    float grade;
+
+public:
+    student();
+    student(const std::string &name, float grade);
+    student(const std::string &name, const std::string &surname, const std::string &patronymic, const std::string &group_number, float grade);
+    bool operator==(const student &other) const;
+    bool operator!=(const student &other) const;
+    bool operator<(const student &other) const;
+    bool operator>(const student &other) const;
+    std::string get_name() const;
+    std::string get_surname() const;
+    std::string get_patronymic() const;
+    std::string get_group_number() const;
+    float get_age() const;
+    void set_name(const std::string &name);
+    void set_surname(const std::string &surname);
+    void set_patronymic(const std::string &patronymic);
+    void set_group_number(const std::string &group_number);
+    void set_age(float grade);
+};
+
+inline std::istream &operator>>(std::istream &is, student &s);
+inline std::ostream &operator<<(std::ostream &os, const student &s);
+
+#include "../types_source/student.cpp"
