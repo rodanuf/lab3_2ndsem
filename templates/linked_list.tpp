@@ -453,26 +453,6 @@ void linked_list<T>::insert_element(const T &element, int index)
 }
 
 template <typename T>
-void linked_list<T>::print() const
-{
-    node *current = head;
-    while (current)
-    {
-        std::cout << "| data=" << current->element;
-        if (current->next)
-        {
-            std::cout << " |->";
-        }
-        else
-        {
-            std::cout << " |";
-        }
-        current = current->next;
-    }
-    std::cout << std::endl;
-}
-
-template <typename T>
 void linked_list<T>::clear()
 {
     node *current = head;

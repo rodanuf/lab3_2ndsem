@@ -360,21 +360,6 @@ void dynamic_array<T>::insert_element(const T &element, int index)
 }
 
 template <typename T>
-void dynamic_array<T>::print() const
-{
-    std::cout << "[";
-    for (const_array_iterator it = cbegin(); it != cend(); ++it)
-    {
-        if (it != cbegin())
-        {
-            std::cout << ", ";
-        }
-        std::cout << *it;
-    }
-    std::cout << "]" << std::endl;
-}
-
-template <typename T>
 void dynamic_array<T>::clear()
 {
     delete[] data;

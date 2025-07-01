@@ -1,13 +1,5 @@
-#include <iostream>
-#include <limits>
-#include <memory>
 #include "../ui_headers/ui.hpp"
-#include "../headers/sequence.hpp"
-#include "../headers/array_sequence.hpp"
-#include "../headers/list_sequence.hpp"
-#include "../headers/stack.hpp"
-#include "../types_headers/complex.hpp"
-#include "../types_headers/student.hpp"
+#include "../ui_headers/io_functions.hpp"
 
 using namespace std;
 
@@ -32,6 +24,7 @@ void get_types_menu(int &sequence_type)
         cout << "3. String" << endl;
         cout << "4. Complex" << endl;
         cout << "5. Student" << endl;
+        cout << "6. Professor" << endl;
         cout << "7. Return to Main Menu" << endl;
         cout << "0. Exit " << endl;
         try
@@ -49,6 +42,15 @@ void get_types_menu(int &sequence_type)
                 get_sequence_type<string>(sequence_type);
                 break;
             case 4:
+                get_sequence_type<complex>(sequence_type);
+                break;
+            case 5:
+                get_sequence_type<student>(sequence_type);
+                break;
+            case 6:
+                get_sequence_type<professor>(sequence_type);
+                break;
+            case 7:
                 break;
             case 0:
                 exit(0);
@@ -76,6 +78,10 @@ void get_sequence_type(int &sequence_type)
     if (sequence_type == 2)
     {
         seq = new list_sequence<T>();
+    }
+    if (sequence_type == 3)
+    {
+        seq = new stack<T>();
     }
     if (seq)
     {

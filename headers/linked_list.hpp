@@ -80,7 +80,6 @@ public:
     void append_element(const T &element);
     void prepend_element(const T &element);
     void insert_element(const T &element, int index);
-    void print() const;
     void clear();
 };
 

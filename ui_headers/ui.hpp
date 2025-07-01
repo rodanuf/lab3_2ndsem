@@ -1,4 +1,6 @@
 #pragma once
+#include <limits>
+#include <memory>
 #include "../headers/sequence.hpp"
 #include "../headers/array_sequence.hpp"
 #include "../headers/list_sequence.hpp"

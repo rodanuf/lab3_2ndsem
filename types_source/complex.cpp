@@ -27,32 +27,32 @@ complex complex::operator/(const complex &other)
     return complex((real * other.real + imag * other.imag) / denominator, (imag * other.real - real * other.imag) / denominator);
 }
 
-bool complex::operator==(const complex &other)
+bool complex::operator==(const complex &other) const
 {
     return (real == other.real) && (imag == other.imag);
 }
 
-bool complex::operator!=(const complex &other)
+bool complex::operator!=(const complex &other) const
 {
     return !(real == other.real) || (imag != other.imag);
 }
 
-bool complex::operator<(const complex &other)
+bool complex::operator<(const complex &other) const
 {
     return get_modulus() < other.get_modulus();
 }
 
-bool complex::operator>(const complex &other)
+bool complex::operator>(const complex &other) const
 {
     return get_modulus() > other.get_modulus();
 }
 
-bool complex::operator<=(const complex &other)
+bool complex::operator<=(const complex &other) const
 {
     return get_modulus() <= other.get_modulus();
 }
 
-bool complex::operator>=(const complex &other)
+bool complex::operator>=(const complex &other) const
 {
     return get_modulus() >= other.get_modulus();
 }
@@ -80,53 +80,4 @@ void complex::set_real(double real)
 void complex::set_imag(double imag)
 {
     this->imag = imag;
-}
-
-inline std::istream &operator>>(std::istream &is, complex &c)
-{
-    double real = 0.0;
-    double imag = 0.0;
-    char next_symbol;
-    is >> real;
-    next_symbol = is.peek();
-    if (next_symbol == 'i')
-    {
-        c.set_real(0.0);
-        c.set_imag(real);
-        return is;
-    }
-    if (next_symbol == '+')
-    {
-        char plus, i;
-        is >> plus >> imag >> i;
-        if (plus != '+' || i != 'i')
-        {
-            is.setstate(std::ios::failbit);
-            return is;
-        }
-    }
-    c.set_real(real);
-    c.set_imag(imag);
-    return is;
-}
-
-inline std::ostream &operator<<(std::ostream &os, const complex &c)
-{
-    if (c.get_imag() < 0 && c.get_imag() != -1)
-    {
-        os << c.get_real() << c.get_imag() << "i";
-    }
-    else if (c.get_imag() == -1)
-    {
-        os << c.get_real() << "-i";
-    }
-    else if (c.get_imag() == 0)
-    {
-        os << c.get_real();
-    }
-    else
-    {
-        os << c.get_real() << " + " << c.get_imag() << "i";
-    }
-    return os;
 }

@@ -345,12 +345,6 @@ sequence<T> *array_sequence<T>::immutable_concat(const sequence<T> &container) c
 }
 
 template <typename T>
-void array_sequence<T>::print() const
-{
-    a_sequence.print();
-}
-
-template <typename T>
 void array_sequence<T>::clear()
 {
     a_sequence.clear();

@@ -432,23 +432,3 @@ void stack<T>::clear()
     }
     length = 0;
 }
-
-template <typename T>
-void stack<T>::print() const
-{
-    node *current = head;
-    while (current)
-    {
-        std::cout << "| data=" << current->element;
-        if (current->next)
-        {
-            std::cout << " |->";
-        }
-        else
-        {
-            std::cout << " |";
-        }
-        current = current->next;
-    }
-    std::cout << std::endl;
-}

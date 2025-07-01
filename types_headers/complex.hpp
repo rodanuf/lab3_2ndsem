@@ -14,12 +14,12 @@ public:
     complex operator-(const complex &other);
     complex operator*(const complex &other);
     complex operator/(const complex &other);
-    bool operator==(const complex &other);
-    bool operator!=(const complex &other);
-    bool operator<(const complex &other);
-    bool operator>(const complex &other);
-    bool operator<=(const complex &other);
-    bool operator>=(const complex &other);
+    bool operator==(const complex &other) const;
+    bool operator!=(const complex &other) const;
+    bool operator<(const complex &other) const;
+    bool operator>(const complex &other) const;
+    bool operator<=(const complex &other) const;
+    bool operator>=(const complex &other) const;
     double get_modulus() const;
     double get_real() const;
     double get_imag() const;
