@@ -188,7 +188,7 @@ stack<T>::stack(const int &size)
     length = 0;
     for (int i = 0; i < size; ++i)
     {
-        append_element(T());
+        prepend_element(T());
     }
 }
 
@@ -203,7 +203,7 @@ stack<T>::stack(const T *items, const int &size)
     length = 0;
     for (int i = 0; i < size; ++i)
     {
-        append_element(items[i]);
+        prepend_element(items[i]);
     }
 }
 
@@ -214,16 +214,29 @@ stack<T>::stack(const std::initializer_list<T> &items)
     length = 0;
     for (const T &item : items)
     {
-        append_element(item);
+        prepend_element(item);
     }
 }
 
 template <typename T>
-stack<T>::stack(const sequence<T> &sequence) : head(nullptr), length(0)
+stack<T>::stack(const sequence<T> &sequence)
 {
+    head = nullptr;
+    length = 0;
     for (int i = 0; i < sequence.get_length(); ++i)
     {
-        append_element(sequence.get(i));
+        prepend_element(sequence.get(i));
+    }
+}
+
+template <typename T>
+stack<T>::stack(const stack<T> &other)
+{
+    head = nullptr;
+    length = 0;
+    for (int i = other.get_length() - 1; i > -1; --i)
+    {
+        prepend_element(other.get(i));
     }
 }
 
@@ -256,14 +269,22 @@ T &stack<T>::get(const int index) const
 template <typename T>
 T &stack<T>::get_first() const
 {
+    if (!head)
+    {
+        throw std::out_of_range("Stack is empty");
+    }
     return head->element;
 }
 
 template <typename T>
 T &stack<T>::get_last() const
 {
+    if (!head)
+    {
+        throw std::out_of_range("Stack is empty");
+    }
     node *current = head;
-    while (current->next)
+    while (current->next != nullptr)
     {
         current = current->next;
     }
@@ -300,19 +321,9 @@ sequence<T> *stack<T>::get_subsequence(const int start_index, const int end_inde
 template <typename T>
 sequence<T> *stack<T>::append_element(const T &element)
 {
-    node *new_node = new node(element);
-    new_node->next = head;
-    head = new_node;
-    length++;
-    return this;
-}
-
-template <typename T>
-sequence<T> *stack<T>::prepend_element(const T &element)
-{
     if (!head)
     {
-        return append_element(element);
+        return prepend_element(element);
     }
     stack<T> *new_stack = new stack<T>(*this);
     node *new_node = new node(element);
@@ -320,10 +331,19 @@ sequence<T> *stack<T>::prepend_element(const T &element)
     head = new_node;
     for (int i = new_stack->get_length() - 1; i > -1; i--)
     {
-        append_element(new_stack->get(i));
-        length++;
+        prepend_element(new_stack->get(i));
     }
     delete new_stack;
+    length++;
+    return this;
+}
+
+template <typename T>
+sequence<T> *stack<T>::prepend_element(const T &element)
+{
+    node *new_node = new node(element);
+    new_node->next = head;
+    head = new_node;
     length++;
     return this;
 }
@@ -338,18 +358,18 @@ sequence<T> *stack<T>::insert_element(const T &element, const int index)
     stack<T> *new_stack = new stack<T>();
     for (int i = 0; i < index; i++)
     {
-        new_stack->append_element(get(i));
+        new_stack->prepend_element(get(i));
         node *current = head;
         head = head->next;
         delete current;
+        length--;
     }
-    append_element(element);
+    prepend_element(element);
     for (int i = 0; i < new_stack->get_length(); i++)
     {
-        append_element(new_stack->get(i));
+        prepend_element(new_stack->get(i));
     }
     delete new_stack;
-    length++;
     return this;
 }
 
@@ -360,13 +380,11 @@ sequence<T> *stack<T>::concat(const sequence<T> &sequence)
     clear();
     for (int i = 0; i < sequence.get_length(); i++)
     {
-        append_element(sequence.get(i));
-        length++;
+        prepend_element(sequence.get(i));
     }
     for (int i = 0; i < new_stack->get_length(); i++)
     {
-        append_element(new_stack->get(i));
-        length++;
+        prepend_element(new_stack->get(i));
     }
     return this;
 }

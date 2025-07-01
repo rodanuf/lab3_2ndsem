@@ -236,11 +236,11 @@ TEST(test_stack, constructor_initializer_list)
 
 TEST(test_stack, copy_constructor)
 {
-    stack<int> st_one = {1, 2, 3, 4};
-    stack<int> st_two(st_one);
-    EXPECT_EQ(st_two.get_length(), 4);
-    EXPECT_EQ(st_two.get_first(), 4);
-    EXPECT_EQ(st_two.get_last(), 1);
+    stack<int> seq = {1, 2, 3, 4};
+    stack<int> st(seq);
+    EXPECT_EQ(st.get_length(), 4);
+    EXPECT_EQ(st.get_first(), 4);
+    EXPECT_EQ(st.get_last(), 1);
 }
 
 TEST(test_stack_functions, method_get)
@@ -290,7 +290,7 @@ TEST(test_stack_functions, method_append_element)
 {
     stack<int> st = {1, 2, 3, 4};
     st.append_element(5);
-    EXPECT_EQ(st.get_first(), 5);
+    EXPECT_EQ(st.get_last(), 5);
     EXPECT_EQ(st.get_length(), 5);
 }
 
@@ -298,8 +298,8 @@ TEST(test_stack_functions, method_prepend_element)
 {
     stack<int> st = {1, 2, 3, 4};
     st.prepend_element(0);
-    EXPECT_EQ(st.get_last(), 0);
-    EXPECT_EQ(st.get_first(), 4);
+    EXPECT_EQ(st.get_first(), 0);
+    EXPECT_EQ(st.get_last(), 1);
     EXPECT_EQ(st.get_length(), 5);
 }
 
@@ -317,15 +317,16 @@ TEST(test_stack_functions, method_concat)
     stack<int> st_two = {5, 6, 7, 8};
     sequence<int>* result = st_one.concat(st_two);
     EXPECT_EQ(result->get_length(), 8);
-    EXPECT_EQ(result->get_first(), 8);
-    EXPECT_EQ(result->get(4), 4);
+    EXPECT_EQ(result->get_first(), 1);
+    EXPECT_EQ(result->get_last(), 8);
+    EXPECT_EQ(result->get(4), 5);
 }
 
 TEST(test_stack_functions, method_immutable_append_element)
 {
     stack<int> st = {1, 2, 3, 4};
     sequence<int>* new_st = st.immutable_append_element(5);
-    EXPECT_EQ(new_st->get_first(), 5);
+    EXPECT_EQ(new_st->get_last(), 5);
     EXPECT_EQ(new_st->get_length(), 5);
     EXPECT_EQ(st.get_length(), 4);
 }
@@ -333,8 +334,8 @@ TEST(test_stack_functions, method_immutable_append_element)
 TEST(test_stack_functions, method_immutable_prepend_element)
 {
     stack<int> st = {1, 2, 3, 4};
-    sequence<int>* new_st = st.immutable_prepend_element(0);
-    EXPECT_EQ(new_st->get_last(), 0);
+    sequence<int>* new_st = st.immutable_prepend_element(-1);
+    EXPECT_EQ(new_st->get_first(), -1);
     EXPECT_EQ(new_st->get_length(), 5);
     EXPECT_EQ(st.get_length(), 4);
 }
@@ -354,7 +355,7 @@ TEST(test_stack_functions, method_immutable_concat)
     stack<int> st_two = {5, 6, 7, 8};
     const sequence<int>* result = st_one.immutable_concat(st_two);
     EXPECT_EQ(result->get_length(), 8);
-    EXPECT_EQ(result->get_first(), 8);
+    EXPECT_EQ(result->get_last(), 8);
     EXPECT_EQ(st_one.get_length(), 4);
 }
 

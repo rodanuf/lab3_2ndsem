@@ -62,6 +62,7 @@ public:
     stack(const T *items, const int &size);
     stack(const std::initializer_list<T> &items);
     stack(const sequence<T> &other);
+    stack(const stack<T> &other);
     ~stack();
     T &get(const int index) const override;
     T &get_first() const override;
