@@ -26,8 +26,3 @@ public:
     void set_real(double real);
     void set_imag(double imag);
 };
-
-inline std::istream &operator>>(std::istream &is, complex &c);
-inline std::ostream &operator<<(std::ostream &os, const complex &c);
-
-#include "../types_source/complex.cpp"

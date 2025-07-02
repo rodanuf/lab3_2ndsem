@@ -2,8 +2,8 @@
 #include "../types_headers/student.hpp"
 
 student::student() : name(""), surname(""), group_number(""), grade() {}
-student::student(const std::string &name, float grade) : name(name), surname(""), group_number(""), grade(grade) {}
-student::student(const std::string &name, const std::string &surname, const std::string &group_number, float grade) : name(name), surname(surname), group_number(group_number), grade(grade) {}
+student::student(const std::string &name, double grade) : name(name), surname(""), group_number(""), grade(grade) {}
+student::student(const std::string &name, const std::string &surname, const std::string &group_number, double grade) : name(name), surname(surname), group_number(group_number), grade(grade) {}
 
 bool student::operator==(const student &other) const
 {
@@ -40,7 +40,7 @@ std::string student::get_group_number() const
     return group_number;
 }
 
-float student::get_grade() const
+double student::get_grade() const
 {
     return grade;
 }
@@ -60,7 +60,7 @@ void student::set_group_number(const std::string &group_number)
     this->group_number = group_number;
 }
 
-void student::set_grade(float grade)
+void student::set_grade(double grade)
 {
     this->grade = grade;
 }

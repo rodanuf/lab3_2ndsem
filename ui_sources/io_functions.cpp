@@ -1,21 +1,6 @@
 #include "../ui_headers/io_functions.hpp"
 
-template <typename T>
-void print(sequence<T> *container)
-{
-    std::cout << "[";
-    for (int i = 0; i != container->get_length(); ++i)
-    {
-        if (i != container->get_length() - 1)
-        {
-            std::cout << ", ";
-        }
-        std::cout << container->get(i);
-    }
-    std::cout << "]" << std::endl;
-}
-
-inline std::istream &operator>>(std::istream &is, student &s)
+std::istream &operator>>(std::istream &is, student &s)
 {
     std::string name, surname, group_number;
     float grade;
@@ -28,14 +13,19 @@ inline std::istream &operator>>(std::istream &is, student &s)
     s.set_surname(surname);
     s.set_group_number(group_number);
     s.set_grade(grade);
+    return is;
 }
 
-inline std::istream &operator>>(std::istream &is, complex &c)
+std::istream &operator>>(std::istream &is, complex &c)
 {
     double real = 0.0;
     double imag = 0.0;
     char next_symbol;
     is >> real;
+    while (is.peek() == ' ')
+    {
+        is.get();
+    }
     next_symbol = is.peek();
     if (next_symbol == 'i')
     {
@@ -43,11 +33,21 @@ inline std::istream &operator>>(std::istream &is, complex &c)
         c.set_imag(real);
         return is;
     }
-    if (next_symbol == '+')
+    if (next_symbol == '+' || next_symbol == '-')
     {
-        char plus, i;
-        is >> plus >> imag >> i;
-        if (plus != '+' || i != 'i')
+        char operators, i;
+        is >> operators;
+        while (is.peek() == ' ')
+        {
+            is.get();
+        }
+        is >> imag;
+        while (is.peek() == ' ')
+        {
+            is.get();
+        }
+        is >> i;
+        if (i != 'i')
         {
             is.setstate(std::ios::failbit);
             return is;
@@ -58,13 +58,25 @@ inline std::istream &operator>>(std::istream &is, complex &c)
     return is;
 }
 
-inline std::ostream &operator<<(std::ostream &os, const student &s)
+std::istream &operator>>(std::istream &is, professor &p)
+{
+    std::string name, surname, name_departament;
+    int num_departament;
+    is >> name >> surname >> name_departament >> num_departament;
+    p.set_name(name);
+    p.set_surname(surname);
+    p.set_name_departament(name_departament);
+    p.set_num_departament(num_departament);
+    return is;
+}
+
+std::ostream &operator<<(std::ostream &os, const student &s)
 {
     os << s.get_name() << " " << s.get_surname() << " " << s.get_group_number() << " " << s.get_grade();
     return os;
 }
 
-inline std::ostream &operator<<(std::ostream &os, const complex &c)
+std::ostream &operator<<(std::ostream &os, const complex &c)
 {
     if (c.get_imag() < 0 && c.get_imag() != -1)
     {
@@ -82,5 +94,11 @@ inline std::ostream &operator<<(std::ostream &os, const complex &c)
     {
         os << c.get_real() << " + " << c.get_imag() << "i";
     }
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, const professor &p)
+{
+    os << p.get_name() << " " << p.get_surname() << " " << p.get_name_departament() << " " << p.get_num_departament();
     return os;
 }

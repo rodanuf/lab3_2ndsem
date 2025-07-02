@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cmath>
 #include "../types_headers/complex.hpp"
 

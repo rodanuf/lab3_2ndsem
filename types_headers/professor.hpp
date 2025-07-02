@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class professor
 {
@@ -24,6 +25,4 @@ public:
     void set_surname(std::string surname);
     void set_name_departament(std::string name_departament);
     void set_num_departament(int num_departament);
-}
-
-#include "../types_source/professor.cpp"
+};

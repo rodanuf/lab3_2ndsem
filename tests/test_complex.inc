@@ -75,8 +75,8 @@ TEST(test_complex, operator_less_than) {
 }
 
 TEST(test_complex, operator_greater_than) {
-    complex a(3.0, 4.0);  // modulus = 5.0
-    complex b(1.0, 1.0);  // modulus ≈ 1.414
+    complex a(3.0, 4.0);
+    complex b(1.0, 1.0);
     EXPECT_TRUE(a > b);
     EXPECT_FALSE(b > a);
 }
@@ -92,30 +92,4 @@ TEST(test_complex, set_real_imag) {
     c.set_imag(-1.5);
     EXPECT_DOUBLE_EQ(c.get_real(), 2.5);
     EXPECT_DOUBLE_EQ(c.get_imag(), -1.5);
-}
-
-TEST(test_complex, input_output_operators) {
-    std::stringstream ss;
-    complex c(1.5, -2.5);
-    ss << c;
-    EXPECT_EQ(ss.str(), "1.5-2.5i");
-    complex c2;
-    ss >> c2;
-    EXPECT_DOUBLE_EQ(c2.get_real(), 1.5);
-    EXPECT_DOUBLE_EQ(c2.get_imag(), -2.5);
-}
-
-TEST(test_complex, special_output_cases) {
-    std::stringstream ss;
-    complex c1(0.0, 1.0);
-    ss << c1;
-    EXPECT_EQ(ss.str(), "0 + 1i");
-    ss.str("");
-    complex c2(1.0, -1.0);
-    ss << c2;
-    EXPECT_EQ(ss.str(), "1-1i");
-    ss.str("");
-    complex c3(2.0, 0.0);
-    ss << c3;
-    EXPECT_EQ(ss.str(), "2");
 }

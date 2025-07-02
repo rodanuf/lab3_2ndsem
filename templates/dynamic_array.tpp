@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../headers/dynamic_array.hpp"
 
 template <typename T>
