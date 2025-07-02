@@ -365,12 +365,7 @@ linked_list<T>::linked_list(const linked_list &other) : head(nullptr), tail(null
 template <typename T>
 linked_list<T>::~linked_list()
 {
-    while (head)
-    {
-        node *buffer_pointer = head;
-        head = head->next;
-        delete (buffer_pointer);
-    }
+    clear();
 }
 
 template <typename T>

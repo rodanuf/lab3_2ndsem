@@ -3,6 +3,21 @@
 
 using namespace std;
 
+template <typename T>
+void print(sequence<T> *container)
+{
+    std::cout << "[";
+    for (int i = 0; i != container->get_length(); ++i)
+    {
+        if (i != 0)
+        {
+            std::cout << ", ";
+        }
+        std::cout << container->get(i);
+    }
+    std::cout << "]" << std::endl;
+}
+
 void check_input(int &choice)
 {
     if (!(cin >> choice))

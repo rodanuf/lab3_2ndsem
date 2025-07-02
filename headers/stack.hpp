@@ -78,6 +78,18 @@ public:
     sequence<T> *immutable_insert_element(const T &element, const int index) const override;
     sequence<T> *immutable_concat(const sequence<T> &other) const override;
     void clear() override;
+
+    template <typename map_func>
+    sequence<T> *map(const map_func &func);
+
+    template <typename predicate>
+    sequence<T> *where(const predicate &pred);
+
+    template <typename R, typename bin_op>
+    R reduce(const bin_op &op, R init);
+
+    template <typename map_func>
+    sequence<T> *immutable_map(const map_func &func) const;
 };
 
 #include "../templates/stack.tpp"

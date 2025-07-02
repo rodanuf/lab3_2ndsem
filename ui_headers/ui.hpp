@@ -6,6 +6,8 @@
 #include "../headers/list_sequence.hpp"
 #include "../headers/stack.hpp"
 
+template <typename T>
+void print(sequence<T> *container);
 void check_input(int &choice);
 void get_types_menu(int &sequence_type);
 template <typename T>

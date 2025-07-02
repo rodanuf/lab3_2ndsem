@@ -365,3 +365,49 @@ TEST(test_stack_functions, method_clear)
     st.clear();
     EXPECT_EQ(st.get_length(), 0);
 }
+
+TEST(test_stack_functions, method_map)
+{
+    stack<int> st = {1, 2, 3, 4};
+    auto square = [](int x) { return x * x; };
+    sequence<int>* result = st.map(square);
+    EXPECT_EQ(result->get_length(), 4);
+    EXPECT_EQ(result->get(0), 16);
+    EXPECT_EQ(result->get(1), 9);
+    EXPECT_EQ(result->get(2), 4);
+    EXPECT_EQ(result->get(3), 1);
+}
+
+TEST(test_stack_functions, method_where)
+{
+    stack<int> st = {1, 2, 3, 4, 5, 6};
+    auto is_even = [](int x) { return x % 2 == 0; };
+    sequence<int>* result = st.where(is_even);
+    EXPECT_EQ(result->get_length(), 3);
+    EXPECT_EQ(result->get(2), 6);
+    EXPECT_EQ(result->get(1), 4);
+    EXPECT_EQ(result->get(0), 2);
+    delete result;
+}
+
+TEST(test_stack_functions, method_reduce)
+{
+    stack<int> st = {1, 2, 3, 4};
+    auto sum = [](int a, int b) { return a + b; };
+    int result = st.reduce(sum, 0);
+    EXPECT_EQ(result, 10);
+}
+
+TEST(test_stack_functions, method_immutable_map)
+{
+    stack<int> st = {1, 2, 3, 4};
+    auto square = [](int x) { return x * x; };
+    const sequence<int>* result = st.immutable_map(square);
+    EXPECT_EQ(result->get_length(), 4);
+    EXPECT_EQ(result->get(0), 16);
+    EXPECT_EQ(result->get(1), 9);
+    EXPECT_EQ(result->get(2), 4);
+    EXPECT_EQ(result->get(3), 1);
+    EXPECT_EQ(st.get(0), 4);
+    delete result;
+}

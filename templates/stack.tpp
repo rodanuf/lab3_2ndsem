@@ -243,12 +243,7 @@ stack<T>::stack(const stack<T> &other)
 template <typename T>
 stack<T>::~stack()
 {
-    while (head)
-    {
-        node *temp = head;
-        head = head->next;
-        delete temp;
-    }
+    clear();
 }
 
 template <typename T>
@@ -431,4 +426,50 @@ void stack<T>::clear()
         delete temp;
     }
     length = 0;
+}
+
+template <typename T>
+template <typename map_func>
+sequence<T> *stack<T>::map(const map_func &func)
+{
+    for (int i = 0; i < get_length(); i++)
+    {
+        get(i) = func(get(i));
+    }
+    return this;
+}
+
+template <typename T>
+template <typename predicate>
+sequence<T> *stack<T>::where(const predicate &pred)
+{
+    stack<T> *new_stack = new stack<T>();
+    for (int i = 0; i < get_length(); i++)
+    {
+        if (pred(get(i)))
+        {
+            new_stack->prepend_element(get(i));
+        }
+    }
+    return new_stack;
+}
+
+template <typename T>
+template <typename R, typename bin_op>
+R stack<T>::reduce(const bin_op &op, R init)
+{
+    for (int i = 0; i < get_length(); ++i)
+    {
+        init = op(init, get(i));
+    }
+    return init;
+}
+
+template <typename T>
+template <typename map_func>
+sequence<T> *stack<T>::immutable_map(const map_func &func) const
+{
+    stack<T> *new_stack = new stack<T>(*this);
+    new_stack->map(func);
+    return new_stack;
 }
