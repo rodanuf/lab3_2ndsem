@@ -6,16 +6,16 @@ using namespace std;
 template <typename T>
 void print(sequence<T> *container)
 {
-    std::cout << "[";
+    cout << "[";
     for (int i = 0; i != container->get_length(); ++i)
     {
         if (i != 0)
         {
-            std::cout << ", ";
+            cout << ", ";
         }
-        std::cout << container->get(i);
+        cout << container->get(i);
     }
-    std::cout << "]" << std::endl;
+    cout << "]" << endl;
 }
 
 void check_input(int &choice)
