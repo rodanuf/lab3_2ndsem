@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../headers/stack.hpp"
 
 template <typename T>

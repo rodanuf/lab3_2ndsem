@@ -1,11 +1,20 @@
-#include <iostream>
 #include "../headers/linked_list.hpp"
 
 template <typename T>
 linked_list<T>::node::node(const T &item) : element(item), next(nullptr), prev(nullptr) {}
 
 template <typename T>
-linked_list<T>::node::~node() {}
+linked_list<T>::node::~node()
+{
+    if (next)
+    {
+        delete next;
+    }
+    if (prev)
+    {
+        delete prev;
+    }
+}
 
 template <typename T>
 linked_list<T>::list_iterator::list_iterator(node *point) : current(&point)
