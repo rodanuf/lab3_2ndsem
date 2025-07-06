@@ -64,13 +64,13 @@ T &array_sequence<T>::as_iterator::operator*()
 }
 
 template <typename T>
-T &array_sequence<T>::as_iterator::operator[](const int n)
+T &array_sequence<T>::as_iterator::operator[](const int n) // не в том классе
 {
     return it[n];
 }
 
 template <typename T>
-bool array_sequence<T>::as_iterator::operator==(const typename sequence<T>::iterator &other) const
+bool array_sequence<T>::as_iterator::operator==(const typename sequence<T>::iterator &other) const // сделать тест на сравнение итераторов array_sequence и list_sequence
 {
     const as_iterator &derived = dynamic_cast<const as_iterator &>(other);
     return it == derived.it;
@@ -310,6 +310,12 @@ sequence<T> *array_sequence<T>::concat(const sequence<T> &container)
         a_sequence.append_element(container.get(i));
     }
     return this;
+}
+
+template <typename T>
+sequence<T> *array_sequence<T>::clone() const
+{
+    return new array_sequence<T>(*this);
 }
 
 template <typename T>

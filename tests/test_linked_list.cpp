@@ -15,7 +15,7 @@ TEST(test_linked_list_iterator, base_constructor_iterator)
     EXPECT_EQ((*it)->element, 42);
 }
 
-TEST(test_linked_list_iterator, copy_constructor_iterator) 
+TEST(test_linked_list_iterator, copy_constructor_iterator)
 {
     linked_list<int> list = {42};
     auto it_one = list.begin();
@@ -23,20 +23,20 @@ TEST(test_linked_list_iterator, copy_constructor_iterator)
     EXPECT_EQ((*it_two)->element, 42);
 }
 
-TEST(test_linked_list_iterator_operators, pref_operator_increment) 
+TEST(test_linked_list_iterator_operators, pref_operator_increment)
 {
-    linked_list<int> list_one = {1, 2, 3};
-    linked_list<int> list_two = {1, 2, 3};
-    auto it_one = list_one.begin();
-    auto it_two = list_two.begin();
-    ++it_two;
-    ASSERT_NE((*it_one)->element, (*it_two)->element);
+    linked_list<int> list = {1, 2, 3};
+    auto it_one = list.begin();
+    EXPECT_EQ((*it_one)->element, 1);
     ++it_one;
-    EXPECT_EQ((*it_one)->element, (*it_two)->element);
     EXPECT_EQ((*it_one)->element, 2);
+    ++it_one;
+    EXPECT_EQ((*it_one)->element, 3);
+    auto it_two = list.begin();
+    EXPECT_NE(*it_one, *it_two);
 }
 
-TEST(test_linked_list_iterator_operators, post_operator_increment) 
+TEST(test_linked_list_iterator_operators, post_operator_increment)
 {
     linked_list<int> list = {1, 2, 3};
     auto it = list.begin();
@@ -45,20 +45,23 @@ TEST(test_linked_list_iterator_operators, post_operator_increment)
     EXPECT_EQ((*it)->element, 2);
 }
 
-TEST(test_linked_list_iterator_operators, pref_operator_decrement) 
+TEST(test_linked_list_iterator_operators, pref_operator_decrement)
 {
-    linked_list<int> list_one = {1, 2, 3};
-    linked_list<int> list_two = {1, 2, 3};
-    auto it_one = list_one.begin();
+    linked_list<int> list = {1, 2, 3};
+    auto it_one = list.begin();
     ++it_one;
-    auto it_two = list_two.begin();
-    ASSERT_NE((*it_one)->element, (*it_two)->element);
+    EXPECT_EQ((*it_one)->element, 2);
     --it_one;
-    EXPECT_EQ((*it_one)->element, (*it_two)->element);
     EXPECT_EQ((*it_one)->element, 1);
+    ++it_one;
+    ++it_one;
+    --it_one;
+    EXPECT_EQ((*it_one)->element, 2);
+    auto it_two = list.begin();
+    EXPECT_NE(*it_one, *it_two);
 }
 
-TEST(test_linked_list_iterator_operators, post_operator_decrement) 
+TEST(test_linked_list_iterator_operators, post_operator_decrement)
 {
     linked_list<int> list = {1, 2, 3};
     auto it = list.begin();
@@ -69,7 +72,7 @@ TEST(test_linked_list_iterator_operators, post_operator_decrement)
     EXPECT_EQ((*it)->element, 1);
 }
 
-TEST(test_linked_list_iterator_operators, operator_appropriation) 
+TEST(test_linked_list_iterator_operators, operator_appropriation)
 {
     linked_list<int> list_one = {1, 2, 3};
     linked_list<int> list_two = {4, 5, 6};
@@ -81,7 +84,7 @@ TEST(test_linked_list_iterator_operators, operator_appropriation)
     EXPECT_EQ(*it_one, *it_two);
 }
 
-TEST(test_linked_list_iterator_operators, operator_increment_on) 
+TEST(test_linked_list_iterator_operators, operator_increment_on)
 {
     linked_list<int> list = {1, 2, 3, 4, 5};
     auto it = list.begin();
@@ -90,7 +93,7 @@ TEST(test_linked_list_iterator_operators, operator_increment_on)
     EXPECT_EQ((*it)->element, 5);
 }
 
-TEST(test_linked_list_iterator_operators, operator_decrement_on) 
+TEST(test_linked_list_iterator_operators, operator_decrement_on)
 {
     linked_list<int> list = {1, 2, 3, 4, 5};
     auto it = list.begin();
@@ -100,7 +103,7 @@ TEST(test_linked_list_iterator_operators, operator_decrement_on)
     EXPECT_EQ((*it)->element, 1);
 }
 
-TEST(test_linked_list_iterator_operators, operator_dereferencing) 
+TEST(test_linked_list_iterator_operators, operator_dereferencing)
 {
     linked_list<int> list = {42};
     auto it = list.begin();
@@ -109,7 +112,7 @@ TEST(test_linked_list_iterator_operators, operator_dereferencing)
     EXPECT_EQ((*it)->element, 100);
 }
 
-TEST(test_linked_list_iterator_operators, operator_accessing_an_element) 
+TEST(test_linked_list_iterator_operators, operator_accessing_an_element)
 {
     linked_list<int> list = {1, 2, 3, 4, 5};
     auto it = list.begin();
@@ -119,7 +122,7 @@ TEST(test_linked_list_iterator_operators, operator_accessing_an_element)
     EXPECT_EQ(it[1], 50);
 }
 
-TEST(test_linked_list_iterator_operators, operator_equality) 
+TEST(test_linked_list_iterator_operators, operator_equality)
 {
     linked_list<int> list_one = {1, 2, 3, 4, 5};
     linked_list<int> list_two = {1, 2, 3, 4, 5};
@@ -131,7 +134,7 @@ TEST(test_linked_list_iterator_operators, operator_equality)
     EXPECT_FALSE(it_two == it_three);
 }
 
-TEST(test_linked_list_iterator_operators, operator_nonequality) 
+TEST(test_linked_list_iterator_operators, operator_nonequality)
 {
     linked_list<int> list_one = {1, 2, 3, 4, 5};
     linked_list<int> list_two = {1, 2, 3, 4, 5};
@@ -143,27 +146,28 @@ TEST(test_linked_list_iterator_operators, operator_nonequality)
     EXPECT_FALSE(it_one != it_two);
 }
 
-TEST(test_linked_list_iterator_functions, method_begin) 
+TEST(test_linked_list_iterator_functions, method_begin)
 {
     linked_list<int> list = {10, 20, 30};
     auto it = list.begin();
     EXPECT_EQ((*it)->element, 10);
 }
 
-TEST(test_linked_list_iterator_functions, method_end) {
+TEST(test_linked_list_iterator_functions, method_end)
+{
     linked_list<int> list = {10, 20, 30};
     auto it = list.end();
     EXPECT_EQ(*it, nullptr);
 }
 
-TEST(test_linked_list_const_iterator, base_constructor_iterator) 
+TEST(test_linked_list_const_iterator, base_constructor_iterator)
 {
     linked_list<int> list = {42};
     auto it = list.cbegin();
     EXPECT_EQ((*it)->element, 42);
 }
 
-TEST(test_linked_list_const_iterator, copy_constructor_iterator) 
+TEST(test_linked_list_const_iterator, copy_constructor_iterator)
 {
     linked_list<int> list = {42};
     auto it_one = list.cbegin();
@@ -171,7 +175,7 @@ TEST(test_linked_list_const_iterator, copy_constructor_iterator)
     EXPECT_EQ((*it_two)->element, 42);
 }
 
-TEST(test_linked_list_const_iterator_operators, pref_operator_increment) 
+TEST(test_linked_list_const_iterator_operators, pref_operator_increment)
 {
     linked_list<int> list_one = {1, 2, 3};
     linked_list<int> list_two = {1, 2, 3};
@@ -184,7 +188,7 @@ TEST(test_linked_list_const_iterator_operators, pref_operator_increment)
     EXPECT_EQ((*it_one)->element, 2);
 }
 
-TEST(test_linked_list_const_iterator_operators, post_operator_increment) 
+TEST(test_linked_list_const_iterator_operators, post_operator_increment)
 {
     linked_list<int> list = {1, 2, 3};
     auto it = list.cbegin();
@@ -193,7 +197,7 @@ TEST(test_linked_list_const_iterator_operators, post_operator_increment)
     EXPECT_EQ((*it)->element, 2);
 }
 
-TEST(test_linked_list_const_iterator_operators, pref_operator_decrement) 
+TEST(test_linked_list_const_iterator_operators, pref_operator_decrement)
 {
     linked_list<int> list_one = {1, 2, 3};
     linked_list<int> list_two = {1, 2, 3};
@@ -206,7 +210,7 @@ TEST(test_linked_list_const_iterator_operators, pref_operator_decrement)
     EXPECT_EQ((*it_one)->element, 1);
 }
 
-TEST(test_linked_list_const_iterator_operators, post_operator_decrement) 
+TEST(test_linked_list_const_iterator_operators, post_operator_decrement)
 {
     linked_list<int> list = {1, 2, 3};
     auto it = list.cbegin();
@@ -217,7 +221,7 @@ TEST(test_linked_list_const_iterator_operators, post_operator_decrement)
     EXPECT_EQ((*it)->element, 1);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_appropriation) 
+TEST(test_linked_list_const_iterator_operators, operator_appropriation)
 {
     linked_list<int> list_one = {1, 2, 3};
     linked_list<int> list_two = {1, 2, 3};
@@ -229,7 +233,7 @@ TEST(test_linked_list_const_iterator_operators, operator_appropriation)
     EXPECT_EQ((*it_one)->element, (*it_two)->element);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_increment_on) 
+TEST(test_linked_list_const_iterator_operators, operator_increment_on)
 {
     linked_list<int> list = {1, 2, 3, 4, 5};
     auto it = list.cbegin();
@@ -238,7 +242,7 @@ TEST(test_linked_list_const_iterator_operators, operator_increment_on)
     EXPECT_EQ((*it)->element, 5);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_decrement_on) 
+TEST(test_linked_list_const_iterator_operators, operator_decrement_on)
 {
     linked_list<int> list = {1, 2, 3, 4, 5};
     auto it = list.cbegin();
@@ -248,14 +252,14 @@ TEST(test_linked_list_const_iterator_operators, operator_decrement_on)
     EXPECT_EQ((*it)->element, 1);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_dereferencing) 
+TEST(test_linked_list_const_iterator_operators, operator_dereferencing)
 {
     linked_list<int> list = {42};
     auto it = list.cbegin();
     EXPECT_EQ((*it)->element, 42);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_accessing_an_element) 
+TEST(test_linked_list_const_iterator_operators, operator_accessing_an_element)
 {
     linked_list<int> list = {1, 2, 3, 4, 5};
     auto it = list.cbegin();
@@ -263,7 +267,7 @@ TEST(test_linked_list_const_iterator_operators, operator_accessing_an_element)
     EXPECT_EQ(it[4], 5);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_equality) 
+TEST(test_linked_list_const_iterator_operators, operator_equality)
 {
     linked_list<int> list_one = {1, 2, 3, 4, 5};
     linked_list<int> list_two = {1, 2, 3, 4, 5};
@@ -275,7 +279,7 @@ TEST(test_linked_list_const_iterator_operators, operator_equality)
     EXPECT_FALSE(it_two == it_three);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_nonequality) 
+TEST(test_linked_list_const_iterator_operators, operator_nonequality)
 {
     linked_list<int> list_one = {1, 2, 3, 4, 5};
     linked_list<int> list_two = {1, 2, 3, 4, 5};
@@ -287,33 +291,33 @@ TEST(test_linked_list_const_iterator_operators, operator_nonequality)
     EXPECT_FALSE(it_one != it_two);
 }
 
-TEST(test_linked_list_const_iterator_functions, method_begin) 
+TEST(test_linked_list_const_iterator_functions, method_begin)
 {
     linked_list<int> list = {10, 20, 30};
     auto it = list.cbegin();
     EXPECT_EQ((*it)->element, 10);
 }
 
-TEST(test_linked_list_const_iterator_functions, method_end) 
+TEST(test_linked_list_const_iterator_functions, method_end)
 {
     linked_list<int> list = {10, 20, 30};
     auto it = list.cend();
     EXPECT_EQ(*it, nullptr);
 }
 
-TEST(test_linked_list, basic_constructor) 
+TEST(test_linked_list, basic_constructor)
 {
     linked_list<int> list;
     EXPECT_EQ(list.get_length(), 0);
 }
 
-TEST(test_linked_list, constructor_by_size) 
+TEST(test_linked_list, constructor_by_size)
 {
     linked_list<int> list(4);
     EXPECT_EQ(list.get_length(), 4);
 }
 
-TEST(test_linked_list, constructor_from_data) 
+TEST(test_linked_list, constructor_from_data)
 {
     int items[] = {1, 2, 3, 4};
     linked_list<int> list(items, 4);
@@ -322,7 +326,7 @@ TEST(test_linked_list, constructor_from_data)
     EXPECT_EQ(list.get_last(), 4);
 }
 
-TEST(test_linked_list, constructor_initializer_list) 
+TEST(test_linked_list, constructor_initializer_list)
 {
     linked_list<int> list = {1, 2, 3, 4};
     EXPECT_EQ(list.get_length(), 4);
@@ -330,7 +334,7 @@ TEST(test_linked_list, constructor_initializer_list)
     EXPECT_EQ(list.get_last(), 4);
 }
 
-TEST(test_linked_list, copy_constructor) 
+TEST(test_linked_list, copy_constructor)
 {
     linked_list<int> list_one = {1, 2, 3, 4};
     linked_list<int> list_two(list_one);
@@ -339,32 +343,32 @@ TEST(test_linked_list, copy_constructor)
     EXPECT_EQ(list_two.get_last(), 4);
 }
 
-TEST(test_linked_list_functions, method_get) 
+TEST(test_linked_list_functions, method_get)
 {
     linked_list<int> list = {1, 2, 3, 4};
     EXPECT_EQ(list.get(0), 1);
     EXPECT_EQ(list.get(2), 3);
 }
 
-TEST(test_linked_list_functions, method_get_first) 
+TEST(test_linked_list_functions, method_get_first)
 {
     linked_list<int> list = {1, 2, 3, 4};
     EXPECT_EQ(list.get_first(), 1);
 }
 
-TEST(test_linked_list_functions, method_get_last) 
+TEST(test_linked_list_functions, method_get_last)
 {
     linked_list<int> list = {1, 2, 3, 4};
     EXPECT_EQ(list.get_last(), 4);
 }
 
-TEST(test_linked_list_functions, method_get_length) 
+TEST(test_linked_list_functions, method_get_length)
 {
     linked_list<int> list = {1, 2, 3, 4};
     EXPECT_EQ(list.get_length(), 4);
 }
 
-TEST(test_linked_list_functions, method_append_element) 
+TEST(test_linked_list_functions, method_append_element)
 {
     linked_list<int> list = {1, 2, 3, 4};
     list.append_element(5);
@@ -372,7 +376,7 @@ TEST(test_linked_list_functions, method_append_element)
     EXPECT_EQ(list.get_length(), 5);
 }
 
-TEST(test_linked_list_functions, method_prepend_element) 
+TEST(test_linked_list_functions, method_prepend_element)
 {
     linked_list<int> list = {1, 2, 3, 4};
     list.prepend_element(-1);
@@ -380,7 +384,7 @@ TEST(test_linked_list_functions, method_prepend_element)
     EXPECT_EQ(list.get_length(), 5);
 }
 
-TEST(test_linked_list_functions, method_insert_element) 
+TEST(test_linked_list_functions, method_insert_element)
 {
     linked_list<int> list = {1, 2, 4, 5};
     list.insert_element(3, 2);
@@ -388,7 +392,7 @@ TEST(test_linked_list_functions, method_insert_element)
     EXPECT_EQ(list.get_length(), 5);
 }
 
-TEST(test_linked_list_functions, method_clear) 
+TEST(test_linked_list_functions, method_clear)
 {
     linked_list<int> list = {1, 2, 3, 4};
     list.clear();

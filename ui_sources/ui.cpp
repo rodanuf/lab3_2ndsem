@@ -195,6 +195,7 @@ void sequence_menu(sequence<T> *seq)
                 }
                 seq = seq->concat(*other);
                 cout << "Sequences were concatenated." << endl;
+                delete other;
                 break;
             }
             case 8:
@@ -237,6 +238,7 @@ void sequence_menu(sequence<T> *seq)
                 }
                 buffer_sequence = seq->immutable_concat(*other);
                 cout << "Sequences were concatenated." << endl;
+                delete other;
                 break;
             }
             case 12:

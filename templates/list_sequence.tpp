@@ -2,7 +2,7 @@
 #include "../headers/list_sequence.hpp"
 
 template <typename T>
-list_sequence<T>::ls_iterator::ls_iterator(typename linked_list<T>::list_iterator &it) : it(it) {}
+list_sequence<T>::ls_iterator::ls_iterator(const typename linked_list<T>::list_iterator &it) : it(it) {}
 
 template <typename T>
 list_sequence<T>::ls_iterator::ls_iterator(const ls_iterator &other) : it(other.it) {}
@@ -121,7 +121,7 @@ typename list_sequence<T>::ls_iterator list_sequence<T>::end()
 }
 
 template <typename T>
-list_sequence<T>::const_ls_iterator::const_ls_iterator(typename linked_list<T>::const_list_iterator &it) : it(it) {}
+list_sequence<T>::const_ls_iterator::const_ls_iterator(const typename linked_list<T>::const_list_iterator &it) : it(it) {}
 
 template <typename T>
 list_sequence<T>::const_ls_iterator::const_ls_iterator(const const_ls_iterator &other) : it(other.it) {}
@@ -345,6 +345,12 @@ sequence<T> *list_sequence<T>::concat(const sequence<T> &other)
         l_sequence.append_element(other.get(i));
     }
     return this;
+}
+
+template <typename T>
+sequence<T> *list_sequence<T>::clone() const
+{
+    return new list_sequence(*this);
 }
 
 template <typename T>

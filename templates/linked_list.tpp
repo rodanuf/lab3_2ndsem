@@ -4,17 +4,7 @@ template <typename T>
 linked_list<T>::node::node(const T &item) : element(item), next(nullptr), prev(nullptr) {}
 
 template <typename T>
-linked_list<T>::node::~node()
-{
-    if (next)
-    {
-        delete next;
-    }
-    if (prev)
-    {
-        delete prev;
-    }
-}
+linked_list<T>::node::~node() = default;
 
 template <typename T>
 linked_list<T>::list_iterator::list_iterator(node *point) : current(&point)
@@ -40,7 +30,7 @@ linked_list<T>::list_iterator::list_iterator(const list_iterator &other) : curre
 template <typename T>
 typename linked_list<T>::list_iterator &linked_list<T>::list_iterator::operator++()
 {
-    *current = (*current)->next;
+    current = &((*current)->next);
     return *this;
 }
 
@@ -55,7 +45,7 @@ typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator++
 template <typename T>
 typename linked_list<T>::list_iterator &linked_list<T>::list_iterator::operator--()
 {
-    *current = (*current)->prev;
+    current = &((*current)->prev);
     return *this;
 }
 
@@ -82,7 +72,7 @@ typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator+(
     {
         if (!*temp.current)
         {
-            break;
+            break; // исключение
         }
         *temp.current = (*temp.current)->next;
     }
@@ -145,13 +135,13 @@ T &linked_list<T>::list_iterator::operator[](const int index)
 template <typename T>
 bool linked_list<T>::list_iterator::operator==(const list_iterator &other) const
 {
-    return *current == *other.current;
+    return current == other.current;
 }
 
 template <typename T>
 bool linked_list<T>::list_iterator::operator!=(const list_iterator &other) const
 {
-    return *current != *other.current;
+    return current != other.current;
 }
 
 template <typename T>

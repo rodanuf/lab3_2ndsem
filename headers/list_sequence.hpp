@@ -15,7 +15,7 @@ public:
         typename linked_list<T>::list_iterator it;
 
     public:
-        ls_iterator(typename linked_list<T>::list_iterator &it);
+        ls_iterator(const typename linked_list<T>::list_iterator &it);
         ls_iterator(const ls_iterator &other);
         ls_iterator &operator++();
         ls_iterator operator++(int);
@@ -37,7 +37,7 @@ public:
         typename linked_list<T>::const_list_iterator it;
 
     public:
-        const_ls_iterator(typename linked_list<T>::const_list_iterator &it);
+        const_ls_iterator(const typename linked_list<T>::const_list_iterator &it);
         const_ls_iterator(const const_ls_iterator &other);
         const_ls_iterator &operator++();
         const_ls_iterator operator++(int);
@@ -70,6 +70,7 @@ public:
     sequence<T> *prepend_element(const T &element) override;
     sequence<T> *insert_element(const T &element, const int index) override;
     sequence<T> *concat(const sequence<T> &other) override;
+    sequence<T> *clone() const override;
     sequence<T> *immutable_append_element(const T &element) const override;
     sequence<T> *immutable_prepend_element(const T &element) const override;
     sequence<T> *immutable_insert_element(const T &element, const int index) const override;

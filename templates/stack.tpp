@@ -1,369 +1,226 @@
+#include <stdexcept>
 #include "../headers/stack.hpp"
 
 template <typename T>
-stack<T>::node::node(const T &item) : element(item), next(nullptr) {}
-
-template <typename T>
-stack<T>::st_iterator::st_iterator(node *point) : current(&point) {}
-
-template <typename T>
-stack<T>::st_iterator::st_iterator(node **point) : current(point) {}
-
-template <typename T>
-stack<T>::st_iterator::st_iterator(const st_iterator &other) : current(other.current) {}
-
-template <typename T>
-typename stack<T>::st_iterator &stack<T>::st_iterator::operator++()
+stack<T>::stack(std::string type) : container(nullptr)
 {
-    *current = (*current)->next;
-    return *this;
-}
-
-template <typename T>
-typename stack<T>::st_iterator stack<T>::st_iterator::operator++(int)
-{
-    st_iterator temp(*this);
-    current = &((*current)->next);
-    return temp;
-}
-
-template <typename T>
-typename stack<T>::st_iterator &stack<T>::st_iterator::operator=(const st_iterator &other)
-{
-    current = other.current;
-    return *this;
-}
-
-template <typename T>
-typename stack<T>::st_iterator stack<T>::st_iterator::operator+(const int n)
-{
-    for (int i = 0; i < n; ++i)
+    if (type == "list_sequence")
     {
-        ++(*this);
+        container = new list_sequence();
     }
-    return *this;
-}
-
-template <typename T>
-typename stack<T>::node *stack<T>::st_iterator::operator*() const
-{
-    return *current;
-}
-
-template <typename T>
-T &stack<T>::st_iterator::operator*()
-{
-    return (*current)->element;
-}
-
-template <typename T>
-bool stack<T>::st_iterator::operator==(const typename sequence<T>::iterator &other) const
-{
-    const st_iterator &derived = dynamic_cast<const st_iterator &>(other);
-    return current == derived.current;
-}
-
-template <typename T>
-bool stack<T>::st_iterator::operator!=(const typename sequence<T>::iterator &other) const
-{
-    const st_iterator &derived = dynamic_cast<const st_iterator &>(other);
-    return current != derived.current;
-}
-
-template <typename T>
-void stack<T>::st_iterator::set(const T &element)
-{
-    (*current)->element = element;
-}
-
-template <typename T>
-void stack<T>::st_iterator::erase()
-{
-    (*current)->element = T();
-}
-
-template <typename T>
-typename stack<T>::st_iterator stack<T>::begin()
-{
-    return st_iterator(&head);
-}
-
-template <typename T>
-typename stack<T>::st_iterator stack<T>::end()
-{
-    return st_iterator(static_cast<node *>(nullptr));
-}
-
-template <typename T>
-stack<T>::const_st_iterator::const_st_iterator(node *point) : current(&point) {}
-
-template <typename T>
-stack<T>::const_st_iterator::const_st_iterator(node **point) : current(point) {}
-
-template <typename T>
-stack<T>::const_st_iterator::const_st_iterator(const const_st_iterator &other) : current(other.current) {}
-
-template <typename T>
-typename stack<T>::const_st_iterator &stack<T>::const_st_iterator::operator++()
-{
-    *current = (*current)->next;
-    return *this;
-}
-
-template <typename T>
-typename stack<T>::const_st_iterator stack<T>::const_st_iterator::operator++(int)
-{
-    const_st_iterator temp(*this);
-    current = &((*current)->next);
-    return temp;
-}
-
-template <typename T>
-typename stack<T>::const_st_iterator &stack<T>::const_st_iterator::operator=(const const_st_iterator &other)
-{
-    current = other.current;
-    return *this;
-}
-
-template <typename T>
-typename stack<T>::const_st_iterator stack<T>::const_st_iterator::operator+(const int n)
-{
-    for (int i = 0; i < n; ++i)
+    if (type == "array_sequence")
     {
-        ++(*this);
+        container = new array_sequence();
     }
-    return *this;
+    else
+    {
+        throw std::invalid_argument("Stack can only be list_sequence or array_sequence")
+    }
 }
 
 template <typename T>
-const typename stack<T>::node *stack<T>::const_st_iterator::operator*() const
-{
-    return *current;
-}
-
-template <typename T>
-const T &stack<T>::const_st_iterator::operator*()
-{
-    return (*current)->element;
-}
-
-template <typename T>
-bool stack<T>::const_st_iterator::operator==(const typename sequence<T>::const_iterator &other) const
-{
-    const const_st_iterator &derived = dynamic_cast<const const_st_iterator &>(other);
-    return current == derived.current;
-}
-
-template <typename T>
-bool stack<T>::const_st_iterator::operator!=(const typename sequence<T>::const_iterator &other) const
-{
-    const const_st_iterator &derived = dynamic_cast<const const_st_iterator &>(other);
-    return current != derived.current;
-}
-
-template <typename T>
-typename stack<T>::const_st_iterator stack<T>::cbegin() const
-{
-    return const_st_iterator(const_cast<node **>(&head));
-}
-
-template <typename T>
-typename stack<T>::const_st_iterator stack<T>::cend() const
-{
-    return const_st_iterator(static_cast<node *>(nullptr));
-}
-
-template <typename T>
-stack<T>::stack() : head(nullptr), length(0) {}
-
-template <typename T>
-stack<T>::stack(const int &size)
+stack<T>::stack(std::string type, const int &size) : container(nullptr)
 {
     if (size < 0)
     {
         throw std::invalid_argument("Size cannot be negative");
     }
-    head = nullptr;
-    length = 0;
-    for (int i = 0; i < size; ++i)
+    if (type == "list_sequence")
     {
-        prepend_element(T());
+        container = new list_sequence(size);
+    }
+    if (type == "array_sequence")
+    {
+        container = new array_sequence(size);
+    }
+    else
+    {
+        throw std::invalid_argument("Stack can only be list_sequence or array_sequence")
     }
 }
 
 template <typename T>
-stack<T>::stack(const T *items, const int &size)
+stack<T>::stack(std::string type, const T *items, const int &size) : container(nullptr)
 {
     if (size < 0)
     {
         throw std::invalid_argument("Size cannot be negative");
     }
-    head = nullptr;
-    length = 0;
-    for (int i = 0; i < size; ++i)
+    if (type == "list_sequence")
     {
-        prepend_element(items[i]);
+        container = new list_sequence();
+        for (int i = 0; i < size; i++)
+        {
+            container->prepend_element(items[i]);
+        }
+    }
+    if (type == "array_sequence")
+    {
+        container = new array_sequence();
+        for (int i = size - 1; i > -1; i++)
+        {
+            container->append_element(items[i]);
+        }
+    }
+    else
+    {
+        throw std::invalid_argument("Stack can only be list_sequence or array_sequence")
     }
 }
 
 template <typename T>
-stack<T>::stack(const std::initializer_list<T> &items)
+stack<T>::stack(std::string type, const std::initializer_list<T> &items) : container(nullptr)
 {
-    head = nullptr;
-    length = 0;
-    for (const T &item : items)
+    if (type == "list_sequence")
     {
-        prepend_element(item);
+        container = new list_sequence();
+        for (int i = 0; i < items.size(); i++)
+        {
+            container->prepend_element(items.begin() + i);
+        }
+    }
+    if (type == "array_sequence")
+    {
+        container = new array_sequence();
+        for (int i = items.size() - 1; i > -1; i--)
+        {
+            container->append_element(items.begin() + i);
+        }
+    }
+    else
+    {
+        throw std::invalid_argument("Stack can only be list_sequence or array_sequence")
     }
 }
 
 template <typename T>
-stack<T>::stack(const sequence<T> &sequence)
+stack<T>::stack(const sequence<T> &sequence) : container(nullptr)
 {
-    head = nullptr;
-    length = 0;
-    for (int i = 0; i < sequence.get_length(); ++i)
-    {
-        prepend_element(sequence.get(i));
-    }
+    container = sequence.clone();
 }
 
 template <typename T>
-stack<T>::stack(const stack<T> &other)
+stack<T>::stack(const stack<T> &stack) : container(nullptr)
 {
-    head = nullptr;
-    length = 0;
-    for (int i = other.get_length() - 1; i > -1; --i)
-    {
-        prepend_element(other.get(i));
-    }
+    container = stack.container->clone();
 }
 
 template <typename T>
 stack<T>::~stack()
 {
-    clear();
+    delete container;
 }
 
 template <typename T>
 T &stack<T>::get(const int index) const
 {
-    if (index < 0 || index >= length)
+    if (index < 0 || index >= container->get_length())
     {
         throw std::out_of_range("Index out of range");
     }
-    node *current = head;
-    for (int i = 0; i < index; ++i)
-    {
-        current = current->next;
-    }
-    return current->element;
+    return container->get_length();
 }
 
 template <typename T>
 T &stack<T>::get_first() const
 {
-    if (!head)
+    if (container->get_length() == 0)
     {
         throw std::out_of_range("Stack is empty");
     }
-    return head->element;
+    return container->get_first();
 }
 
 template <typename T>
 T &stack<T>::get_last() const
 {
-    if (!head)
+    if (container->get_length() == 0)
     {
         throw std::out_of_range("Stack is empty");
     }
-    node *current = head;
-    while (current->next != nullptr)
-    {
-        current = current->next;
-    }
-    return current->element;
+    return container->get_last();
 }
 
 template <typename T>
 int stack<T>::get_length() const
 {
-    return length;
+    return container->get_length();
 }
 
 template <typename T>
 sequence<T> *stack<T>::get_subsequence(const int start_index, const int end_index) const
 {
-    if (start_index < 0 || end_index >= length || start_index > end_index)
+    if (start_index < 0 || end_index >= container->get_length() || start_index > end_index)
     {
         throw std::out_of_range("Invalid range");
     }
-    stack<T> *subsequence = new stack<T>();
-    node *current = head;
-    for (int i = 0; i < start_index; ++i)
-    {
-        current = current->next;
-    }
-    for (int i = start_index; i <= end_index; ++i)
-    {
-        subsequence->append_element(current->element);
-        current = current->next;
-    }
-    return subsequence;
+    return container->get_subsequence();
 }
 
 template <typename T>
 sequence<T> *stack<T>::append_element(const T &element)
 {
-    if (!head)
+    if (container->get_length() == 0)
     {
-        return prepend_element(element);
+        return container->append_element(element);
     }
     stack<T> *new_stack = new stack<T>(*this);
-    node *new_node = new node(element);
     clear();
-    head = new_node;
+    container = container->append_element(element);
     for (int i = new_stack->get_length() - 1; i > -1; i--)
     {
-        prepend_element(new_stack->get(i));
+        container = container->prepend_element(new_stack->get(i));
     }
     delete new_stack;
-    length++;
     return this;
 }
 
 template <typename T>
 sequence<T> *stack<T>::prepend_element(const T &element)
 {
-    node *new_node = new node(element);
-    new_node->next = head;
-    head = new_node;
-    length++;
-    return this;
+    return container->prepend_element(element);
 }
 
 template <typename T>
 sequence<T> *stack<T>::insert_element(const T &element, const int index)
 {
-    if (!head)
+    if (container->get_length() == 0)
     {
-        return append_element(element);
+        return container->append_element(element);
     }
-    stack<T> *new_stack = new stack<T>();
+    stack<T> *new_stack = new stack<T>(*this);
+    clear();
+    for (int i = index; i < container->get_length(); i++)
+    {
+        container = container->prepend_element(new_stack->get(i));
+    }
+    container = container->prepend_element(element);
     for (int i = 0; i < index; i++)
     {
-        new_stack->prepend_element(get(i));
-        node *current = head;
-        head = head->next;
-        delete current;
-        length--;
-    }
-    prepend_element(element);
-    for (int i = 0; i < new_stack->get_length(); i++)
-    {
-        prepend_element(new_stack->get(i));
+        container = container->prepend_element(new_stack->get(i));
     }
     delete new_stack;
+    return this;
+}
+
+template <typename T>
+sequence<T> *stack<T>::remove_at(const int index)
+{
+    if (index > container->get_length() || index < 0)
+    {
+        throw std::out_of_range("Index greater than length or negative");
+    }
+    stack<T> *new_stack = new stack<T>(*this);
+    clear();
+    for (int i = 0; i < new_stack->get_length(); i++)
+    {
+        if (i == index)
+        {
+            continue;
+        }
+        container = container->prepend_element(new_stack->get(i));
+    }
+    delete new_stack();
     return this;
 }
 

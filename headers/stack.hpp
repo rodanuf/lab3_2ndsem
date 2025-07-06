@@ -1,66 +1,19 @@
 #pragma once
+#include <string>
+#include <initializer_list>
 #include "sequence.hpp"
 
 template <typename T>
 class stack : public sequence<T>
 {
 private:
-    struct node
-    {
-        T element;
-        node *next;
-        node(const T &item);
-    };
-    node *head;
-    int length;
+    sequence<T> *container;
 
 public:
-    class st_iterator : public sequence<T>::iterator
-    {
-    private:
-        node **current;
-
-    public:
-        st_iterator(node *point);
-        st_iterator(node **point);
-        st_iterator(const st_iterator &other);
-        st_iterator &operator++();
-        st_iterator operator++(int);
-        st_iterator &operator=(const st_iterator &other);
-        st_iterator operator+(const int n);
-        node *operator*() const;
-        T &operator*() override;
-        bool operator==(const typename sequence<T>::iterator &other) const override;
-        bool operator!=(const typename sequence<T>::iterator &other) const override;
-        void set(const T &element) override;
-        void erase() override;
-    };
-    class const_st_iterator : public sequence<T>::const_iterator
-    {
-    private:
-        node **current;
-
-    public:
-        const_st_iterator(node *point);
-        const_st_iterator(node **point);
-        const_st_iterator(const const_st_iterator &other);
-        const_st_iterator &operator++();
-        const_st_iterator operator++(int);
-        const_st_iterator &operator=(const const_st_iterator &other);
-        const_st_iterator operator+(const int n);
-        const node *operator*() const;
-        const T &operator*() override;
-        bool operator==(const typename sequence<T>::const_iterator &other) const override;
-        bool operator!=(const typename sequence<T>::const_iterator &other) const override;
-    };
-    st_iterator begin();
-    st_iterator end();
-    const_st_iterator cbegin() const;
-    const_st_iterator cend() const;
-    stack();
-    stack(const int &size);
-    stack(const T *items, const int &size);
-    stack(const std::initializer_list<T> &items);
+    stack(std::string type = "list_sequence");
+    stack(std::string type = "list_sequence", const int &size);
+    stack(std::string type = "list_sequence", const T *items, const int &size);
+    stack(std::string type = "list_sequence", const std::initializer_list<T> &items);
     stack(const sequence<T> &other);
     stack(const stack<T> &other);
     ~stack();
@@ -72,7 +25,9 @@ public:
     sequence<T> *append_element(const T &element) override;
     sequence<T> *prepend_element(const T &element) override;
     sequence<T> *insert_element(const T &element, const int index) override;
+    sequence<T> *remove_at(const int index);
     sequence<T> *concat(const sequence<T> &other) override;
+    sequence<T> *clone();
     sequence<T> *immutable_append_element(const T &element) const override;
     sequence<T> *immutable_prepend_element(const T &element) const override;
     sequence<T> *immutable_insert_element(const T &element, const int index) const override;

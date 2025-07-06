@@ -9,15 +9,15 @@
 #include "../types_headers/student.hpp"
 #include "../types_headers/professor.hpp"
 
-#include "test_dynamic_array.inc"
-#include "test_array_sequence.inc"
-#include "test_linked_list.inc"
-#include "test_list_sequence.inc"
-#include "test_stack.inc"
-#include "test_complex.inc"
-#include "test_student.inc"
-#include "test_professor.inc"
-#include "test_io_functions.inc"
+#include "test_dynamic_array.cpp"
+#include "test_array_sequence.cpp"
+#include "test_linked_list.cpp"
+#include "test_list_sequence.cpp"
+#include "test_stack.cpp"
+#include "test_complex.cpp"
+#include "test_student.cpp"
+#include "test_professor.cpp"
+#include "test_io_functions.cpp"
 
 int main(int argc, char **argv)
 {
