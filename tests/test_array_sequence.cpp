@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../headers/array_sequence.hpp"
+#include "../headers/list_sequence.hpp"
 
 TEST(test_array_sequence_iterator, base_constructor_iterator)
 {
@@ -24,7 +25,7 @@ TEST(test_array_sequence_iterator_operators, pref_operator_increment)
     dynamic_array<int>::array_iterator it_two(&array[1]);
     array_sequence<int>::as_iterator as_it_one(it_one);
     array_sequence<int>::as_iterator as_it_two(it_two);
-    ASSERT_NE(*as_it_one, *as_it_two); 
+    ASSERT_NE(*as_it_one, *as_it_two);
     ++as_it_one;
     EXPECT_EQ(*as_it_one, *as_it_two);
     EXPECT_EQ(*as_it_one, 2);
@@ -61,7 +62,7 @@ TEST(test_array_sequence_iterator_operators, post_operator_decrement)
     EXPECT_EQ(*as_it, 2);
     auto old_as_it = as_it--;
     EXPECT_EQ(*old_as_it, array[1]);
-    EXPECT_EQ(*as_it, array[0]);    
+    EXPECT_EQ(*as_it, array[0]);
 }
 
 TEST(test_array_sequence_iterator_operators, operator_appropriation)
@@ -83,7 +84,7 @@ TEST(test_array_sequence_iterator_operators, operator_increment_on)
     array_sequence<int>::as_iterator as_it(it);
     ASSERT_NE(*as_it, 5);
     as_it = as_it + 4;
-    EXPECT_EQ(*as_it, 5); 
+    EXPECT_EQ(*as_it, 5);
 }
 
 TEST(test_array_sequence_iterator_operators, operator_decrement_on)
@@ -107,17 +108,6 @@ TEST(test_array_sequence_iterator_operators, operator_dereferencing)
     EXPECT_EQ(*as_it, 100);
 }
 
-TEST(test_array_sequence_iterator_operators, operator_accessing_an_element)
-{
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::array_iterator it(array);
-    array_sequence<int>::as_iterator as_it(it);
-    EXPECT_EQ(as_it[0], 1);
-    EXPECT_EQ(as_it[4], 5);
-    as_it[1] = 50;
-    EXPECT_EQ(as_it[1], 50);
-}
-
 TEST(test_array_sequence_iterator_operators, operator_equality)
 {
     int array[] = {1, 2, 3, 4, 5};
@@ -128,7 +118,24 @@ TEST(test_array_sequence_iterator_operators, operator_equality)
     array_sequence<int>::as_iterator as_it_two(it_two);
     array_sequence<int>::as_iterator as_it_three(it_three);
     EXPECT_TRUE(as_it_one == as_it_two);
-    EXPECT_FALSE(as_it_two == as_it_three);    
+    EXPECT_FALSE(as_it_two == as_it_three);
+}
+
+TEST(test_array_sequence_iterator_operators, operator_equality_with_another_struct_type)
+{
+    int array[] = {1, 2, 3, 4, 5};
+    dynamic_array<int>::array_iterator it_one(&array[0]);
+    dynamic_array<int>::array_iterator it_two(&array[0]);
+    dynamic_array<int>::array_iterator it_three(&array[3]);
+    array_sequence<int>::as_iterator as_it_one(it_one);
+    array_sequence<int>::as_iterator as_it_two(it_two);
+    array_sequence<int>::as_iterator as_it_three(it_three);
+    list_sequence<int> list = {1, 2, 3, 4, 5};
+    auto ls_it_one = list.begin();
+    auto ls_it_two = list.begin();
+    auto ls_it_three = list.begin() + 3;
+    EXPECT_TRUE(as_it_one == ls_it_one);
+    EXPECT_FALSE(as_it_two == ls_it_three);
 }
 
 TEST(test_array_sequence_iterator_operators, operator_nonequality)
@@ -142,6 +149,23 @@ TEST(test_array_sequence_iterator_operators, operator_nonequality)
     array_sequence<int>::as_iterator as_it_three(it_three);
     EXPECT_TRUE(as_it_two != as_it_three);
     EXPECT_FALSE(as_it_one != as_it_two);
+}
+
+TEST(test_array_sequence_iterator_operators, operator_nonequality_with_another_struct_type)
+{
+    int array[] = {1, 2, 3, 4, 5};
+    dynamic_array<int>::array_iterator it_one(&array[0]);
+    dynamic_array<int>::array_iterator it_two(&array[0]);
+    dynamic_array<int>::array_iterator it_three(&array[3]);
+    array_sequence<int>::as_iterator as_it_one(it_one);
+    array_sequence<int>::as_iterator as_it_two(it_two);
+    array_sequence<int>::as_iterator as_it_three(it_three);
+    list_sequence<int> list = {1, 2, 3, 4, 5};
+    auto ls_it_one = list.begin();
+    auto ls_it_two = list.begin();
+    auto ls_it_three = list.begin() + 3;
+    EXPECT_TRUE(as_it_two != ls_it_three);
+    EXPECT_FALSE(as_it_one != ls_it_two);
 }
 
 TEST(test_array_sequence_iterator_operators, method_begin)
@@ -181,7 +205,7 @@ TEST(test_array_sequence_const_iterator_operators, pref_operator_increment)
     dynamic_array<int>::const_array_iterator it_two(&array[1]);
     array_sequence<int>::const_as_iterator as_it_one(it_one);
     array_sequence<int>::const_as_iterator as_it_two(it_two);
-    ASSERT_NE(*as_it_one, *as_it_two); 
+    ASSERT_NE(*as_it_one, *as_it_two);
     ++as_it_one;
     EXPECT_EQ(*as_it_one, *as_it_two);
     EXPECT_EQ(*as_it_one, 2);
@@ -218,7 +242,7 @@ TEST(test_array_sequence_const_iterator_operators, post_operator_decrement)
     EXPECT_EQ(*as_it, 2);
     auto old_as_it = as_it--;
     EXPECT_EQ(*old_as_it, array[1]);
-    EXPECT_EQ(*as_it, array[0]);    
+    EXPECT_EQ(*as_it, array[0]);
 }
 
 TEST(test_array_sequence_const_iterator_operators, operator_appropriation)
@@ -240,7 +264,7 @@ TEST(test_array_sequence_const_iterator_operators, operator_increment_on)
     array_sequence<int>::const_as_iterator as_it(it);
     ASSERT_NE(*as_it, 5);
     as_it = as_it + 4;
-    EXPECT_EQ(*as_it, 5); 
+    EXPECT_EQ(*as_it, 5);
 }
 
 TEST(test_array_sequence_const_iterator_operators, operator_decrement_on)
@@ -261,15 +285,6 @@ TEST(test_array_sequence_const_iterator_operators, operator_dereferencing)
     EXPECT_EQ(*as_it, 42);
 }
 
-TEST(test_array_sequence_const_iterator_operators, operator_accessing_an_element)
-{
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::const_array_iterator it(array);
-    array_sequence<int>::const_as_iterator as_it(it);
-    EXPECT_EQ(as_it[0], 1);
-    EXPECT_EQ(as_it[4], 5);
-}
-
 TEST(test_array_sequence_const_iterator_operators, operator_equality)
 {
     int array[] = {1, 2, 3, 4, 5};
@@ -280,7 +295,7 @@ TEST(test_array_sequence_const_iterator_operators, operator_equality)
     array_sequence<int>::const_as_iterator as_it_two(it_two);
     array_sequence<int>::const_as_iterator as_it_three(it_three);
     EXPECT_TRUE(as_it_one == as_it_two);
-    EXPECT_FALSE(as_it_two == as_it_three);    
+    EXPECT_FALSE(as_it_two == as_it_three);
 }
 
 TEST(test_array_sequence_const_iterator_operators, operator_nonequality)
@@ -324,7 +339,7 @@ TEST(test_array_sequence, constructor_by_size)
 
 TEST(test_array_sequence, constructor_from_data)
 {
-    int items[] = {1, 2, 3, 4}; 
+    int items[] = {1, 2, 3, 4};
     array_sequence<int> array(items, 4);
     EXPECT_EQ(array.get_length(), 4);
     EXPECT_EQ(array.get_first(), 1);
@@ -346,6 +361,20 @@ TEST(test_array_sequence, copy_constructor)
     EXPECT_EQ(array_two.get_length(), 4);
     EXPECT_EQ(array_two.get_first(), 1);
     EXPECT_EQ(array_two.get_last(), 4);
+}
+
+TEST(test_array_sequence_operators, operator_subscript)
+{
+    array_sequence<int> array = {10, 20, 30, 40};
+    EXPECT_EQ(array[0], 10);
+    EXPECT_EQ(array[1], 20);
+    EXPECT_EQ(array[3], 40);
+    array[2] = 100;
+    EXPECT_EQ(array[2], 100);
+    const array_sequence<int> const_array = {5, 10, 15};
+    EXPECT_EQ(const_array[1], 10);
+    EXPECT_THROW(array[-1], std::out_of_range);
+    EXPECT_THROW(array[100], std::out_of_range);
 }
 
 TEST(test_array_sequence_functions, method_get)
@@ -385,7 +414,7 @@ TEST(test_array_sequence_functions, method_get_subsequence)
     array_sequence<int> array = {1, 2, 3, 4, 5};
     EXPECT_THROW(array.get_subsequence(1, 6), std::out_of_range);
     EXPECT_THROW(array.get_subsequence(-1, 3), std::out_of_range);
-    sequence<int>* subseq = array.get_subsequence(1, 3);
+    sequence<int> *subseq = array.get_subsequence(1, 3);
     ASSERT_NE(subseq, nullptr);
     EXPECT_EQ(subseq->get_length(), 3);
     EXPECT_EQ(subseq->get_first(), 2);
@@ -418,9 +447,22 @@ TEST(test_array_sequence_functions, method_insert_element)
     EXPECT_EQ(array.get(2), 3);
 }
 
+TEST(test_array_sequence_functions, method_remove_at)
+{
+    array_sequence<int> array = {1, 2, 3, 5};
+    array.remove_at(3);
+    EXPECT_EQ(array.get_last(), 3);
+    EXPECT_EQ(array.get_length(), 3);
+    array.remove_at(0);
+    EXPECT_EQ(array.get_first(), 2);
+    EXPECT_EQ(array.get_length(), 2);
+    EXPECT_THROW(array.remove_at(-1), std::out_of_range);
+    EXPECT_THROW(array.remove_at(5), std::out_of_range);
+}
+
 TEST(test_array_sequence_functions, method_concat)
 {
-    int ar_one[] = {1, 2, 3, 4}; 
+    int ar_one[] = {1, 2, 3, 4};
     sequence<int> *array = new array_sequence<int>(ar_one, 4);
     int ar_two[] = {5, 6, 7, 8};
     sequence<int> *other = new array_sequence<int>(ar_two, 4);
@@ -461,13 +503,34 @@ TEST(test_array_sequence_functions, method_immutable_insert_element)
     EXPECT_EQ(array.get(2), 3);
 }
 
+TEST(test_array_sequence_functions, method_immutable_remove_at)
+{
+    array_sequence<int> array = {1, 2, 3, 4, 5};
+    sequence<int> *result = array.immutable_remove_at(2);
+    EXPECT_EQ(result->get_length(), 4);
+    EXPECT_EQ(result->get(0), 1);
+    EXPECT_EQ(result->get(1), 2);
+    EXPECT_EQ(result->get(2), 4);
+    EXPECT_EQ(result->get(3), 5);
+    sequence<int> *result_first = array.immutable_remove_at(0);
+    EXPECT_EQ(result_first->get_length(), 4);
+    EXPECT_EQ(result_first->get_first(), 2);
+    sequence<int> *result_last = array.immutable_remove_at(4);
+    EXPECT_EQ(result_last->get_length(), 4);
+    EXPECT_EQ(result_last->get_last(), 4);
+    EXPECT_EQ(array.get_length(), 5);
+    EXPECT_EQ(array.get(2), 3);
+    EXPECT_THROW(array.immutable_remove_at(-1), std::out_of_range);
+    EXPECT_THROW(array.immutable_remove_at(6), std::out_of_range);
+}
+
 TEST(test_array_sequence_functions, method_immutable_concat)
 {
     int ar_one[] = {1, 2, 3, 4};
     sequence<int> *array = new array_sequence<int>(ar_one, 4);
     int ar_two[] = {5, 6, 7, 8};
     sequence<int> *other = new array_sequence<int>(ar_two, 4);
-    const sequence<int> *other_two= array->immutable_concat(*other);
+    const sequence<int> *other_two = array->immutable_concat(*other);
     EXPECT_EQ(other_two->get(7), 8);
     EXPECT_EQ(other_two->get_length(), 8);
     EXPECT_EQ(array->get_last(), 4);

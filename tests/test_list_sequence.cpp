@@ -23,7 +23,7 @@ TEST(test_list_sequence_iterator_operators, pref_operator_increment)
     auto it_one = seq_one.begin();
     auto it_two = seq_two.begin();
     ++it_two;
-    ASSERT_NE(*it_one, *it_two); 
+    ASSERT_NE(*it_one, *it_two);
     ++it_one;
     EXPECT_EQ(*it_one, *it_two);
     EXPECT_EQ(*it_one, 2);
@@ -59,7 +59,7 @@ TEST(test_list_sequence_iterator_operators, post_operator_decrement)
     EXPECT_EQ(*it, 2);
     auto old_it = it--;
     EXPECT_EQ(*old_it, 2);
-    EXPECT_EQ(*it, 1);    
+    EXPECT_EQ(*it, 1);
 }
 
 TEST(test_list_sequence_iterator_operators, operator_appropriation)
@@ -80,7 +80,7 @@ TEST(test_list_sequence_iterator_operators, operator_increment_on)
     auto it = seq.begin();
     ASSERT_NE(*it, 5);
     it = it + 4;
-    EXPECT_EQ(*it, 5); 
+    EXPECT_EQ(*it, 5);
 }
 
 TEST(test_list_sequence_iterator_operators, operator_decrement_on)
@@ -102,16 +102,6 @@ TEST(test_list_sequence_iterator_operators, operator_dereferencing)
     EXPECT_EQ(*it, 100);
 }
 
-TEST(test_list_sequence_iterator_operators, operator_accessing_an_element)
-{
-    list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it = seq.begin();
-    EXPECT_EQ(it[0], 1);
-    EXPECT_EQ(it[4], 5);
-    it[1] = 50;
-    EXPECT_EQ(it[1], 50);
-}
-
 TEST(test_list_sequence_iterator_operators, operator_equality)
 {
     list_sequence<int> seq_one = {1, 2, 3, 4, 5};
@@ -121,7 +111,7 @@ TEST(test_list_sequence_iterator_operators, operator_equality)
     auto it_three = seq_two.begin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_one == it_two);
-    EXPECT_FALSE(it_two == it_three);    
+    EXPECT_FALSE(it_two == it_three);
 }
 
 TEST(test_list_sequence_iterator_operators, operator_nonequality)
@@ -148,7 +138,8 @@ TEST(test_list_sequence_iterator_operators, method_end)
     list_sequence<int> seq = {1, 2, 3};
     EXPECT_NE(seq.cbegin(), seq.cend());
     size_t count = 0;
-    for (auto it = seq.cbegin(); it != seq.cend(); ++it) {
+    for (auto it = seq.cbegin(); it != seq.cend(); ++it)
+    {
         ++count;
     }
     EXPECT_EQ(count, 3);
@@ -178,7 +169,7 @@ TEST(test_list_sequence_const_iterator_operators, pref_operator_increment)
     auto it_one = seq_one.cbegin();
     auto it_two = seq_two.cbegin();
     ++it_two;
-    ASSERT_NE(*it_one, *it_two); 
+    ASSERT_NE(*it_one, *it_two);
     ++it_one;
     EXPECT_EQ(*it_one, *it_two);
     EXPECT_EQ(*it_one, 2);
@@ -214,7 +205,7 @@ TEST(test_list_sequence_const_iterator_operators, post_operator_decrement)
     EXPECT_EQ(*it, 2);
     auto old_it = it--;
     EXPECT_EQ(*old_it, 2);
-    EXPECT_EQ(*it, 1);    
+    EXPECT_EQ(*it, 1);
 }
 
 TEST(test_list_sequence_const_iterator_operators, operator_appropriation)
@@ -235,7 +226,7 @@ TEST(test_list_sequence_const_iterator_operators, operator_increment_on)
     auto it = seq.cbegin();
     ASSERT_NE(*it, 5);
     it = it + 4;
-    EXPECT_EQ(*it, 5); 
+    EXPECT_EQ(*it, 5);
 }
 
 TEST(test_list_sequence_const_iterator_operators, operator_decrement_on)
@@ -255,14 +246,6 @@ TEST(test_list_sequence_const_iterator_operators, operator_dereferencing)
     EXPECT_EQ(*it, 42);
 }
 
-TEST(test_list_sequence_const_iterator_operators, operator_accessing_an_element)
-{
-    list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it = seq.cbegin();
-    EXPECT_EQ(it[0], 1);
-    EXPECT_EQ(it[4], 5);
-}
-
 TEST(test_list_sequence_const_iterator_operators, operator_equality)
 {
     list_sequence<int> seq_one = {1, 2, 3, 4, 5};
@@ -272,7 +255,7 @@ TEST(test_list_sequence_const_iterator_operators, operator_equality)
     auto it_three = seq_two.cbegin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_one == it_two);
-    EXPECT_FALSE(it_two == it_three);    
+    EXPECT_FALSE(it_two == it_three);
 }
 
 TEST(test_list_sequence_const_iterator_operators, operator_nonequality)
@@ -299,7 +282,8 @@ TEST(test_list_sequence_const_iterator_operators, method_end)
     list_sequence<int> seq = {1, 2, 3};
     EXPECT_NE(seq.cbegin(), seq.cend());
     size_t count = 0;
-    for (auto it = seq.cbegin(); it != seq.cend(); ++it) {
+    for (auto it = seq.cbegin(); it != seq.cend(); ++it)
+    {
         ++count;
     }
     EXPECT_EQ(count, 3);
@@ -321,7 +305,7 @@ TEST(test_list_sequence, constructor_by_size)
 
 TEST(test_list_sequence, constructor_from_data)
 {
-    int items[] = {1, 2, 3, 4}; 
+    int items[] = {1, 2, 3, 4};
     list_sequence<int> seq(items, 4);
     EXPECT_EQ(seq.get_length(), 4);
     EXPECT_EQ(seq.get_first(), 1);
@@ -382,7 +366,7 @@ TEST(test_list_sequence_functions, method_get_subsequence)
     list_sequence<int> seq = {1, 2, 3, 4, 5};
     EXPECT_THROW(seq.get_subsequence(1, 6), std::out_of_range);
     EXPECT_THROW(seq.get_subsequence(-1, 3), std::out_of_range);
-    sequence<int>* subseq = seq.get_subsequence(1, 3);
+    sequence<int> *subseq = seq.get_subsequence(1, 3);
     ASSERT_NE(subseq, nullptr);
     EXPECT_EQ(subseq->get_length(), 3);
     EXPECT_EQ(subseq->get_first(), 2);
@@ -415,9 +399,20 @@ TEST(test_list_sequence_functions, method_insert_element)
     EXPECT_EQ(seq.get(2), 3);
 }
 
+TEST(test_list_sequence_functions, method_remove_at)
+{
+    list_sequence<int> seq = {1, 2, 3, 5};
+    seq.remove_at(3);
+    EXPECT_EQ(seq.get_last(), 3);
+    EXPECT_EQ(seq.get_length(), 3);
+    seq.remove_at(0);
+    EXPECT_EQ(seq.get_first(), 2);
+    EXPECT_EQ(seq.get_length(), 2);
+}
+
 TEST(test_list_sequence_functions, method_concat)
 {
-    int ar_one[] = {1, 2, 3, 4}; 
+    int ar_one[] = {1, 2, 3, 4};
     sequence<int> *seq = new list_sequence<int>(ar_one, 4);
     int ar_two[] = {5, 6, 7, 8};
     sequence<int> *other = new list_sequence<int>(ar_two, 4);
@@ -456,6 +451,17 @@ TEST(test_list_sequence_functions, method_immutable_insert_element)
     EXPECT_EQ(other->get(3), 3);
     EXPECT_EQ(other->get_length(), 5);
     EXPECT_EQ(seq.get(2), 3);
+}
+
+TEST(test_list_sequence_functions, method_immutable_remove_at)
+{
+    list_sequence<int> seq = {1, 2, 3, 5};
+    sequence<int> *other = seq.remove_at(3);
+    EXPECT_EQ(other->get_last(), 3);
+    EXPECT_EQ(other->get_length(), 3);
+    other = seq.remove_at(0);
+    EXPECT_EQ(other->get_first(), 2);
+    EXPECT_EQ(other->get_length(), 2);
 }
 
 TEST(test_list_sequence_functions, method_immutable_concat)

@@ -4,7 +4,7 @@
 using namespace std;
 
 template <typename T>
-void print(sequence<T> *container)
+void print_sequence(sequence<T> *container)
 {
     cout << "[";
     for (int i = 0; i != container->get_length(); ++i)
@@ -18,6 +18,23 @@ void print(sequence<T> *container)
     cout << "]" << endl;
 }
 
+template <typename T>
+void print_stack(stack<T> *container)
+{
+    stack<T> *new_stack = new stack<T>(*container);
+    for (int i = 0; i != container->size(); ++i)
+    {
+        if (i == container->size() - 1)
+        {
+            cout << "| " << "data = " << new_stack->top() << " |" << endl;
+            break;
+        }
+        cout << "| " << "data = " << new_stack->top() << " |->";
+        new_stack->pop();
+    }
+    delete new_stack;
+}
+
 void check_input(int &choice)
 {
     if (!(cin >> choice))
@@ -28,7 +45,7 @@ void check_input(int &choice)
     }
 }
 
-void get_types_menu(int &sequence_type)
+void output_types_menu(int &sequence_type)
 {
     int type_choice;
     while (true)
@@ -48,22 +65,22 @@ void get_types_menu(int &sequence_type)
             switch (type_choice)
             {
             case 1:
-                get_sequence_type<int>(sequence_type);
+                set_sequence_type<int>(sequence_type);
                 break;
             case 2:
-                get_sequence_type<double>(sequence_type);
+                set_sequence_type<double>(sequence_type);
                 break;
             case 3:
-                get_sequence_type<string>(sequence_type);
+                set_sequence_type<string>(sequence_type);
                 break;
             case 4:
-                get_sequence_type<complex>(sequence_type);
+                set_sequence_type<complex>(sequence_type);
                 break;
             case 5:
-                get_sequence_type<student>(sequence_type);
+                set_sequence_type<student>(sequence_type);
                 break;
             case 6:
-                get_sequence_type<professor>(sequence_type);
+                set_sequence_type<professor>(sequence_type);
                 break;
             case 7:
                 break;
@@ -83,7 +100,7 @@ void get_types_menu(int &sequence_type)
 }
 
 template <typename T>
-void get_sequence_type(int &sequence_type)
+void set_sequence_type(int &sequence_type)
 {
     sequence<T> *seq = nullptr;
     if (sequence_type == 1)
@@ -96,15 +113,23 @@ void get_sequence_type(int &sequence_type)
     }
     if (sequence_type == 3)
     {
-        seq = new stack<T>();
+        delete seq;
+        stack<T> *seq = new stack<T>();
+        output_stack_menu(seq);
+    }
+    if (sequence_type == 4)
+    {
+        delete seq;
+        stack<T> *seq = new stack<T>(new array_sequence<T>());
+        output_stack_menu(seq);
     }
     if (seq)
     {
-        sequence_menu(seq);
+        output_sequence_menu(seq);
     }
 }
 template <typename T>
-void sequence_menu(sequence<T> *seq)
+void output_sequence_menu(sequence<T> *seq)
 {
     int choice;
     T element;
@@ -244,19 +269,19 @@ void sequence_menu(sequence<T> *seq)
             case 12:
             {
                 cout << "Sequence: ";
-                print(seq);
+                print_sequence(seq);
                 cout << endl;
                 break;
             }
             case 13:
             {
                 cout << "Sequence: ";
-                print(seq);
+                print_sequence(seq);
                 cout << endl;
                 if (buffer_sequence != nullptr)
                 {
                     cout << "Buffer sequence: ";
-                    print(buffer_sequence);
+                    print_sequence(buffer_sequence);
                     cout << endl;
                 }
                 break;
@@ -270,6 +295,75 @@ void sequence_menu(sequence<T> *seq)
             case 0:
             {
                 delete seq;
+                return;
+            }
+            default:
+            {
+                throw invalid_argument("Invalid choice");
+                cout << endl;
+            }
+            }
+        }
+        catch (const exception &e)
+        {
+            cout << "Error: " << e.what() << endl;
+        }
+    }
+}
+
+template <typename T>
+void output_stack_menu(stack<T> *stack)
+{
+    int choice;
+    T element;
+    int index;
+    int count;
+    while (true)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\n=== Stack Menu ===" << endl;
+        cout << "Choose option: " << endl;
+        cout << "1. Get top element " << endl;
+        cout << "2. Delete top element " << endl;
+        cout << "3. Add element to stack " << endl;
+        cout << "4. Print stack " << endl;
+        cout << "0. Return to previous menu" << endl;
+
+        try
+        {
+            check_input(choice);
+            switch (choice)
+            {
+            case 1:
+            {
+                cout << "Top element: " << stack->top() << endl;
+                break;
+            }
+            case 2:
+            {
+                stack->pop();
+                cout << "Top element deleted." << endl;
+                break;
+            }
+            case 3:
+            {
+                cout << "Input element: ";
+                cin >> element;
+                stack->push(element);
+                cout << "Element added." << endl;
+                break;
+            }
+            case 4:
+            {
+                cout << "Stack: ";
+                print_stack(stack);
+                cout << endl;
+                break;
+            }
+            case 0:
+            {
+                delete stack;
                 return;
             }
             default:

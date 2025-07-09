@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../headers/dynamic_array.hpp"
 
 template <typename T>
@@ -62,12 +63,6 @@ template <typename T>
 T &dynamic_array<T>::array_iterator::operator*()
 {
     return *current;
-}
-
-template <typename T>
-T &dynamic_array<T>::array_iterator::operator[](const int index)
-{
-    return *(current + index);
 }
 
 template <typename T>
@@ -171,12 +166,6 @@ const T &dynamic_array<T>::const_array_iterator::operator*()
 }
 
 template <typename T>
-const T &dynamic_array<T>::const_array_iterator::operator[](const int index)
-{
-    return *(current + index);
-}
-
-template <typename T>
 bool dynamic_array<T>::const_array_iterator::operator==(const const_array_iterator &other) const
 {
     return current == other.current;
@@ -224,11 +213,9 @@ dynamic_array<T>::dynamic_array(const T *data, const int &size) : data(new T[2 *
 template <typename T>
 dynamic_array<T>::dynamic_array(const std::initializer_list<T> &list) : data(new T[2 * list.size()]), length(list.size()), capacity(2 * list.size())
 {
-    array_iterator it = begin();
-    auto list_it = list.begin();
     for (int i = 0; i < length; i++)
     {
-        it[i] = *(list.begin() + i);
+        data[i] = *(list.begin() + i);
     }
 }
 
@@ -245,6 +232,18 @@ template <typename T>
 dynamic_array<T>::~dynamic_array()
 {
     delete[] data;
+}
+
+template <typename T>
+T &dynamic_array<T>::operator[](const int index)
+{
+    return data[index];
+}
+
+template <typename T>
+const T &dynamic_array<T>::operator[](const int index) const
+{
+    return data[index];
 }
 
 template <typename T>
@@ -356,6 +355,16 @@ void dynamic_array<T>::insert_element(const T &element, int index)
     {
         length++;
     }
+}
+
+template <typename T>
+void dynamic_array<T>::remove_at(const int index)
+{
+    for (int i = index; i < get_length() - 1; i++)
+    {
+        data[i] = data[i + 1];
+    }
+    length--;
 }
 
 template <typename T>

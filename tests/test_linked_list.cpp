@@ -112,16 +112,6 @@ TEST(test_linked_list_iterator_operators, operator_dereferencing)
     EXPECT_EQ((*it)->element, 100);
 }
 
-TEST(test_linked_list_iterator_operators, operator_accessing_an_element)
-{
-    linked_list<int> list = {1, 2, 3, 4, 5};
-    auto it = list.begin();
-    EXPECT_EQ(it[0], 1);
-    EXPECT_EQ(it[4], 5);
-    it[1] = 50;
-    EXPECT_EQ(it[1], 50);
-}
-
 TEST(test_linked_list_iterator_operators, operator_equality)
 {
     linked_list<int> list_one = {1, 2, 3, 4, 5};
@@ -259,14 +249,6 @@ TEST(test_linked_list_const_iterator_operators, operator_dereferencing)
     EXPECT_EQ((*it)->element, 42);
 }
 
-TEST(test_linked_list_const_iterator_operators, operator_accessing_an_element)
-{
-    linked_list<int> list = {1, 2, 3, 4, 5};
-    auto it = list.cbegin();
-    EXPECT_EQ(it[0], 1);
-    EXPECT_EQ(it[4], 5);
-}
-
 TEST(test_linked_list_const_iterator_operators, operator_equality)
 {
     linked_list<int> list_one = {1, 2, 3, 4, 5};
@@ -390,6 +372,18 @@ TEST(test_linked_list_functions, method_insert_element)
     list.insert_element(3, 2);
     EXPECT_EQ(list.get(2), 3);
     EXPECT_EQ(list.get_length(), 5);
+}
+
+TEST(test_linked_list_functions, method_remove_at)
+{
+    int a = 42;
+    linked_list<int> list = {1, 2, 3, 5};
+    list.remove_at(3);
+    EXPECT_EQ(list.get_last(), 3);
+    EXPECT_EQ(list.get_length(), 3);
+    list.remove_at(0);
+    EXPECT_EQ(list.get_first(), 2);
+    EXPECT_EQ(list.get_length(), 2);
 }
 
 TEST(test_linked_list_functions, method_clear)

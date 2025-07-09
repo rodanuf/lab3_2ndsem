@@ -12,7 +12,8 @@ int main()
         cout << "Choose sequence type: " << endl;
         cout << "1. array_sequence" << endl;
         cout << "2. list_sequence" << endl;
-        cout << "3. stack" << endl;
+        cout << "3. stack from list_sequence" << endl;
+        cout << "4. stack from array_sequence" << endl;
         cout << "0. exit" << endl;
 
         try
@@ -22,7 +23,7 @@ int main()
             {
                 exit(0);
             }
-            get_types_menu(choice);
+            output_types_menu(choice);
         }
         catch (const exception &e)
         {

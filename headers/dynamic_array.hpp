@@ -26,7 +26,6 @@ public:
         array_iterator operator+(const int n);
         array_iterator operator-(const int n);
         T &operator*();
-        T &operator[](const int index);
         bool operator==(const array_iterator &other) const;
         bool operator!=(const array_iterator &other) const;
         void set(const T &element);
@@ -48,7 +47,6 @@ public:
         const_array_iterator operator-(const int n);
         const_array_iterator operator+(const int n);
         const T &operator*();
-        const T &operator[](const int index);
         bool operator==(const const_array_iterator &other) const;
         bool operator!=(const const_array_iterator &other) const;
     };
@@ -62,6 +60,8 @@ public:
     dynamic_array(const std::initializer_list<T> &list);
     dynamic_array(const dynamic_array &other);
     ~dynamic_array();
+    T &operator[](const int index);
+    const T &operator[](const int index) const;
     T &get(const int index) const;
     T &get_first() const;
     T &get_last() const;
@@ -70,6 +70,7 @@ public:
     void append_element(const T &element);
     void prepend_element(const T &element);
     void insert_element(const T &element, int index);
+    void remove_at(const int index);
     void clear();
 };
 

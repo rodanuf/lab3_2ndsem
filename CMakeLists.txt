@@ -42,7 +42,7 @@ target_include_directories(lab3_2ndsem PRIVATE
     ${CMAKE_SOURCE_DIR}/ui_headers
 )
 
-target_link_libraries(tests PRIVATE gtest_main)
+target_link_libraries(tests PRIVATE gtest gtest_main)
 
 enable_testing()
 add_test(NAME AllTests COMMAND tests)

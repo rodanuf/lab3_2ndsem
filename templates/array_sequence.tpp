@@ -64,23 +64,25 @@ T &array_sequence<T>::as_iterator::operator*()
 }
 
 template <typename T>
-T &array_sequence<T>::as_iterator::operator[](const int n) // не в том классе
-{
-    return it[n];
-}
-
-template <typename T>
 bool array_sequence<T>::as_iterator::operator==(const typename sequence<T>::iterator &other) const // сделать тест на сравнение итераторов array_sequence и list_sequence
 {
-    const as_iterator &derived = dynamic_cast<const as_iterator &>(other);
-    return it == derived.it;
+    const as_iterator *derived = dynamic_cast<const as_iterator *>(&other);
+    if (derived == nullptr)
+    {
+        return false;
+    }
+    return it == derived->it;
 }
 
 template <typename T>
 bool array_sequence<T>::as_iterator::operator!=(const typename sequence<T>::iterator &other) const
 {
-    const as_iterator &derived = dynamic_cast<const as_iterator &>(other);
-    return it != derived.it;
+    const as_iterator *derived = dynamic_cast<const as_iterator *>(&other);
+    if (derived == nullptr)
+    {
+        return false;
+    }
+    return it != derived->it;
 }
 
 template <typename T>
@@ -169,12 +171,6 @@ const T &array_sequence<T>::const_as_iterator::operator*()
 }
 
 template <typename T>
-const T &array_sequence<T>::const_as_iterator::operator[](const int n)
-{
-    return *(it + n);
-}
-
-template <typename T>
 bool array_sequence<T>::const_as_iterator::operator==(const typename sequence<T>::const_iterator &other) const
 {
     const const_as_iterator &derived = dynamic_cast<const const_as_iterator &>(other);
@@ -224,6 +220,26 @@ array_sequence<T>::array_sequence(const sequence<T> &other)
 
 template <typename T>
 array_sequence<T>::~array_sequence() {}
+
+template <typename T>
+T &array_sequence<T>::operator[](const int index)
+{
+    if (index > a_sequence.get_length() || index < 0)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    return a_sequence[index];
+}
+
+template <typename T>
+const T &array_sequence<T>::operator[](const int index) const
+{
+    if (index > a_sequence.get_length() || index < 0)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    return a_sequence[index];
+}
 
 template <typename T>
 T &array_sequence<T>::get(const int index) const
@@ -303,6 +319,17 @@ sequence<T> *array_sequence<T>::insert_element(const T &element, const int index
 }
 
 template <typename T>
+sequence<T> *array_sequence<T>::remove_at(const int index)
+{
+    if (index > get_length() || index < 0)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    a_sequence.remove_at(index);
+    return this;
+}
+
+template <typename T>
 sequence<T> *array_sequence<T>::concat(const sequence<T> &container)
 {
     for (int i = 0; i < container.get_length(); i++)
@@ -339,6 +366,18 @@ sequence<T> *array_sequence<T>::immutable_insert_element(const T &element, int i
 {
     array_sequence<T> *result = new array_sequence<T>(*this);
     result->insert_element(element, index);
+    return result;
+}
+
+template <typename T>
+sequence<T> *array_sequence<T>::immutable_remove_at(const int index) const
+{
+    if (index > get_length() || index < 0)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    sequence<T> *result = new array_sequence(*this);
+    result->remove_at(index);
     return result;
 }
 

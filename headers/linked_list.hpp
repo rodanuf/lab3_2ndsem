@@ -36,7 +36,6 @@ public:
         list_iterator operator-(const int n);
         node *operator*();
         const node *operator*() const;
-        T &operator[](const int index);
         bool operator==(const list_iterator &other) const;
         bool operator!=(const list_iterator &other) const;
         void set(const T &element);
@@ -59,7 +58,6 @@ public:
         const_list_iterator operator+(const int n);
         const_list_iterator operator-(const int n);
         const node *operator*() const;
-        const T &operator[](const int index);
         bool operator==(const const_list_iterator &other) const;
         bool operator!=(const const_list_iterator &other) const;
     };
@@ -80,6 +78,7 @@ public:
     void append_element(const T &element);
     void prepend_element(const T &element);
     void insert_element(const T &element, int index);
+    void remove_at(const int index);
     void clear();
 };
 

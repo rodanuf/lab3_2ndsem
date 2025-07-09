@@ -25,7 +25,6 @@ public:
         ls_iterator operator+(const int n);
         ls_iterator operator-(const int n);
         T &operator*() override;
-        T &operator[](const int index);
         bool operator==(const typename sequence<T>::iterator &other) const override;
         bool operator!=(const typename sequence<T>::iterator &other) const override;
         void set(const T &element) override;
@@ -47,7 +46,6 @@ public:
         const_ls_iterator operator+(const int n);
         const_ls_iterator operator-(const int n);
         const T &operator*() override;
-        const T &operator[](const int index);
         bool operator==(const typename sequence<T>::const_iterator &other) const override;
         bool operator!=(const typename sequence<T>::const_iterator &other) const override;
     };
@@ -69,11 +67,13 @@ public:
     sequence<T> *append_element(const T &element) override;
     sequence<T> *prepend_element(const T &element) override;
     sequence<T> *insert_element(const T &element, const int index) override;
+    sequence<T> *remove_at(const int index) override;
     sequence<T> *concat(const sequence<T> &other) override;
     sequence<T> *clone() const override;
     sequence<T> *immutable_append_element(const T &element) const override;
     sequence<T> *immutable_prepend_element(const T &element) const override;
     sequence<T> *immutable_insert_element(const T &element, const int index) const override;
+    sequence<T> *immutable_remove_at(const int index) const override;
     sequence<T> *immutable_concat(const sequence<T> &other) const override;
     void clear() override;
 };

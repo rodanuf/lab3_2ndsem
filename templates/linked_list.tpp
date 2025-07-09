@@ -115,24 +115,6 @@ const typename linked_list<T>::node *linked_list<T>::list_iterator::operator*() 
 }
 
 template <typename T>
-T &linked_list<T>::list_iterator::operator[](const int index)
-{
-    node **it = current;
-    if ((*it)->prev != nullptr)
-    {
-        while ((*it)->prev != nullptr)
-        {
-            *it = (*it)->prev;
-        }
-    }
-    for (int i = 0; i < index; i++)
-    {
-        *it = (*it)->next;
-    }
-    return (*it)->element;
-}
-
-template <typename T>
 bool linked_list<T>::list_iterator::operator==(const list_iterator &other) const
 {
     return current == other.current;
@@ -264,24 +246,6 @@ const typename linked_list<T>::node *linked_list<T>::const_list_iterator::operat
         return nullptr;
     }
     return *current;
-}
-
-template <typename T>
-const T &linked_list<T>::const_list_iterator::operator[](const int index)
-{
-    node **it = current;
-    if ((*it)->prev != nullptr)
-    {
-        while ((*it)->prev != nullptr)
-        {
-            *it = (*it)->prev;
-        }
-    }
-    for (int i = 0; i < index; i++)
-    {
-        *it = (*it)->next;
-    }
-    return (*it)->element;
 }
 
 template <typename T>
@@ -444,6 +408,44 @@ void linked_list<T>::insert_element(const T &element, int index)
     (*it)->prev->next = new_node;
     (*it)->prev = new_node;
     length++;
+}
+
+template <typename T>
+void linked_list<T>::remove_at(const int index)
+{
+    node *current = head;
+    if (head == tail)
+    {
+        head = tail = nullptr;
+        delete current;
+        length = 0;
+        return;
+    }
+    if (index == 0)
+    {
+        head = head->next;
+        head->prev = nullptr;
+        delete current;
+        length--;
+        return;
+    }
+    if (index == get_length() - 1)
+    {
+        current = tail;
+        tail = tail->prev;
+        tail->next = nullptr;
+        delete current;
+        length--;
+        return;
+    }
+    for (int i = 0; i < index; i++)
+    {
+        current = current->next;
+    }
+    current->prev->next = current->next;
+    current->next->prev = current->prev;
+    delete current;
+    length--;
 }
 
 template <typename T>

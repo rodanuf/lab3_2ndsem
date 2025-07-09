@@ -77,12 +77,6 @@ T &list_sequence<T>::ls_iterator::operator*()
 }
 
 template <typename T>
-T &list_sequence<T>::ls_iterator::operator[](const int index)
-{
-    return it[index];
-}
-
-template <typename T>
 bool list_sequence<T>::ls_iterator::operator==(const typename sequence<T>::iterator &other) const
 {
     const ls_iterator &derived = dynamic_cast<const ls_iterator &>(other);
@@ -193,12 +187,6 @@ template <typename T>
 const T &list_sequence<T>::const_ls_iterator::operator*()
 {
     return (*it)->element;
-}
-
-template <typename T>
-const T &list_sequence<T>::const_ls_iterator::operator[](const int index)
-{
-    return it[index];
 }
 
 template <typename T>
@@ -338,6 +326,17 @@ sequence<T> *list_sequence<T>::insert_element(const T &element, const int index)
 }
 
 template <typename T>
+sequence<T> *list_sequence<T>::remove_at(const int index)
+{
+    if (index > get_length() || index < 0)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    l_sequence.remove_at(index);
+    return this;
+}
+
+template <typename T>
 sequence<T> *list_sequence<T>::concat(const sequence<T> &other)
 {
     for (int i = 0; i < other.get_length(); ++i)
@@ -383,6 +382,18 @@ sequence<T> *list_sequence<T>::immutable_insert_element(const T &element, const 
         return new_sequence;
     }
     new_sequence->insert_element(element, index);
+    return new_sequence;
+}
+
+template <typename T>
+sequence<T> *list_sequence<T>::immutable_remove_at(const int index) const
+{
+    if (index > get_length() || index < 0)
+    {
+        throw std::out_of_range("Index out of range");
+    }
+    sequence<T> *new_sequence = new list_sequence(*this);
+    new_sequence->remove_at(index);
     return new_sequence;
 }
 

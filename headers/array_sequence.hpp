@@ -25,7 +25,6 @@ public:
         as_iterator operator+(const int n);
         as_iterator operator-(const int n);
         T &operator*() override;
-        T &operator[](const int index);
         bool operator==(const typename sequence<T>::iterator &other) const override;
         bool operator!=(const typename sequence<T>::iterator &other) const override;
         void set(const T &value) override;
@@ -47,7 +46,6 @@ public:
         const_as_iterator operator+(const int n);
         const_as_iterator operator-(const int n);
         const T &operator*() override;
-        const T &operator[](const int index);
         bool operator==(const typename sequence<T>::const_iterator &other) const override;
         bool operator!=(const typename sequence<T>::const_iterator &other) const override;
     };
@@ -61,6 +59,8 @@ public:
     array_sequence(std::initializer_list<T> items);
     array_sequence(const sequence<T> &other);
     ~array_sequence();
+    T &operator[](const int index);
+    const T &operator[](const int index) const;
     T &get(const int index) const override;
     T &get_first() const override;
     T &get_last() const override;
@@ -69,11 +69,13 @@ public:
     sequence<T> *append_element(const T &element) override;
     sequence<T> *prepend_element(const T &element) override;
     sequence<T> *insert_element(const T &element, const int index) override;
+    sequence<T> *remove_at(const int index) override;
     sequence<T> *concat(const sequence<T> &container) override;
     sequence<T> *clone() const override;
     sequence<T> *immutable_append_element(const T &element) const override;
     sequence<T> *immutable_prepend_element(const T &element) const override;
     sequence<T> *immutable_insert_element(const T &element, int index) const override;
+    sequence<T> *immutable_remove_at(const int index) const override;
     sequence<T> *immutable_concat(const sequence<T> &container) const override;
     void clear() override;
 };

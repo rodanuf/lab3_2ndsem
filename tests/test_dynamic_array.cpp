@@ -21,7 +21,7 @@ TEST(test_dynamic_array_iterator_operators, pref_operator_increment)
     int array[] = {1, 2, 3};
     dynamic_array<int>::array_iterator it_one(&array[0]);
     dynamic_array<int>::array_iterator it_two(&array[1]);
-    ASSERT_NE(*it_one, *it_two); 
+    ASSERT_NE(*it_one, *it_two);
     ++it_one;
     EXPECT_EQ(*it_one, *it_two);
     EXPECT_EQ(*it_one, 2);
@@ -55,7 +55,6 @@ TEST(test_dynamic_array_iterator_operators, post_operator_decrement)
     auto old_it = it--;
     EXPECT_EQ(*old_it, array[1]);
     EXPECT_EQ(*it, array[0]);
-
 }
 
 TEST(test_dynamic_array_iterator_operators, operator_appropriation)
@@ -94,16 +93,6 @@ TEST(test_dynamic_array_iterator_operators, operator_dereferencing)
     *it = 100;
     EXPECT_EQ(value, 100);
     EXPECT_EQ(*it, 100);
-}
-
-TEST(test_dynamic_array_iterator_operators, operator_accessing_an_element)
-{
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::array_iterator it(array);
-    EXPECT_EQ(it[0], 1);
-    EXPECT_EQ(it[4], 5);
-    it[1] = 50;
-    EXPECT_EQ(it[1], 50);
 }
 
 TEST(test_dynamic_array_iterator_operators, operator_equality)
@@ -160,7 +149,7 @@ TEST(test_dynamic_const_array_iterator_operators, pref_operator_increment)
     int array[] = {1, 2, 3};
     dynamic_array<int>::const_array_iterator it_one(&array[0]);
     dynamic_array<int>::const_array_iterator it_two(&array[1]);
-    ASSERT_NE(*it_one, *it_two); 
+    ASSERT_NE(*it_one, *it_two);
     ++it_one;
     EXPECT_EQ(*it_one, *it_two);
     EXPECT_EQ(*it_one, 2);
@@ -194,7 +183,6 @@ TEST(test_dynamic_const_array_iterator_operators, post_operator_decrement)
     auto old_it = it--;
     EXPECT_EQ(*old_it, array[1]);
     EXPECT_EQ(*it, array[0]);
-
 }
 
 TEST(test_dynamic_const_array_iterator_operators, operator_appropriation)
@@ -230,16 +218,7 @@ TEST(test_dynamic_const_array_iterator_operators, operator_dereferencing)
     int value = 42;
     dynamic_array<int>::const_array_iterator it(&value);
     EXPECT_EQ(*it, 42);
-    static_assert(std::is_same_v<decltype(*it), const int&>);
-}
-
-TEST(test_dynamic_const_array_iterator_operators, operator_accessing_an_element)
-{
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::const_array_iterator it(array);
-    EXPECT_EQ(it[0], 1);
-    EXPECT_EQ(it[4], 5);
-    static_assert(std::is_same_v<decltype(it[0]), const int&>);
+    static_assert(std::is_same_v<decltype(*it), const int &>);
 }
 
 TEST(test_dynamic_const_array_iterator_operators, operator_equality)
@@ -308,10 +287,22 @@ TEST(test_dynamic_array, constructor_initializer_list)
 TEST(test_dynamic_array, copy_constructor)
 {
     dynamic_array<int> array_one = {1, 2, 3, 4, 5};
-    dynamic_array<int> array_two (array_one);
+    dynamic_array<int> array_two(array_one);
     EXPECT_EQ(array_two.get_length(), 5);
     EXPECT_EQ(array_two.get_first(), 1);
     EXPECT_EQ(array_two.get_last(), 5);
+}
+
+TEST(test_dynamic_array_operators, operator_subscript)
+{
+    dynamic_array<int> array = {10, 20, 30, 40};
+    EXPECT_EQ(array[0], 10);
+    EXPECT_EQ(array[1], 20);
+    EXPECT_EQ(array[3], 40);
+    array[2] = 100;
+    EXPECT_EQ(array[2], 100);
+    const dynamic_array<int> const_array = {5, 10, 15};
+    EXPECT_EQ(const_array[1], 10);
 }
 
 TEST(test_dynamic_array_functions, method_get)
@@ -371,6 +362,17 @@ TEST(test_dynamic_array_functions, method_insert_element)
     int index = 2;
     array.insert_element(8, index);
     EXPECT_EQ(array.get(2), 8);
+}
+
+TEST(test_dynamic_array_functions, method_remove_at)
+{
+    dynamic_array<int> arr = {10, 20, 30, 40};
+    arr.remove_at(3);
+    EXPECT_EQ(arr.get_last(), 30);
+    EXPECT_EQ(arr.get_length(), 3);
+    arr.remove_at(0);
+    EXPECT_EQ(arr.get_first(), 20);
+    EXPECT_EQ(arr.get_length(), 2);
 }
 
 TEST(test_dynamic_array_functions, method_clear)
