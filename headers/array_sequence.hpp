@@ -57,8 +57,10 @@ public:
     array_sequence(const int &size);
     array_sequence(const T *items, const int &size);
     array_sequence(std::initializer_list<T> items);
+    array_sequence(const array_sequence<T> &other);
     array_sequence(const sequence<T> &other);
     ~array_sequence();
+    array_sequence<T> &operator=(const array_sequence<T> &other);
     T &operator[](const int index);
     const T &operator[](const int index) const;
     T &get(const int index) const override;

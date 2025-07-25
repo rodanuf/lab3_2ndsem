@@ -45,7 +45,7 @@ void check_input(int &choice)
     }
 }
 
-void output_types_menu(int &sequence_type)
+void run_types_menu(int &sequence_type)
 {
     int type_choice;
     while (true)
@@ -115,21 +115,21 @@ void set_sequence_type(int &sequence_type)
     {
         delete seq;
         stack<T> *seq = new stack<T>();
-        output_stack_menu(seq);
+        run_stack_menu(seq);
     }
     if (sequence_type == 4)
     {
         delete seq;
         stack<T> *seq = new stack<T>(new array_sequence<T>());
-        output_stack_menu(seq);
+        run_stack_menu(seq);
     }
     if (seq)
     {
-        output_sequence_menu(seq);
+        run_sequence_menu(seq);
     }
 }
 template <typename T>
-void output_sequence_menu(sequence<T> *seq)
+void run_sequence_menu(sequence<T> *seq)
 {
     int choice;
     T element;
@@ -312,7 +312,7 @@ void output_sequence_menu(sequence<T> *seq)
 }
 
 template <typename T>
-void output_stack_menu(stack<T> *stack)
+void run_stack_menu(stack<T> *stack)
 {
     int choice;
     T element;

@@ -1,4 +1,5 @@
 #pragma once
+#include <initializer_list>
 
 template <typename T>
 class linked_list

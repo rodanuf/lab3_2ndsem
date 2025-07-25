@@ -60,6 +60,7 @@ public:
     dynamic_array(const std::initializer_list<T> &list);
     dynamic_array(const dynamic_array &other);
     ~dynamic_array();
+    dynamic_array<T> &operator=(const dynamic_array &other);
     T &operator[](const int index);
     const T &operator[](const int index) const;
     T &get(const int index) const;

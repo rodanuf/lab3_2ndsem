@@ -23,7 +23,7 @@ int main()
             {
                 exit(0);
             }
-            output_types_menu(choice);
+            run_types_menu(choice);
         }
         catch (const exception &e)
         {

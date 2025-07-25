@@ -209,6 +209,9 @@ template <typename T>
 array_sequence<T>::array_sequence(std::initializer_list<T> items) : a_sequence(items) {}
 
 template <typename T>
+array_sequence<T>::array_sequence(const array_sequence<T> &other) : a_sequence(other.a_sequence) {}
+
+template <typename T>
 array_sequence<T>::array_sequence(const sequence<T> &other)
 {
     a_sequence = new dynamic_array<T>();
@@ -220,6 +223,16 @@ array_sequence<T>::array_sequence(const sequence<T> &other)
 
 template <typename T>
 array_sequence<T>::~array_sequence() {}
+
+template <typename T>
+typename array_sequence<T>::array_sequence &array_sequence<T>::operator=(const array_sequence<T> &other)
+{
+    if (this != &other)
+    {
+        a_sequence = other.a_sequence;
+    }
+    return *this;
+}
 
 template <typename T>
 T &array_sequence<T>::operator[](const int index)

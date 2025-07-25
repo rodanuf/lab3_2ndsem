@@ -235,6 +235,23 @@ dynamic_array<T>::~dynamic_array()
 }
 
 template <typename T>
+typename dynamic_array<T>::dynamic_array &dynamic_array<T>::operator=(const dynamic_array &other)
+{
+    if (this != &other)
+    {
+        delete[] data;
+        capacity = other.capacity;
+        length = other.length;
+        data = new T[capacity];
+        for (int i = 0; i < length; ++i)
+        {
+            data[i] = other.data[i];
+        }
+    }
+    return *this;
+}
+
+template <typename T>
 T &dynamic_array<T>::operator[](const int index)
 {
     return data[index];
