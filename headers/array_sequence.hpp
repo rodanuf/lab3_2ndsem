@@ -5,11 +5,15 @@
 template <typename T>
 class array_sequence : public sequence<T>
 {
+protected:
+    iterator_impl<T> *begin_impl() override;
+    iterator_impl<T> *end_impl() override;
+
 private:
     dynamic_array<T> a_sequence;
 
 public:
-    class as_iterator : public sequence<T>::iterator
+    class as_iterator : public iterator_impl<T>
     {
     private:
         typename dynamic_array<T>::array_iterator it;
@@ -17,11 +21,11 @@ public:
     public:
         as_iterator(typename dynamic_array<T>::array_iterator it);
         as_iterator(const as_iterator &other);
-        as_iterator &operator++();
-        as_iterator operator++(int);
+        iterator_impl<T> &operator++();
+        iterator_impl<T> operator++(int);
         as_iterator &operator--();
         as_iterator operator--(int);
-        as_iterator &operator=(const as_iterator &other);
+        iterator_impl<T> &operator=(const iterator_impl<T> &other);
         as_iterator operator+(const int n);
         as_iterator operator-(const int n);
         T &operator*() override;
@@ -49,23 +53,19 @@ public:
         bool operator==(const typename sequence<T>::const_iterator &other) const override;
         bool operator!=(const typename sequence<T>::const_iterator &other) const override;
     };
-    as_iterator begin();
-    as_iterator end();
-    const_as_iterator cbegin() const;
-    const_as_iterator cend() const;
     array_sequence();
     array_sequence(const int &size);
     array_sequence(const T *items, const int &size);
-    array_sequence(std::initializer_list<T> items);
+    array_sequence(const std::initializer_list<T> &items);
     array_sequence(const array_sequence<T> &other);
     array_sequence(const sequence<T> &other);
     ~array_sequence();
     array_sequence<T> &operator=(const array_sequence<T> &other);
     T &operator[](const int index);
     const T &operator[](const int index) const;
-    T &get(const int index) const override;
-    T &get_first() const override;
-    T &get_last() const override;
+    T &get(const int index) override;
+    T &get_first() override;
+    T &get_last() override;
     int get_length() const override;
     sequence<T> *get_subsequence(const int start_index, const int end_index) const override;
     sequence<T> *append_element(const T &element) override;

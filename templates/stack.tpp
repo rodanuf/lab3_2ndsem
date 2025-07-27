@@ -5,6 +5,15 @@ template <typename T>
 stack<T>::stack(sequence<T> *s) : container(s) {}
 
 template <typename T>
+stack<T>::stack(std::initializer_list<T> &list, sequence<T> *s) : container(s)
+{
+    for (int i = 0; i < list.size(); i++)
+    {
+        container->append_element(*(list.begin() + i));
+    }
+}
+
+template <typename T>
 stack<T>::stack(const sequence<T> &sequence) : container(nullptr)
 {
     container = sequence.clone();

@@ -103,15 +103,15 @@ void list_sequence<T>::ls_iterator::erase()
 }
 
 template <typename T>
-typename list_sequence<T>::ls_iterator list_sequence<T>::begin()
+typename list_sequence<T>::ls_iterator *list_sequence<T>::begin()
 {
-    return ls_iterator(l_sequence.begin());
+    return new ls_iterator(l_sequence.begin());
 }
 
 template <typename T>
-typename list_sequence<T>::ls_iterator list_sequence<T>::end()
+typename list_sequence<T>::ls_iterator *list_sequence<T>::end()
 {
-    return ls_iterator(l_sequence.end());
+    return new ls_iterator(l_sequence.end());
 }
 
 template <typename T>
@@ -204,15 +204,15 @@ bool list_sequence<T>::const_ls_iterator::operator!=(const typename sequence<T>:
 }
 
 template <typename T>
-typename list_sequence<T>::const_ls_iterator list_sequence<T>::cbegin() const
+typename list_sequence<T>::const_ls_iterator *list_sequence<T>::cbegin() const
 {
-    return const_ls_iterator(l_sequence.cbegin());
+    return new const_ls_iterator(l_sequence.cbegin());
 }
 
 template <typename T>
-typename list_sequence<T>::const_ls_iterator list_sequence<T>::cend() const
+typename list_sequence<T>::const_ls_iterator *list_sequence<T>::cend() const
 {
-    return const_ls_iterator(l_sequence.cend());
+    return new const_ls_iterator(l_sequence.cend());
 }
 
 template <typename T>

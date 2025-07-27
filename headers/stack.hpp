@@ -13,6 +13,7 @@ private:
 
 public:
     stack(sequence<T> *s = new list_sequence<T>());
+    stack(std::initializer_list<T> &list, sequence<T> *s = new list_sequence<T>());
     stack(const sequence<T> &other);
     stack(const stack<T> &other);
     ~stack();
