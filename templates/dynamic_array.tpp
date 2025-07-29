@@ -160,7 +160,7 @@ typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_it
 }
 
 template <typename T>
-const T &dynamic_array<T>::const_array_iterator::operator*()
+const T &dynamic_array<T>::const_array_iterator::operator*() const
 {
     return *current;
 }
@@ -264,19 +264,37 @@ const T &dynamic_array<T>::operator[](const int index) const
 }
 
 template <typename T>
-T &dynamic_array<T>::get(const int index) const
+T &dynamic_array<T>::get(const int index)
 {
     return data[index];
 }
 
 template <typename T>
-T &dynamic_array<T>::get_first() const
+T &dynamic_array<T>::get_first()
 {
     return data[0];
 }
 
 template <typename T>
-T &dynamic_array<T>::get_last() const
+T &dynamic_array<T>::get_last()
+{
+    return data[length - 1];
+}
+
+template <typename T>
+const T &dynamic_array<T>::get(const int index) const
+{
+    return data[index];
+}
+
+template <typename T>
+const T &dynamic_array<T>::get_first() const
+{
+    return data[0];
+}
+
+template <typename T>
+const T &dynamic_array<T>::get_last() const
 {
     return data[length - 1];
 }

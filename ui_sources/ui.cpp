@@ -83,7 +83,7 @@ void run_types_menu(int &sequence_type)
                 set_sequence_type<professor>(sequence_type);
                 break;
             case 7:
-                break;
+                return;
             case 0:
                 exit(0);
             default:
@@ -156,7 +156,8 @@ void run_sequence_menu(sequence<T> *seq)
         cout << "12. Print sequence " << endl;
         cout << "13. Print all sequences " << endl;
         cout << "14. Clear sequence " << endl;
-        cout << "0. Return to previous menu" << endl;
+        cout << "15. Return to previous menu" << endl;
+        cout << "0. Exit" << endl;
 
         try
         {
@@ -292,10 +293,18 @@ void run_sequence_menu(sequence<T> *seq)
                 cout << "Sequence cleared." << endl;
                 break;
             }
-            case 0:
+            case 15:
             {
                 delete seq;
+                if (buffer_sequence != nullptr)
+                {
+                    delete buffer_sequence;
+                }
                 return;
+            }
+            case 0:
+            {
+                exit(0);
             }
             default:
             {
@@ -328,7 +337,8 @@ void run_stack_menu(stack<T> *stack)
         cout << "2. Delete top element " << endl;
         cout << "3. Add element to stack " << endl;
         cout << "4. Print stack " << endl;
-        cout << "0. Return to previous menu" << endl;
+        cout << "5. Return to previous menu" << endl;
+        cout << "0. Exit" << endl;
 
         try
         {
@@ -361,10 +371,15 @@ void run_stack_menu(stack<T> *stack)
                 cout << endl;
                 break;
             }
-            case 0:
+            case 5:
             {
                 delete stack;
                 return;
+            }
+            case 0:
+            {
+                delete stack;
+                exit(0);
             }
             default:
             {

@@ -2,6 +2,26 @@
 #include "../headers/array_sequence.hpp"
 #include "../headers/list_sequence.hpp"
 
+template <typename T>
+class testable_array_sequence : public array_sequence<T>
+{
+public:
+    using array_sequence<T>::begin_impl();
+    using array_sequence<T>::end_impl();
+    using array_sequence<T>::cbegin_impl();
+    using array_sequence<T>::cend_impl();
+};
+
+template <typename T>
+class testable_list_sequence : public list_sequence<T>
+{
+public:
+    using list_sequence<T>::begin_impl();
+    using list_sequence<T>::end_impl();
+    using list_sequence<T>::cbegin_impl();
+    using list_sequence<T>::cend_impl();
+};
+
 TEST(test_array_sequence_iterator, base_constructor_iterator)
 {
     array_sequence<int> seq = {42};
@@ -83,7 +103,9 @@ TEST(test_array_sequence_iterator_operators, operator_increment_on)
     dynamic_array<int>::array_iterator it(&array[0]);
     array_sequence<int>::as_iterator as_it(it);
     ASSERT_NE(*as_it, 5);
-    as_it = as_it + 4;
+    auto temp = as_it + 4;
+    as_it = *temp;
+    delete temp;
     EXPECT_EQ(*as_it, 5);
 }
 
@@ -93,7 +115,9 @@ TEST(test_array_sequence_iterator_operators, operator_decrement_on)
     dynamic_array<int>::array_iterator it(&array[3]);
     array_sequence<int>::as_iterator as_it(it);
     ASSERT_NE(*as_it, 1);
-    as_it = as_it - 3;
+    auto temp = as_it - 3;
+    as_it = *temp;
+    delete temp;
     EXPECT_EQ(*as_it, 1);
 }
 
@@ -130,12 +154,12 @@ TEST(test_array_sequence_iterator_operators, operator_equality_with_another_stru
     array_sequence<int>::as_iterator as_it_one(it_one);
     array_sequence<int>::as_iterator as_it_two(it_two);
     array_sequence<int>::as_iterator as_it_three(it_three);
-    list_sequence<int> list = {1, 2, 3, 4, 5};
-    auto ls_it_one = list.begin();
-    auto ls_it_two = list.begin();
-    auto ls_it_three = list.begin() + 3;
-    EXPECT_TRUE(as_it_one == *ls_it_one);
-    EXPECT_FALSE(as_it_two == *ls_it_three);
+    testable_list_sequence<int> list = {1, 2, 3, 4, 5};
+    auto ls_it_one = list.begin_impl();
+    auto ls_it_two = list.begin_impl();
+    auto ls_it_three = list.begin_impl() + 3;
+    EXPECT_TRUE(as_it_one == ls_it_one);
+    EXPECT_FALSE(as_it_two == ls_it_three);
 }
 
 TEST(test_array_sequence_iterator_operators, operator_nonequality)
@@ -160,25 +184,25 @@ TEST(test_array_sequence_iterator_operators, operator_nonequality_with_another_s
     array_sequence<int>::as_iterator as_it_one(it_one);
     array_sequence<int>::as_iterator as_it_two(it_two);
     array_sequence<int>::as_iterator as_it_three(it_three);
-    list_sequence<int> list = {1, 2, 3, 4, 5};
-    auto ls_it_one = list.begin();
-    auto ls_it_two = list.begin();
-    auto ls_it_three = list.begin() + 3;
-    EXPECT_TRUE(as_it_two != *ls_it_three);
-    EXPECT_FALSE(as_it_one != *ls_it_two);
+    testable_list_sequence<int> list = {1, 2, 3, 4, 5};
+    auto ls_it_one = list.begin_impl();
+    auto ls_it_two = list.begin_impl();
+    auto ls_it_three = list.begin_impl() + 3;
+    EXPECT_TRUE(as_it_two != ls_it_three);
+    EXPECT_FALSE(as_it_one != ls_it_two);
 }
 
 TEST(test_array_sequence_iterator_operators, method_begin)
 {
-    array_sequence<int> array = {10, 20, 30};
-    array_sequence<int>::as_iterator it = *(array.begin());
+    testable_array_sequence<int> array = {10, 20, 30};
+    array_sequence<int>::as_iterator it = array.begin_impl();
     EXPECT_EQ(*it, 10);
 }
 
 TEST(test_array_sequence_iterator_operators, method_end)
 {
-    array_sequence<int> array = {10, 20, 30};
-    array_sequence<int>::as_iterator it = *(array.end());
+    testable_array_sequence<int> array = {10, 20, 30};
+    array_sequence<int>::as_iterator it = *(array.end_impl());
     EXPECT_EQ(*(it - 1), 30);
 }
 
@@ -263,7 +287,8 @@ TEST(test_array_sequence_const_iterator_operators, operator_increment_on)
     dynamic_array<int>::const_array_iterator it(&array[0]);
     array_sequence<int>::const_as_iterator as_it(it);
     ASSERT_NE(*as_it, 5);
-    as_it = as_it + 4;
+    auto temp = as_it + 4;
+    as_it = temp;
     EXPECT_EQ(*as_it, 5);
 }
 
@@ -273,7 +298,9 @@ TEST(test_array_sequence_const_iterator_operators, operator_decrement_on)
     dynamic_array<int>::const_array_iterator it(&array[3]);
     array_sequence<int>::const_as_iterator as_it(it);
     ASSERT_NE(*as_it, 1);
-    as_it = as_it - 3;
+    auto temp = as_it - 3;
+    as_it = temp;
+    delete temp;
     EXPECT_EQ(*as_it, 1);
 }
 
@@ -313,15 +340,15 @@ TEST(test_array_sequence_const_iterator_operators, operator_nonequality)
 
 TEST(test_array_sequence_const_iterator_operators, method_begin)
 {
-    array_sequence<int> array = {10, 20, 30};
-    array_sequence<int>::const_as_iterator it = *(array.cbegin());
+    testable_array_sequence<int> array = {10, 20, 30};
+    array_sequence<int>::const_as_iterator it = *(array.cbegin_impl());
     EXPECT_EQ(*it, 10);
 }
 
 TEST(test_array_sequence_const_iterator_operators, method_end)
 {
-    array_sequence<int> array = {10, 20, 30};
-    array_sequence<int>::const_as_iterator it = *(array.cend());
+    testable_array_sequence<int> array = {10, 20, 30};
+    array_sequence<int>::const_as_iterator it = *(array.cend_impl());
     EXPECT_EQ(*(it - 1), 30);
 }
 

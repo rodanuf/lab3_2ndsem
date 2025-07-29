@@ -332,24 +332,47 @@ linked_list<T>::~linked_list()
 }
 
 template <typename T>
-T &linked_list<T>::get(const int index) const
+T &linked_list<T>::get(const int index)
+{
+    list_iterator it = begin();
+    for (int i = 0; i < index; i++)
+    {
+        it++;
+    }
+    return (*it)->element;
+}
+
+template <typename T>
+T &linked_list<T>::get_first()
+{
+    return head->element;
+}
+
+template <typename T>
+T &linked_list<T>::get_last()
+{
+    return tail->element;
+}
+
+template <typename T>
+const T &linked_list<T>::get(const int index) const
 {
     const_list_iterator it = cbegin();
     for (int i = 0; i < index; i++)
     {
         it++;
     }
-    return const_cast<T &>((*it)->element);
+    return (*it)->element;
 }
 
 template <typename T>
-T &linked_list<T>::get_first() const
+const T &linked_list<T>::get_first() const
 {
     return head->element;
 }
 
 template <typename T>
-T &linked_list<T>::get_last() const
+const T &linked_list<T>::get_last() const
 {
     return tail->element;
 }
