@@ -41,6 +41,10 @@ template <typename T>
 typename array_sequence<T>::as_iterator &array_sequence<T>::as_iterator::operator=(const typename sequence<T>::iterator_impl &other)
 {
     const as_iterator &derived = dynamic_cast<const as_iterator &>(other);
+    if (this == &derived)
+    {
+        return *this;
+    }
     it = derived.it;
     return *this;
 }
@@ -155,6 +159,10 @@ template <typename T>
 typename array_sequence<T>::const_as_iterator &array_sequence<T>::const_as_iterator::operator=(const typename sequence<T>::iterator_impl &other)
 {
     const const_as_iterator &derived = dynamic_cast<const const_as_iterator &>(other);
+    if (this == &derived)
+    {
+        return *this;
+    }
     it = derived.it;
     return *this;
 }

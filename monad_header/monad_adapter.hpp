@@ -10,8 +10,17 @@ private:
     concept reduce_function = requires(F function, R &result, T &value);
 
 public:
-    template <map_function, monad_container>
-    auto map(map_function function, monad_container container);
+    template <map_function func, monad_container cont>
+    auto map(func &&function, cont &container);
+
+    template <where_function func, monad_container cont>
+    auto where(func &&function, cont &container);
+
+    template <reduce_function func, monad_container cont>
+    auto reduce(func &&function, cont &container);
+
+    template <map_function func, monad_container cont>
+    auto immutable_map(func &&function, cont &container);
 };
 
 #include "../monad_template/monad_adapter.tpp"

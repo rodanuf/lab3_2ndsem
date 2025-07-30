@@ -5,7 +5,7 @@ TEST(test_list_sequence_iterator, base_constructor_iterator)
 {
     list_sequence<int> seq = {42};
     auto it = seq.begin();
-    EXPECT_EQ(**it, 42);
+    EXPECT_EQ(*it, 42);
 }
 
 TEST(test_list_sequence_iterator, copy_constructor_iterator)
@@ -26,7 +26,7 @@ TEST(test_list_sequence_iterator_operators, pref_operator_increment)
     ASSERT_NE(*it_one, *it_two);
     ++it_one;
     EXPECT_EQ(*it_one, *it_two);
-    EXPECT_EQ(**it_one, 2);
+    EXPECT_EQ(*it_one, 2);
 }
 
 TEST(test_list_sequence_iterator_operators, post_operator_increment)
@@ -34,8 +34,8 @@ TEST(test_list_sequence_iterator_operators, post_operator_increment)
     list_sequence<int> seq = {1, 2, 3};
     auto it = seq.begin();
     auto old_it = it++;
-    EXPECT_EQ(**old_it, 1);
-    EXPECT_EQ(**it, 2);
+    EXPECT_EQ(*old_it, 1);
+    EXPECT_EQ(*it, 2);
 }
 
 TEST(test_list_sequence_iterator_operators, pref_operator_decrement)
@@ -48,7 +48,7 @@ TEST(test_list_sequence_iterator_operators, pref_operator_decrement)
     ASSERT_NE(*it_one, *it_two);
     --it_one;
     EXPECT_EQ(*it_one, *it_two);
-    EXPECT_EQ(**it_one, 1);
+    EXPECT_EQ(*it_one, 1);
 }
 
 TEST(test_list_sequence_iterator_operators, post_operator_decrement)
@@ -58,16 +58,16 @@ TEST(test_list_sequence_iterator_operators, post_operator_decrement)
     ++it;
     EXPECT_EQ(*it, 2);
     auto old_it = it--;
-    EXPECT_EQ(**old_it, 2);
-    EXPECT_EQ(**it, 1);
+    EXPECT_EQ(*old_it, 2);
+    EXPECT_EQ(*it, 1);
 }
 
 TEST(test_list_sequence_iterator_operators, operator_appropriation)
 {
     list_sequence<int> seq_one = {1, 2, 3};
     list_sequence<int> seq_two = {1, 2, 3};
-    auto it_one = *seq_one.begin();
-    auto it_two = *seq_two.begin();
+    auto it_one = seq_one.begin();
+    auto it_two = seq_two.begin();
     ++it_one;
     ASSERT_NE(*it_one, *it_two);
     it_one = it_two;
@@ -77,7 +77,7 @@ TEST(test_list_sequence_iterator_operators, operator_appropriation)
 TEST(test_list_sequence_iterator_operators, operator_increment_on)
 {
     list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it = *seq.begin();
+    auto it = seq.begin();
     ASSERT_NE(*it, 5);
     it = it + 4;
     EXPECT_EQ(*it, 5);
@@ -86,7 +86,7 @@ TEST(test_list_sequence_iterator_operators, operator_increment_on)
 TEST(test_list_sequence_iterator_operators, operator_decrement_on)
 {
     list_sequence<int> seq = {1, 2, 3, 4, 5};
-    auto it = *seq.begin();
+    auto it = seq.begin();
     it = it + 3;
     ASSERT_NE(*it, 1);
     it = it - 3;
@@ -96,7 +96,7 @@ TEST(test_list_sequence_iterator_operators, operator_decrement_on)
 TEST(test_list_sequence_iterator_operators, operator_dereferencing)
 {
     list_sequence<int> seq = {42};
-    auto it = *seq.begin();
+    auto it = seq.begin();
     EXPECT_EQ(*it, 42);
     *it = 100;
     EXPECT_EQ(*it, 100);
@@ -106,9 +106,9 @@ TEST(test_list_sequence_iterator_operators, operator_equality)
 {
     list_sequence<int> seq_one = {1, 2, 3, 4, 5};
     list_sequence<int> seq_two = {1, 2, 3, 4, 5};
-    auto it_one = *seq_one.begin();
-    auto it_two = *seq_one.begin();
-    auto it_three = *seq_two.begin();
+    auto it_one = seq_one.begin();
+    auto it_two = seq_one.begin();
+    auto it_three = seq_two.begin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_one == it_two);
     EXPECT_FALSE(it_two == it_three);
@@ -118,9 +118,9 @@ TEST(test_list_sequence_iterator_operators, operator_nonequality)
 {
     list_sequence<int> seq_one = {1, 2, 3, 4, 5};
     list_sequence<int> seq_two = {1, 2, 3, 4, 5};
-    auto it_one = *seq_one.begin();
-    auto it_two = *seq_one.begin();
-    auto it_three = *seq_two.begin();
+    auto it_one = seq_one.begin();
+    auto it_two = seq_one.begin();
+    auto it_three = seq_two.begin();
     it_three = it_three + 3;
     EXPECT_TRUE(it_two != it_three);
     EXPECT_FALSE(it_one != it_two);
@@ -129,7 +129,7 @@ TEST(test_list_sequence_iterator_operators, operator_nonequality)
 TEST(test_list_sequence_iterator_operators, method_begin)
 {
     list_sequence<int> seq = {10, 20, 30};
-    auto it = *seq.begin();
+    auto it = seq.begin();
     EXPECT_EQ(*it, 10);
 }
 

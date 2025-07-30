@@ -127,6 +127,21 @@ typename sequence<T>::const_iterator sequence<T>::const_iterator::operator++(int
 }
 
 template <typename T>
+typename sequence<T>::const_iterator &sequence<T>::const_iterator::operator--()
+{
+    --it;
+    return *this;
+}
+
+template <typename T>
+typename sequence<T>::const_iterator sequence<T>::const_iterator::operator--(int)
+{
+    const_iterator tmp = *this;
+    --it;
+    return tmp;
+}
+
+template <typename T>
 typename sequence<T>::const_iterator &sequence<T>::const_iterator::operator=(const const_iterator &other)
 {
     it = other.it;
