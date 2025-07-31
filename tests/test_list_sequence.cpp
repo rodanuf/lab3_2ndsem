@@ -13,7 +13,7 @@ TEST(test_list_sequence_iterator, copy_constructor_iterator)
     list_sequence<int> seq = {42};
     auto it_one = seq.begin();
     auto it_two = it_one;
-    EXPECT_EQ(it_two, it_one);
+    EXPECT_EQ(*it_two, *it_one);
 }
 
 TEST(test_list_sequence_iterator_operators, pref_operator_increment)
@@ -136,9 +136,9 @@ TEST(test_list_sequence_iterator_operators, method_begin)
 TEST(test_list_sequence_iterator_operators, method_end)
 {
     list_sequence<int> seq = {1, 2, 3};
-    EXPECT_NE(seq.cbegin(), seq.cend());
+    EXPECT_NE(seq.begin(), seq.end());
     size_t count = 0;
-    for (auto it = *seq.cbegin(); it != *seq.cend(); ++it)
+    for (auto it = seq.begin(); it != seq.end(); ++it)
     {
         ++count;
     }

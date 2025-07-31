@@ -50,15 +50,21 @@ typename list_sequence<T>::ls_iterator &list_sequence<T>::ls_iterator::operator=
 }
 
 template <typename T>
-typename list_sequence<T>::ls_iterator *list_sequence<T>::ls_iterator::operator+(const int n)
+typename list_sequence<T>::ls_iterator *list_sequence<T>::ls_iterator::operator+(const int n) const
 {
     return new ls_iterator(it + n);
 }
 
 template <typename T>
-typename list_sequence<T>::ls_iterator *list_sequence<T>::ls_iterator::operator-(const int n)
+typename list_sequence<T>::ls_iterator *list_sequence<T>::ls_iterator::operator-(const int n) const
 {
     return new ls_iterator(it - n);
+}
+
+template <typename T>
+typename list_sequence<T>::ls_iterator *list_sequence<T>::ls_iterator::clone() const
+{
+    return new ls_iterator(*this);
 }
 
 template <typename T>
@@ -160,21 +166,27 @@ typename list_sequence<T>::const_ls_iterator &list_sequence<T>::const_ls_iterato
 }
 
 template <typename T>
-typename list_sequence<T>::const_ls_iterator *list_sequence<T>::const_ls_iterator::operator+(const int n)
+typename list_sequence<T>::const_ls_iterator *list_sequence<T>::const_ls_iterator::operator+(const int n) const
 {
     return new const_ls_iterator(it + n);
 }
 
 template <typename T>
-typename list_sequence<T>::const_ls_iterator *list_sequence<T>::const_ls_iterator::operator-(const int n)
+typename list_sequence<T>::const_ls_iterator *list_sequence<T>::const_ls_iterator::operator-(const int n) const
 {
     return new const_ls_iterator(it - n);
 }
 
 template <typename T>
+typename list_sequence<T>::const_ls_iterator *list_sequence<T>::const_ls_iterator::clone() const
+{
+    return new const_ls_iterator(it);
+}
+
+template <typename T>
 T &list_sequence<T>::const_ls_iterator::operator*()
 {
-    return dynamic_cast<const_ls_iterator *>(this)->operator*();
+    throw std::runtime_error("Cannot modify const iterator");
 }
 
 template <typename T>

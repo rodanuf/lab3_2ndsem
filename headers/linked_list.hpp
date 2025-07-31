@@ -34,8 +34,8 @@ public:
         list_iterator &operator--();
         list_iterator operator--(int);
         list_iterator &operator=(const list_iterator &other);
-        list_iterator operator+(const int n);
-        list_iterator operator-(const int n);
+        list_iterator operator+(const int n) const;
+        list_iterator operator-(const int n) const;
 
         node *operator*();
         const node *operator*() const;
@@ -61,8 +61,8 @@ public:
         const_list_iterator &operator--();
         const_list_iterator operator--(int);
         const_list_iterator &operator=(const const_list_iterator &other);
-        const_list_iterator operator+(const int n);
-        const_list_iterator operator-(const int n);
+        const_list_iterator operator+(const int n) const;
+        const_list_iterator operator-(const int n) const;
 
         const node *operator*() const;
 

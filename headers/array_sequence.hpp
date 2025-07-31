@@ -29,8 +29,10 @@ public:
         as_iterator &operator--() override;
         as_iterator *operator--(int) override;
         as_iterator &operator=(const typename sequence<T>::iterator_impl &other) override;
-        as_iterator *operator+(const int n) override;
-        as_iterator *operator-(const int n) override;
+        as_iterator *operator+(const int n) const override;
+        as_iterator *operator-(const int n) const override;
+
+        as_iterator *clone() const override;
 
         T &operator*() override;
         const T &operator*() const override;
@@ -55,8 +57,10 @@ public:
         const_as_iterator &operator--() override;
         const_as_iterator *operator--(int) override;
         const_as_iterator &operator=(const typename sequence<T>::iterator_impl &other) override;
-        const_as_iterator *operator+(const int n) override;
-        const_as_iterator *operator-(const int n) override;
+        const_as_iterator *operator+(const int n) const override;
+        const_as_iterator *operator-(const int n) const override;
+
+        const_as_iterator *clone() const override;
 
         T &operator*() override;
         const T &operator*() const override;

@@ -14,8 +14,10 @@ protected:
         virtual iterator_impl &operator--() = 0;
         virtual iterator_impl *operator--(int) = 0;
         virtual iterator_impl &operator=(const iterator_impl &other) = 0;
-        virtual iterator_impl *operator+(const int n) = 0;
-        virtual iterator_impl *operator-(const int n) = 0;
+        virtual iterator_impl *operator+(const int n) const = 0;
+        virtual iterator_impl *operator-(const int n) const = 0;
+
+        virtual iterator_impl *clone() const = 0;
 
         virtual T &operator*() = 0;
         virtual const T &operator*() const = 0;
@@ -60,11 +62,11 @@ public:
     class const_iterator
     {
     private:
-        const typename sequence<T>::iterator_impl *it;
+        typename sequence<T>::iterator_impl *it;
 
     public:
         const_iterator();
-        const_iterator(const typename sequence<T>::iterator_impl *it);
+        const_iterator(typename sequence<T>::iterator_impl *it);
         const_iterator(const const_iterator &other);
         ~const_iterator();
 

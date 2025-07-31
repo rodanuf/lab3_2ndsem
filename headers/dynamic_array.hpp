@@ -24,8 +24,8 @@ public:
         array_iterator &operator--();
         array_iterator operator--(int);
         array_iterator &operator=(const array_iterator &other);
-        array_iterator operator+(const int n);
-        array_iterator operator-(const int n);
+        array_iterator operator+(const int n) const;
+        array_iterator operator-(const int n) const;
 
         T &operator*();
 
@@ -49,8 +49,8 @@ public:
         const_array_iterator &operator--();
         const_array_iterator operator--(int);
         const_array_iterator &operator=(const const_array_iterator &other);
-        const_array_iterator operator-(const int n);
-        const_array_iterator operator+(const int n);
+        const_array_iterator operator+(const int n) const;
+        const_array_iterator operator-(const int n) const;
 
         const T &operator*() const;
 

@@ -48,13 +48,13 @@ typename dynamic_array<T>::array_iterator &dynamic_array<T>::array_iterator::ope
 }
 
 template <typename T>
-typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator+(const int n)
+typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator+(const int n) const
 {
     return array_iterator(current + n);
 }
 
 template <typename T>
-typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator-(const int n)
+typename dynamic_array<T>::array_iterator dynamic_array<T>::array_iterator::operator-(const int n) const
 {
     return array_iterator(current - n);
 }
@@ -148,13 +148,13 @@ typename dynamic_array<T>::const_array_iterator &dynamic_array<T>::const_array_i
 }
 
 template <typename T>
-typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator+(const int n)
+typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator+(const int n) const
 {
     return const_array_iterator(current + n);
 }
 
 template <typename T>
-typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator-(const int n)
+typename dynamic_array<T>::const_array_iterator dynamic_array<T>::const_array_iterator::operator-(const int n) const
 {
     return const_array_iterator(current - n);
 }

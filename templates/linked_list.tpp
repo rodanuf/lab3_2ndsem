@@ -65,14 +65,14 @@ typename linked_list<T>::list_iterator &linked_list<T>::list_iterator::operator=
 }
 
 template <typename T>
-typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator+(const int n)
+typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator+(const int n) const
 {
     list_iterator temp(*this);
     for (int i = 0; i < n; i++)
     {
         if (!*temp.current)
         {
-            break; // исключение
+            break;
         }
         *temp.current = (*temp.current)->next;
     }
@@ -80,7 +80,7 @@ typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator+(
 }
 
 template <typename T>
-typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator-(const int n)
+typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator-(const int n) const
 {
     list_iterator temp(*this);
     for (int i = 0; i < n; i++)
@@ -209,7 +209,7 @@ typename linked_list<T>::const_list_iterator &linked_list<T>::const_list_iterato
 }
 
 template <typename T>
-typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator::operator+(const int n)
+typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator::operator+(const int n) const
 {
     const_list_iterator temp(*this);
     for (int i = 0; i < n; i++)
@@ -224,7 +224,7 @@ typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator
 }
 
 template <typename T>
-typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator::operator-(const int n)
+typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator::operator-(const int n) const
 {
     const_list_iterator temp(*this);
     for (int i = 0; i < n; i++)
