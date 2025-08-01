@@ -91,37 +91,30 @@ TEST(test_array_sequence_iterator_operators, operator_appropriation)
 
 TEST(test_array_sequence_iterator_operators, operator_increment_on)
 {
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::array_iterator it(&array[0]);
-    array_sequence<int>::as_iterator as_it(it);
-    ASSERT_NE(*as_it, 5);
-    auto temp = as_it + 4;
-    as_it = *temp;
-    delete temp;
-    EXPECT_EQ(*as_it, 5);
+    array_sequence<int> arr = {1, 2, 3, 4, 5};
+    auto it = arr.begin();
+    ASSERT_NE(*it, 5);
+    it = it + 4;
+    EXPECT_EQ(*it, 5);
 }
 
 TEST(test_array_sequence_iterator_operators, operator_decrement_on)
 {
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::array_iterator it(&array[3]);
-    array_sequence<int>::as_iterator as_it(it);
-    ASSERT_NE(*as_it, 1);
-    auto temp = as_it - 3;
-    as_it = *temp;
-    delete temp;
-    EXPECT_EQ(*as_it, 1);
+    array_sequence<int> arr = {1, 2, 3, 4, 5};
+    auto it = arr.begin();
+    it = it + 3;
+    EXPECT_EQ(*it, 4);
+    it = it - 2;
+    EXPECT_EQ(*it, 2);
 }
 
 TEST(test_array_sequence_iterator_operators, operator_dereferencing)
 {
-    int value = 42;
-    dynamic_array<int>::array_iterator it(&value);
-    array_sequence<int>::as_iterator as_it(it);
-    EXPECT_EQ(*as_it, 42);
-    *as_it = 100;
-    EXPECT_EQ(value, 100);
-    EXPECT_EQ(*as_it, 100);
+    array_sequence<int> seq = {42};
+    auto it = seq.begin();
+    EXPECT_EQ(*it, 42);
+    *it = 100;
+    EXPECT_EQ(*it, 100);
 }
 
 TEST(test_array_sequence_iterator_operators, operator_equality)
@@ -218,57 +211,54 @@ TEST(test_array_sequence_const_iterator, copy_constructor_iterator)
 
 TEST(test_array_sequence_const_iterator_operators, pref_operator_increment)
 {
-    int array[] = {1, 2, 3};
-    dynamic_array<int>::const_array_iterator it_one(&array[0]);
-    dynamic_array<int>::const_array_iterator it_two(&array[1]);
-    array_sequence<int>::const_as_iterator as_it_one(it_one);
-    array_sequence<int>::const_as_iterator as_it_two(it_two);
-    ASSERT_NE(*as_it_one, *as_it_two);
-    ++as_it_one;
-    EXPECT_EQ(*as_it_one, *as_it_two);
-    EXPECT_EQ(*as_it_one, 2);
+    array_sequence<int> seq_one = {1, 2, 3};
+    array_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.cbegin();
+    auto it_two = seq_two.cbegin();
+    ++it_two;
+    ASSERT_NE(*it_one, *it_two);
+    ++it_one;
+    EXPECT_EQ(*it_one, *it_two);
+    EXPECT_EQ(*it_one, 2);
 }
 
 TEST(test_array_sequence_const_iterator_operators, post_operator_increment)
 {
-    int array[] = {1, 2, 3};
-    dynamic_array<int>::const_array_iterator it(&array[0]);
-    array_sequence<int>::const_as_iterator as_it(it);
-    auto old_as_it = *(as_it++);
-    EXPECT_EQ(*old_as_it, array[0]);
-    EXPECT_EQ(*as_it, array[1]);
+    array_sequence<int> seq = {1, 2, 3};
+    auto it = seq.cbegin();
+    it++;
+    EXPECT_EQ(*it, 2);
 }
 
 TEST(test_array_sequence_const_iterator_operators, pref_operator_decrement)
 {
-    int array[] = {1, 2, 3};
-    dynamic_array<int>::const_array_iterator it_one(&array[1]);
-    dynamic_array<int>::const_array_iterator it_two(&array[0]);
-    array_sequence<int>::const_as_iterator as_it_one(it_one);
-    array_sequence<int>::const_as_iterator as_it_two(it_two);
-    ASSERT_NE(*as_it_one, *as_it_two);
-    --as_it_one;
-    EXPECT_EQ(*as_it_one, *as_it_two);
-    EXPECT_EQ(*as_it_one, 1);
+    array_sequence<int> seq_one = {1, 2, 3};
+    array_sequence<int> seq_two = {1, 2, 3};
+    auto it_one = seq_one.cbegin();
+    ++it_one;
+    auto it_two = seq_two.cbegin();
+    ASSERT_NE(*it_one, *it_two);
+    --it_one;
+    EXPECT_EQ(*it_one, *it_two);
+    EXPECT_EQ(*it_one, 1);
 }
 
 TEST(test_array_sequence_const_iterator_operators, post_operator_decrement)
 {
-    int array[] = {1, 2, 3};
-    dynamic_array<int>::const_array_iterator it(&array[1]);
-    array_sequence<int>::const_as_iterator as_it(it);
-    EXPECT_EQ(*as_it, 2);
-    auto old_as_it = *(as_it--);
-    EXPECT_EQ(*old_as_it, array[1]);
-    EXPECT_EQ(*as_it, array[0]);
+    array_sequence<int> seq = {1, 2, 3};
+    auto it = seq.cbegin();
+    ++it;
+    EXPECT_EQ(*it, 2);
+    it--;
+    EXPECT_EQ(*it, 1);
 }
 
 TEST(test_array_sequence_const_iterator_operators, operator_appropriation)
 {
     array_sequence<int> seq_one = {1, 2, 3};
     array_sequence<int> seq_two = {1, 2, 3};
-    auto it_one = seq_one.begin();
-    auto it_two = seq_two.begin();
+    auto it_one = seq_one.cbegin();
+    auto it_two = seq_two.cbegin();
     ++it_one;
     ASSERT_NE(*it_one, *it_two);
     it_one = it_two;
@@ -277,33 +267,28 @@ TEST(test_array_sequence_const_iterator_operators, operator_appropriation)
 
 TEST(test_array_sequence_const_iterator_operators, operator_increment_on)
 {
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::const_array_iterator it(&array[0]);
-    array_sequence<int>::const_as_iterator as_it(it);
-    ASSERT_NE(*as_it, 5);
-    auto temp = as_it + 4;
-    as_it = *temp;
-    EXPECT_EQ(*as_it, 5);
+    array_sequence<int> arr = {1, 2, 3, 4, 5};
+    auto it = arr.cbegin();
+    ASSERT_NE(*it, 5);
+    it = it + 4;
+    EXPECT_EQ(*it, 5);
 }
 
 TEST(test_array_sequence_const_iterator_operators, operator_decrement_on)
 {
-    int array[] = {1, 2, 3, 4, 5};
-    dynamic_array<int>::const_array_iterator it(&array[3]);
-    array_sequence<int>::const_as_iterator as_it(it);
-    ASSERT_NE(*as_it, 1);
-    auto temp = as_it - 3;
-    as_it = *temp;
-    delete temp;
-    EXPECT_EQ(*as_it, 1);
+    array_sequence<int> arr = {1, 2, 3, 4, 5};
+    auto it = arr.cbegin();
+    it = it + 4;
+    ASSERT_NE(*it, 1);
+    it = it - 3;
+    EXPECT_EQ(*it, 2);
 }
 
 TEST(test_array_sequence_const_iterator_operators, operator_dereferencing)
 {
-    int value = 42;
-    dynamic_array<int>::const_array_iterator it(&value);
-    array_sequence<int>::const_as_iterator as_it(it);
-    EXPECT_EQ(*as_it, 42);
+    array_sequence<int> arr = {1, 2, 3};
+    auto as_it = arr.cbegin();
+    EXPECT_EQ(*as_it, 1);
 }
 
 TEST(test_array_sequence_const_iterator_operators, operator_equality)

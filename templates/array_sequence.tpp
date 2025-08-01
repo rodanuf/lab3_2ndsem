@@ -194,7 +194,7 @@ typename array_sequence<T>::const_as_iterator *array_sequence<T>::const_as_itera
 template <typename T>
 T &array_sequence<T>::const_as_iterator::operator*()
 {
-    return const_cast<const_as_iterator *>(this)->operator*();
+    throw std::runtime_error("Cannot modify const iterator");
 }
 
 template <typename T>
@@ -318,12 +318,6 @@ T &array_sequence<T>::get_last()
 }
 
 template <typename T>
-int array_sequence<T>::get_length() const
-{
-    return a_sequence.get_length();
-}
-
-template <typename T>
 const T &array_sequence<T>::get(const int index) const
 {
     if (index >= a_sequence.get_length() || index < 0)
@@ -351,6 +345,26 @@ const T &array_sequence<T>::get_last() const
         throw std::out_of_range("Sequence is empty");
     }
     return a_sequence.get_last();
+}
+
+template <typename T>
+int array_sequence<T>::get_length() const
+{
+    return a_sequence.get_length();
+}
+
+template <typename T>
+sequence<T> &array_sequence<T>::operator+(const T &value)
+{
+    a_sequence.append_element(value);
+    return *this;
+}
+
+template <typename T>
+sequence<T> &array_sequence<T>::operator+=(const T &element)
+{
+    a_sequence.append_element(element);
+    return *this;
 }
 
 template <typename T>

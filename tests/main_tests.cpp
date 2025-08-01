@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../headers/dynamic_array.hpp"
+#include "../headers/array_sequence.hpp"
 #include "../headers/linked_list.hpp"
 #include "../headers/list_sequence.hpp"
 #include "../headers/stack.hpp"
@@ -10,6 +11,7 @@
 #include "../types_headers/professor.hpp"
 
 #include "test_dynamic_array.cpp"
+#include "test_array_sequence.cpp"
 #include "test_linked_list.cpp"
 #include "test_list_sequence.cpp"
 #include "test_stack.cpp"

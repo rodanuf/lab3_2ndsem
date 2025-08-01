@@ -91,6 +91,9 @@ public:
 
     int get_length() const override;
 
+    sequence<T> &operator+(const T &value) override;
+    sequence<T> &operator+=(const T &value) override;
+
     sequence<T> *get_subsequence(const int start_index, const int end_index) const override;
     sequence<T> *append_element(const T &element) override;
     sequence<T> *prepend_element(const T &element) override;

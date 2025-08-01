@@ -55,23 +55,24 @@ typename sequence<T>::iterator sequence<T>::iterator::operator--(int)
 template <typename T>
 typename sequence<T>::iterator &sequence<T>::iterator::operator=(const iterator &other)
 {
-    auto tmp = other.it->clone();
-    it = tmp;
+    if (this != &other)
+    {
+        delete it;
+        it = other.it->clone();
+    }
     return *this;
 }
 
 template <typename T>
 typename sequence<T>::iterator sequence<T>::iterator::operator+(const int n)
 {
-    (*it).operator+(n);
-    return *this;
+    return iterator((*it).operator+(n));
 }
 
 template <typename T>
 typename sequence<T>::iterator sequence<T>::iterator::operator-(const int n)
 {
-    (*it).operator-(n);
-    return *this;
+    return iterator((*it).operator-(n));
 }
 
 template <typename T>
@@ -135,8 +136,8 @@ typename sequence<T>::const_iterator &sequence<T>::const_iterator::operator++()
 template <typename T>
 typename sequence<T>::const_iterator sequence<T>::const_iterator::operator++(int)
 {
-    const_iterator tmp = *this;
-    (*it).operator++();
+    const_iterator tmp(*this);
+    ++(*it);
     return tmp;
 }
 
@@ -150,40 +151,35 @@ typename sequence<T>::const_iterator &sequence<T>::const_iterator::operator--()
 template <typename T>
 typename sequence<T>::const_iterator sequence<T>::const_iterator::operator--(int)
 {
-    const_iterator tmp = *this;
-    (*it).operator--();
+    const_iterator tmp(*this);
+    --(*it);
     return tmp;
 }
 
 template <typename T>
 typename sequence<T>::const_iterator &sequence<T>::const_iterator::operator=(const const_iterator &other)
 {
-    it = other.it;
+    auto tmp = other.it->clone();
+    it = tmp;
     return *this;
 }
 
 template <typename T>
 typename sequence<T>::const_iterator sequence<T>::const_iterator::operator+(const int n)
 {
-    if (it == nullptr)
-    {
-        return *this;
-    }
-    it = (*it).operator+(n);
-    return *this;
+    return const_iterator((*it).operator+(n));
 }
 
 template <typename T>
 typename sequence<T>::const_iterator sequence<T>::const_iterator::operator-(const int n)
 {
-    (*it).operator-(n);
-    return *this;
+    return const_iterator((*it).operator-(n));
 }
 
 template <typename T>
 const T &sequence<T>::const_iterator::operator*() const
 {
-    return (*it).operator*();
+    return (*static_cast<const iterator_impl *>(it)).operator*();
 }
 
 template <typename T>

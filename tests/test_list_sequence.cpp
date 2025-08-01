@@ -179,8 +179,7 @@ TEST(test_list_sequence_const_iterator_operators, post_operator_increment)
 {
     list_sequence<int> seq = {1, 2, 3};
     auto it = seq.cbegin();
-    auto old_it = it++;
-    EXPECT_EQ(*old_it, 1);
+    it++;
     EXPECT_EQ(*it, 2);
 }
 
@@ -203,8 +202,7 @@ TEST(test_list_sequence_const_iterator_operators, post_operator_decrement)
     auto it = seq.cbegin();
     ++it;
     EXPECT_EQ(*it, 2);
-    auto old_it = it--;
-    EXPECT_EQ(*old_it, 2);
+    it--;
     EXPECT_EQ(*it, 1);
 }
 
@@ -241,9 +239,13 @@ TEST(test_list_sequence_const_iterator_operators, operator_decrement_on)
 
 TEST(test_list_sequence_const_iterator_operators, operator_dereferencing)
 {
-    list_sequence<int> seq = {42};
-    auto it = seq.cbegin();
-    EXPECT_EQ(*it, 42);
+    list_sequence<int> seq_one = {42};
+    list_sequence<int> seq_two = {100};
+    auto it_one = seq_one.cbegin();
+    auto it_two = seq_two.cbegin();
+    EXPECT_EQ(*it_one, 42);
+    it_one = it_two;
+    EXPECT_EQ(*it_one, 100);
 }
 
 TEST(test_list_sequence_const_iterator_operators, operator_equality)

@@ -133,8 +133,8 @@ typename list_sequence<T>::const_ls_iterator &list_sequence<T>::const_ls_iterato
 template <typename T>
 typename list_sequence<T>::const_ls_iterator *list_sequence<T>::const_ls_iterator::operator++(int)
 {
-    const_ls_iterator *tmp = new const_ls_iterator(*this);
-    it++;
+    auto tmp = this->clone();
+    ++(*this);
     return tmp;
 }
 
@@ -148,8 +148,8 @@ typename list_sequence<T>::const_ls_iterator &list_sequence<T>::const_ls_iterato
 template <typename T>
 typename list_sequence<T>::const_ls_iterator *list_sequence<T>::const_ls_iterator::operator--(int)
 {
-    const_ls_iterator *tmp = new const_ls_iterator(*this);
-    it--;
+    auto tmp = this->clone();
+    --(*this);
     return tmp;
 }
 
@@ -318,6 +318,20 @@ template <typename T>
 int list_sequence<T>::get_length() const
 {
     return l_sequence.get_length();
+}
+
+template <typename T>
+sequence<T> &list_sequence<T>::operator+(const T &value)
+{
+    l_sequence.append_elemnt(value);
+    return *this;
+}
+
+template <typename T>
+sequence<T> &list_sequence<T>::operator+=(const T &value)
+{
+    l_sequence.append_elemnt(value);
+    return *this;
 }
 
 template <typename T>
