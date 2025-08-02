@@ -258,13 +258,21 @@ template <typename T>
 array_sequence<T>::~array_sequence() {}
 
 template <typename T>
-typename array_sequence<T>::array_sequence &array_sequence<T>::operator=(const array_sequence<T> &other)
+array_sequence<T> &array_sequence<T>::operator=(const array_sequence<T> &other)
 {
     if (this != &other)
     {
         a_sequence = other.a_sequence;
     }
     return *this;
+}
+
+template <typename T>
+array_sequence<T> array_sequence<T>::operator+(const T &value)
+{
+    array_sequence<T> new_a_sequence(*this);
+    new_a_sequence = new_a_sequence.append_element(value);
+    return new_a_sequence;
 }
 
 template <typename T>
@@ -351,13 +359,6 @@ template <typename T>
 int array_sequence<T>::get_length() const
 {
     return a_sequence.get_length();
-}
-
-template <typename T>
-sequence<T> &array_sequence<T>::operator+(const T &value)
-{
-    a_sequence.append_element(value);
-    return *this;
 }
 
 template <typename T>

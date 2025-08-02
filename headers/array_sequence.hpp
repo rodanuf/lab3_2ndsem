@@ -11,6 +11,9 @@ protected:
     typename array_sequence<T>::const_as_iterator *cbegin_impl() const override;
     typename array_sequence<T>::const_as_iterator *cend_impl() const override;
 
+public:
+    using value_type = T;
+
 private:
     dynamic_array<T> a_sequence;
 
@@ -78,6 +81,7 @@ public:
     ~array_sequence();
 
     array_sequence<T> &operator=(const array_sequence<T> &other);
+    array_sequence<T> operator+(const T &value);
 
     T &operator[](const int index);
     const T &operator[](const int index) const;
@@ -91,7 +95,6 @@ public:
 
     int get_length() const override;
 
-    sequence<T> &operator+(const T &value) override;
     sequence<T> &operator+=(const T &value) override;
 
     sequence<T> *get_subsequence(const int start_index, const int end_index) const override;

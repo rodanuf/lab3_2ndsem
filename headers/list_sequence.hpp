@@ -5,14 +5,17 @@
 template <typename T>
 class list_sequence : public sequence<T>
 {
-private:
-    linked_list<T> l_sequence;
-
 protected:
     typename list_sequence<T>::ls_iterator *begin_impl() override;
     typename list_sequence<T>::ls_iterator *end_impl() override;
     typename list_sequence<T>::const_ls_iterator *cbegin_impl() const override;
     typename list_sequence<T>::const_ls_iterator *cend_impl() const override;
+
+public:
+    using value_type = T;
+
+private:
+    linked_list<T> l_sequence;
 
 public:
     class ls_iterator : public sequence<T>::iterator_impl
@@ -76,6 +79,9 @@ public:
     list_sequence(const sequence<T> &other);
     ~list_sequence();
 
+    list_sequence &operator=(const list_sequence<T> &other);
+    list_sequence<T> operator+(const T &value);
+
     T &get(const int index) override;
     T &get_first() override;
     T &get_last() override;
@@ -85,7 +91,6 @@ public:
 
     int get_length() const override;
 
-    sequence<T> &operator+(const T &value) override;
     sequence<T> &operator+=(const T &value) override;
 
     sequence<T> *get_subsequence(const int start_index, const int end_index) const override;

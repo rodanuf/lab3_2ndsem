@@ -2,10 +2,34 @@
 #include "../headers/stack.hpp"
 
 template <typename T>
+typename sequence<T>::iterator stack<T>::begin()
+{
+    return container->begin();
+}
+
+template <typename T>
+typename sequence<T>::iterator stack<T>::end()
+{
+    return container->end();
+}
+
+template <typename T>
+typename sequence<T>::const_iterator stack<T>::cbegin() const
+{
+    return container->cbegin();
+}
+
+template <typename T>
+typename sequence<T>::const_iterator stack<T>::cend() const
+{
+    return container->cend();
+}
+
+template <typename T>
 stack<T>::stack(sequence<T> *s) : container(s) {}
 
 template <typename T>
-stack<T>::stack(std::initializer_list<T> &list, sequence<T> *s) : container(s)
+stack<T>::stack(const std::initializer_list<T> &list, sequence<T> *s) : container(s)
 {
     for (int i = 0; i < list.size(); i++)
     {
@@ -29,6 +53,40 @@ template <typename T>
 stack<T>::~stack()
 {
     delete container;
+}
+
+template <typename T>
+stack<T> &stack<T>::operator=(const stack<T> &stack)
+{
+    if (this != &stack)
+    {
+        delete container;
+        container = stack.container->clone();
+    }
+    return *this;
+}
+
+template <typename T>
+stack<T> &stack<T>::operator=(const sequence<T> &sequence)
+{
+    delete container;
+    container = sequence.clone();
+    return *this;
+}
+
+template <typename T>
+stack<T> stack<T>::operator+(const T &value)
+{
+    stack<T> new_stack = *this;
+    new_stack.container = new_stack.container->append_element(value);
+    return new_stack;
+}
+
+template <typename T>
+stack<T> &stack<T>::operator+=(const T &value)
+{
+    container = container->append_element(value);
+    return *this;
 }
 
 template <typename T>
@@ -60,6 +118,11 @@ void stack<T>::pop()
 {
     container = container->remove_at(size() - 1);
 }
+template <typename T>
+void stack<T>::clear()
+{
+    container->clear();
+}
 
 template <typename T>
 bool stack<T>::is_empty()
@@ -72,85 +135,4 @@ bool stack<T>::is_empty()
     {
         return false;
     }
-}
-
-template <typename T>
-template <typename map_func>
-stack<T> *stack<T>::map(const map_func &func)
-{
-    stack<T> *new_stack = new stack<T>();
-    for (int i = 0; i < size() + new_stack->size(); i++)
-    {
-        new_stack->push(func(top()));
-        pop();
-        std::cout << new_stack->top() << std::endl;
-    }
-    for (int i = 0; i < new_stack->size() + size(); i++)
-    {
-        push(new_stack->top());
-        new_stack->pop();
-    }
-    delete new_stack;
-    return this;
-}
-
-template <typename T>
-template <typename predicate>
-stack<T> *stack<T>::where(const predicate &pred)
-{
-    stack<T> *new_stack = new stack<T>();
-    stack<T> *result_stack = new stack<T>();
-    int stack_size = size();
-    for (int i = 0; i < stack_size; i++)
-    {
-        if (pred(top()))
-        {
-            new_stack->push(top());
-        }
-        pop();
-    }
-    stack_size = new_stack->size();
-    for (int i = 0; i < stack_size; i++)
-    {
-        result_stack->push(new_stack->top());
-        new_stack->pop();
-    }
-    delete new_stack;
-    return result_stack;
-}
-
-template <typename T>
-template <typename R, typename bin_op>
-R stack<T>::reduce(const bin_op &op, R init)
-{
-    stack<T> *new_stack = new stack<T>(*this);
-    for (int i = 0; i < size(); ++i)
-    {
-        init = op(init, new_stack->top());
-        new_stack->pop();
-    }
-    delete new_stack;
-    return init;
-}
-
-template <typename T>
-template <typename map_func>
-stack<T> *stack<T>::immutable_map(const map_func &func) const
-{
-    stack<T> *buffer_stack = new stack<T>(*this);
-    stack<T> *new_stack = new stack<T>();
-    stack<T> *result_stack = new stack<T>();
-    for (int i = 0; i < size(); i++)
-    {
-        new_stack->push(func(buffer_stack->top()));
-        buffer_stack->pop();
-    }
-    for (int i = 0; i < size(); i++)
-    {
-        result_stack->push(new_stack->top());
-        new_stack->pop();
-    }
-    delete new_stack;
-    delete buffer_stack;
-    return result_stack;
 }

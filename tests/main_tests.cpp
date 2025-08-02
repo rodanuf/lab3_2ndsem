@@ -9,6 +9,7 @@
 #include "../types_headers/complex.hpp"
 #include "../types_headers/student.hpp"
 #include "../types_headers/professor.hpp"
+#include "../monad_header/monad_adapter.hpp"
 
 #include "test_dynamic_array.cpp"
 #include "test_array_sequence.cpp"
@@ -20,6 +21,7 @@
 #include "test_student.cpp"
 #include "test_professor.cpp"
 #include "test_io_functions.cpp"
+#include "test_monad.cpp"
 
 int main(int argc, char **argv)
 {

@@ -11,6 +11,7 @@ file(GLOB UI_HEADERS "ui_headers/*.hpp")
 file(GLOB UI_SOURCES "ui_sources/*.cpp") 
 file(GLOB TYPES_HEADERS "types_headers/*.hpp")
 file(GLOB TYPES_SOURCES "types_sources/*.cpp")
+file(GLOB MONAD_HEADER "monad_header/*.hpp")
 
 option(BUILD_GMOCK "Build gmock" OFF)
 add_subdirectory(googletest EXCLUDE_FROM_ALL)
@@ -34,6 +35,7 @@ target_include_directories(tests PRIVATE
     ${CMAKE_SOURCE_DIR}/tests
     ${CMAKE_SOURCE_DIR}/types_headers
     ${CMAKE_SOURCE_DIR}/ui_headers
+    ${CMAKE_SOURCE_DIR}/monad_header
 )
 
 target_include_directories(lab3_2ndsem PRIVATE

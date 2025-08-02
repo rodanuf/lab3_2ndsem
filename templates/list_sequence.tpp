@@ -247,6 +247,24 @@ template <typename T>
 list_sequence<T>::~list_sequence() {}
 
 template <typename T>
+list_sequence<T> &list_sequence<T>::operator=(const list_sequence<T> &other)
+{
+    if (this != &other)
+    {
+        l_sequence = other.l_sequence;
+    }
+    return *this;
+}
+
+template <typename T>
+list_sequence<T> list_sequence<T>::operator+(const T &value)
+{
+    list_sequence<T> new_l_sequence(*this);
+    new_l_sequence = new_l_sequence.append_element(value);
+    return new_l_sequence;
+}
+
+template <typename T>
 T &list_sequence<T>::get(const int index)
 {
     if (index >= l_sequence.get_length() || (-index) >= l_sequence.get_length())
@@ -321,16 +339,9 @@ int list_sequence<T>::get_length() const
 }
 
 template <typename T>
-sequence<T> &list_sequence<T>::operator+(const T &value)
-{
-    l_sequence.append_elemnt(value);
-    return *this;
-}
-
-template <typename T>
 sequence<T> &list_sequence<T>::operator+=(const T &value)
 {
-    l_sequence.append_elemnt(value);
+    l_sequence.append_element(value);
     return *this;
 }
 
