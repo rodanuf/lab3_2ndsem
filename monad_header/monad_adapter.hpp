@@ -1,5 +1,10 @@
 #pragma once
 
+template <typename F, typename T>
+concept callable = requires(F &&func, const T &value) {
+    std::invoke(std::forward<F>(func), value);
+};
+
 template <typename T>
 concept monad_container = requires(T container, const typename T::value_type &value) {
     typename T::value_type;
@@ -10,11 +15,7 @@ concept monad_container = requires(T container, const typename T::value_type &va
 };
 
 template <typename F, typename T>
-concept map_function = requires(F function, const T &value) {
-    {
-        function(value)
-    };
-};
+concept map_function = callable<F, T>;
 
 template <typename F, typename T>
 concept where_function = requires(F function, const T &value) {
@@ -25,6 +26,24 @@ template <typename F, typename R, typename T>
 concept reduce_function = requires(F function, R &result, T &value) {
     { function(result, value) } -> std::convertible_to<R>;
 };
+
+template <typename F>
+struct transform_st
+{
+    F func;
+};
+
+template <typename P>
+struct keep_st
+{
+    P pred;
+};
+
+template <typename F>
+auto transform(F &&func);
+
+template <typename P>
+auto keep(P &&pred);
 
 template <monad_container container>
 class monad_adapter
@@ -63,15 +82,27 @@ public:
 
     template <typename F>
         requires where_function<F, result_type>
-    auto where(F &&func);
+    auto where(F &&func) const;
 
     template <typename R, typename F>
         requires reduce_function<F, R, result_type>
-    R reduce(F &&func, R initial);
+    R reduce(F &&func, R initial) const;
 
     template <typename F>
         requires map_function<F, result_type>
     auto immutable_map(F &&func) const;
+
+    template <typename F>
+        requires where_function<F, result_type>
+    auto immutable_filter(F &&func) const;
+
+    template <typename F>
+        requires callable<F, result_type>
+    auto operator>>(const transform_st<F> &st);
+
+    template <typename F>
+        requires where_function<F, result_type>
+    auto operator>>(const keep_st<F> &st);
 };
 
 #include "../monad_template/monad_adapter.tpp"

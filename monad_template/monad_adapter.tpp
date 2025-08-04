@@ -1,5 +1,17 @@
 #include "../monad_header/monad_adapter.hpp"
 
+template <typename F>
+auto transform(F &&func)
+{
+    return transform_st {func};
+}
+
+template <typename P>
+auto keep(P &&pred)
+{
+    return keep_st {pred};
+}
+
 template <monad_container container>
 monad_adapter<container>::monad_adapter() {}
 
@@ -102,10 +114,10 @@ void monad_adapter<container>::filter(F &&func)
 template <monad_container container>
 template <typename F>
     requires where_function<F, typename container::value_type>
-auto monad_adapter<container>::where(F &&func)
+auto monad_adapter<container>::where(F &&func) const
 {
     container result;
-    for (auto it = cont.begin(); it != cont.end(); ++it)
+    for (auto it = cont.cbegin(); it != cont.cend(); ++it)
     {
         result += func(*it);
     }
@@ -115,10 +127,10 @@ auto monad_adapter<container>::where(F &&func)
 template <monad_container container>
 template <typename R, typename F>
     requires reduce_function<F, R, typename container::value_type>
-R monad_adapter<container>::reduce(F &&func, R initial)
+R monad_adapter<container>::reduce(F &&func, R initial) const
 {
     R result = initial;
-    for (auto it = cont.begin(); it != cont.end(); ++it)
+    for (auto it = cont.cbegin(); it != cont.cend(); ++it)
     {
         result = func(result, *it);
     }
@@ -131,9 +143,41 @@ template <typename F>
 auto monad_adapter<container>::immutable_map(F &&func) const
 {
     container result;
-    for (auto it = cont.begin(); it != cont.end(); ++it)
+    for (auto it = cont.cbegin(); it != cont.cend(); ++it)
     {
-        result += *it;
+        result += func(*it);
     }
     return monad_adapter<container>(result);
+}
+
+template <monad_container container>
+template <typename F>
+    requires where_function<F, typename container::value_type>
+auto monad_adapter<container>::immutable_filter(F &&func) const
+{
+    container result;
+    for (auto it = cont.cbegin(); it != cont.cend(); ++it)
+    {
+        if (func(*it))
+        {
+            result += *it;
+        }
+    }
+    return monad_adapter<container>(result);
+}
+
+template <monad_container container>
+template <typename F>
+    requires callable<F, typename container::value_type>
+auto monad_adapter<container>::operator>>(const transform_st<F> &st)
+{
+    return immutable_map(st.func);
+}
+
+template <monad_container container>
+template <typename F>
+    requires where_function<F, typename container::value_type>
+auto monad_adapter<container>::operator>>(const keep_st<F> &st)
+{
+    return immutable_filter(st.pred);
 }
