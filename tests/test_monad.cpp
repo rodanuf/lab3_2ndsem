@@ -200,3 +200,16 @@ TEST(test_monada, test_functional_pipeline)
      EXPECT_EQ(new_arr->get(2), 10);
      EXPECT_EQ(new_arr->get_length(), 4);
 }
+
+TEST(test_monada, test_compose)
+{
+     monad_adapter<array_sequence<int>> arr{array_sequence<int>{1, 2, 3, 4, 5, 6}};
+     auto result_function = transform([](int x)
+                                       { return x * 2; })<<keep([](int x)
+                                                               { return x % 2 == 0; })<<keep([](int x)
+                                                                                               { return x > 4; });
+
+     auto new_arr = arr>>result_function;
+     EXPECT_EQ(new_arr->get(0), 12);
+     EXPECT_EQ(new_arr->get_length(), 1);
+}

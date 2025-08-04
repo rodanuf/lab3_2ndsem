@@ -31,12 +31,18 @@ template <typename F>
 struct transform_st
 {
     F func;
+
+    template <typename next>
+    auto operator<<(const next &function) const;
 };
 
 template <typename P>
 struct keep_st
 {
     P pred;
+
+    template <typename next>
+    auto operator<<(const next &function) const;
 };
 
 template <typename F>
@@ -44,6 +50,19 @@ auto transform(F &&func);
 
 template <typename P>
 auto keep(P &&pred);
+
+template <typename first_op, typename second_op>
+struct compose_st
+{
+    first_op first;
+    second_op second;
+
+    template <typename next>
+    auto operator<<(const next &function) const;
+
+    template <typename container>
+    auto compose(container &other) const;
+};
 
 template <monad_container container>
 class monad_adapter
@@ -103,6 +122,9 @@ public:
     template <typename F>
         requires where_function<F, result_type>
     auto operator>>(const keep_st<F> &st);
+
+    template <typename first_op, typename second_op>
+    auto operator>>(const compose_st<first_op, second_op> &st);
 };
 
 #include "../monad_template/monad_adapter.tpp"

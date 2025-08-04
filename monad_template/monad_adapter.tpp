@@ -6,10 +6,38 @@ auto transform(F &&func)
     return transform_st {func};
 }
 
+template <typename F>
+template <typename next>
+auto transform_st<F>::operator<<(const next &function) const
+{
+    return compose_st<transform_st<F>, next>{*this, function};
+}
+
 template <typename P>
 auto keep(P &&pred)
 {
     return keep_st {pred};
+}
+
+template <typename P>
+template <typename next>
+auto keep_st<P>::operator<<(const next &function) const
+{
+    return compose_st<keep_st<P>, next> {*this, function};
+}
+
+template <typename first_op, typename second_op>
+template <typename next>
+auto compose_st<first_op, second_op>::operator<<(const next &function) const
+{
+    return compose_st<compose_st<first_op, second_op>, next> {*this, function};
+}
+
+template <typename first_op, typename second_op>
+template <typename container>
+auto compose_st<first_op, second_op>::compose(container &other) const
+{
+    return other >> second >> first;
 }
 
 template <monad_container container>
@@ -180,4 +208,11 @@ template <typename F>
 auto monad_adapter<container>::operator>>(const keep_st<F> &st)
 {
     return immutable_filter(st.pred);
+}
+
+template <monad_container container>
+template <typename first_op, typename second_op>
+auto monad_adapter<container>::operator>>(const compose_st<first_op, second_op> &st)
+{
+    return st.compose(*this);
 }
