@@ -49,6 +49,12 @@ queue<T>::queue(const queue<T> &queue) : container(nullptr)
 }
 
 template <typename T>
+queue<T>::queue(queue<T> &&other) : container(other.container)
+{
+    other.container = nullptr;
+}
+
+template <typename T>
 queue<T>::~queue()
 {
     delete container;

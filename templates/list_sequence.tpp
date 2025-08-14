@@ -234,12 +234,34 @@ template <typename T>
 list_sequence<T>::list_sequence(const std::initializer_list<T> &items) : l_sequence(linked_list<T>(items)) {}
 
 template <typename T>
+list_sequence<T>::list_sequence(const list_sequence<T> &other)
+{
+    for (int i = 0; i < other.get_length(); ++i)
+    {
+        l_sequence.append_element(other.get(i));
+    }
+}
+
+template <typename T>
+list_sequence<T>::list_sequence(list_sequence<T> &&other) : l_sequence(std::move(other.l_sequence)) {}
+
+template <typename T>
+list_sequence<T>::list_sequence(sequence<T> &&other) : l_sequence(std::move(other.get_length()))
+{
+    for (int i = 0; i < other.get_length(); ++i)
+    {
+        l_sequence.append_element(other.get(i));
+    }
+    other.clear();
+}
+
+template <typename T>
 list_sequence<T>::list_sequence(const sequence<T> &other)
 {
     l_sequence = linked_list<T>(other.get_length());
     for (int i = 0; i < other.get_length(); ++i)
     {
-        l_sequence.append(other.get(i));
+        l_sequence.append_element(other.get(i));
     }
 }
 

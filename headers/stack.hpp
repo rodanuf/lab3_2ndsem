@@ -15,15 +15,16 @@ private:
     sequence<T> *container;
 
 public:
-    sequence<T>::iterator begin();
-    sequence<T>::iterator end();
-    sequence<T>::const_iterator cbegin() const;
-    sequence<T>::const_iterator cend() const;
+    typename sequence<T>::iterator begin();
+    typename sequence<T>::iterator end();
+    typename sequence<T>::const_iterator cbegin() const;
+    typename sequence<T>::const_iterator cend() const;
 
     stack(sequence<T> *s = new list_sequence<T>());
     stack(const std::initializer_list<T> &list, sequence<T> *s = new list_sequence<T>());
     stack(const sequence<T> &other);
     stack(const stack<T> &other);
+    stack(stack<T> &&other);
     ~stack();
 
     stack<T> &operator=(const stack<T> &other);

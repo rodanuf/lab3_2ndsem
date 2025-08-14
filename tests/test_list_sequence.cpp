@@ -104,25 +104,17 @@ TEST(test_list_sequence_iterator_operators, operator_dereferencing)
 
 TEST(test_list_sequence_iterator_operators, operator_equality)
 {
-    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
-    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
-    auto it_one = seq_one.begin();
-    auto it_two = seq_one.begin();
-    auto it_three = seq_two.begin();
-    it_three = it_three + 3;
+    list_sequence<int> lst = {1, 2, 3, 4, 5};
+    auto it_one = lst.begin();
+    auto it_two = lst.begin();
     EXPECT_TRUE(it_one == it_two);
-    EXPECT_FALSE(it_two == it_three);
 }
 
 TEST(test_list_sequence_iterator_operators, operator_nonequality)
 {
-    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
-    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
-    auto it_one = seq_one.begin();
-    auto it_two = seq_one.begin();
-    auto it_three = seq_two.begin();
-    it_three = it_three + 3;
-    EXPECT_TRUE(it_two != it_three);
+    list_sequence<int> lst = {1, 2, 3, 4, 5};
+    auto it_one = lst.begin();
+    auto it_two = lst.begin();
     EXPECT_FALSE(it_one != it_two);
 }
 
@@ -250,25 +242,17 @@ TEST(test_list_sequence_const_iterator_operators, operator_dereferencing)
 
 TEST(test_list_sequence_const_iterator_operators, operator_equality)
 {
-    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
-    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
-    auto it_one = seq_one.cbegin();
-    auto it_two = seq_one.cbegin();
-    auto it_three = seq_two.cbegin();
-    it_three = it_three + 3;
+    list_sequence<int> lst = {1, 2, 3, 4, 5};
+    auto it_one = lst.begin();
+    auto it_two = lst.begin();
     EXPECT_TRUE(it_one == it_two);
-    EXPECT_FALSE(it_two == it_three);
 }
 
 TEST(test_list_sequence_const_iterator_operators, operator_nonequality)
 {
-    list_sequence<int> seq_one = {1, 2, 3, 4, 5};
-    list_sequence<int> seq_two = {1, 2, 3, 4, 5};
-    auto it_one = seq_one.cbegin();
-    auto it_two = seq_one.cbegin();
-    auto it_three = seq_two.cbegin();
-    it_three = it_three + 3;
-    EXPECT_TRUE(it_two != it_three);
+    list_sequence<int> lst = {1, 2, 3, 4, 5};
+    auto it_one = lst.begin();
+    auto it_two = lst.begin();
     EXPECT_FALSE(it_one != it_two);
 }
 

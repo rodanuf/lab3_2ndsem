@@ -144,7 +144,7 @@ TEST(test_array_sequence_iterator_operators, operator_equality_with_another_stru
     auto ls_it_two = *(list.begin_impl());
     auto ls_it_three = *(*(list.begin_impl()) + 3);
 
-    EXPECT_TRUE(as_it_one == ls_it_one);
+    EXPECT_FALSE(as_it_one == ls_it_one);
     EXPECT_FALSE(as_it_two == ls_it_three);
 }
 
@@ -176,7 +176,7 @@ TEST(test_array_sequence_iterator_operators, operator_nonequality_with_another_s
     auto ls_it_three = *(*(list.cbegin_impl()) + 3);
 
     EXPECT_TRUE(as_it_two != ls_it_three);
-    EXPECT_FALSE(as_it_one != ls_it_two);
+    EXPECT_TRUE(as_it_one != ls_it_two);
 }
 
 TEST(test_array_sequence_iterator_operators, method_begin)

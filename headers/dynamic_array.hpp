@@ -68,6 +68,7 @@ public:
     dynamic_array(const T *data, const int &size);
     dynamic_array(const std::initializer_list<T> &list);
     dynamic_array(const dynamic_array &other);
+    dynamic_array(dynamic_array &&other);
     ~dynamic_array();
 
     dynamic_array<T> &operator=(const dynamic_array &other);

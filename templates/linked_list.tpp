@@ -30,6 +30,10 @@ linked_list<T>::list_iterator::list_iterator(const list_iterator &other) : curre
 template <typename T>
 typename linked_list<T>::list_iterator &linked_list<T>::list_iterator::operator++()
 {
+    if (!*current)
+    {
+        return *this;
+    }
     current = &((*current)->next);
     return *this;
 }
@@ -37,6 +41,10 @@ typename linked_list<T>::list_iterator &linked_list<T>::list_iterator::operator+
 template <typename T>
 typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator++(int)
 {
+    if (!*current)
+    {
+        return *this;
+    }
     list_iterator temp(*this);
     current = &((*current)->next);
     return temp;
@@ -45,6 +53,10 @@ typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator++
 template <typename T>
 typename linked_list<T>::list_iterator &linked_list<T>::list_iterator::operator--()
 {
+    if (!*current)
+    {
+        return *this;
+    }
     current = &((*current)->prev);
     return *this;
 }
@@ -52,6 +64,10 @@ typename linked_list<T>::list_iterator &linked_list<T>::list_iterator::operator-
 template <typename T>
 typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator--(int)
 {
+    if (!*current)
+    {
+        return *this;
+    }
     list_iterator temp(*this);
     current = &((*current)->prev);
     return temp;
@@ -70,11 +86,7 @@ typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator+(
     list_iterator temp(*this);
     for (int i = 0; i < n; i++)
     {
-        if (!*temp.current)
-        {
-            break;
-        }
-        *temp.current = (*temp.current)->next;
+        temp++;
     }
     return temp;
 }
@@ -85,11 +97,7 @@ typename linked_list<T>::list_iterator linked_list<T>::list_iterator::operator-(
     list_iterator temp(*this);
     for (int i = 0; i < n; i++)
     {
-        if (!*temp.current)
-        {
-            break;
-        }
-        *temp.current = (*temp.current)->prev;
+        temp--;
     }
     return temp;
 }
@@ -117,13 +125,13 @@ const typename linked_list<T>::node *linked_list<T>::list_iterator::operator*() 
 template <typename T>
 bool linked_list<T>::list_iterator::operator==(const list_iterator &other) const
 {
-    return current == other.current;
+    return *current == *other.current;
 }
 
 template <typename T>
 bool linked_list<T>::list_iterator::operator!=(const list_iterator &other) const
 {
-    return current != other.current;
+    return *current != *other.current;
 }
 
 template <typename T>
@@ -174,6 +182,10 @@ linked_list<T>::const_list_iterator::const_list_iterator(const const_list_iterat
 template <typename T>
 typename linked_list<T>::const_list_iterator &linked_list<T>::const_list_iterator::operator++()
 {
+    if (!*current)
+    {
+        return *this;
+    }
     *current = (*current)->next;
     return *this;
 }
@@ -181,6 +193,10 @@ typename linked_list<T>::const_list_iterator &linked_list<T>::const_list_iterato
 template <typename T>
 typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator::operator++(int)
 {
+    if (!*current)
+    {
+        return *this;
+    }
     const_list_iterator temp(*this);
     current = &((*current)->next);
     return temp;
@@ -189,6 +205,10 @@ typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator
 template <typename T>
 typename linked_list<T>::const_list_iterator &linked_list<T>::const_list_iterator::operator--()
 {
+    if(!*current)
+    {
+        return *this;
+    }
     *current = (*current)->prev;
     return *this;
 }
@@ -196,6 +216,10 @@ typename linked_list<T>::const_list_iterator &linked_list<T>::const_list_iterato
 template <typename T>
 typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator::operator--(int)
 {
+    if(!*current)
+    {
+        return *this;
+    }
     const_list_iterator temp(*this);
     current = &((*current)->prev);
     return temp;
@@ -214,11 +238,8 @@ typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator
     const_list_iterator temp(*this);
     for (int i = 0; i < n; i++)
     {
-        if (!*temp.current)
-        {
-            break;
-        }
-        *temp.current = (*temp.current)->next;
+
+        temp++;
     }
     return temp;
 }
@@ -229,11 +250,7 @@ typename linked_list<T>::const_list_iterator linked_list<T>::const_list_iterator
     const_list_iterator temp(*this);
     for (int i = 0; i < n; i++)
     {
-        if (!*temp.current)
-        {
-            break;
-        }
-        *temp.current = (*temp.current)->prev;
+        temp--;
     }
     return temp;
 }
@@ -326,9 +343,53 @@ linked_list<T>::linked_list(const linked_list &other) : head(nullptr), tail(null
 }
 
 template <typename T>
+linked_list<T>::linked_list(linked_list &&other) noexcept : head(other.head), tail(other.tail), length(other.length)
+{
+    other.head = nullptr;
+    other.tail = nullptr;
+    other.length = 0;
+}
+
+template <typename T>
 linked_list<T>::~linked_list()
 {
     clear();
+}
+
+template <typename T>
+linked_list<T> &linked_list<T>::operator=(const linked_list &other)
+{
+    if (this != &other)
+    {
+        if (other.head == nullptr)
+        {
+            return *this;
+        }
+        clear();
+        node *src_current = other.head;
+        while (src_current != nullptr)
+        {
+            append_element(src_current->element);
+            src_current = src_current->next;
+        }
+    }
+    return *this;
+}
+
+template <typename T>
+linked_list<T> &linked_list<T>::operator=(linked_list &&other) noexcept
+{
+    if (this != &other)
+    {
+        clear();
+        head = other.head;
+        tail = other.tail;
+        length = other.length;
+        other.head = nullptr;
+        other.tail = nullptr;
+        other.length = 0;
+    }
+    return *this;
 }
 
 template <typename T>

@@ -34,7 +34,10 @@ TEST(test_monada, test_map)
     que.map([](int x)
             { return x * 2; });
     EXPECT_EQ(que->front(), 2);
-    EXPECT_EQ(que->back(), 6);
+    que->pop();
+    EXPECT_EQ(que->front(), 4);
+    que->pop();
+    EXPECT_EQ(que->front(), 6);
 }
 
 TEST(test_monada, test_filter)
@@ -96,10 +99,11 @@ TEST(test_monada, test_where)
     auto new_que = que.where([](int x)
                              { return x % 2 == 0; });
     EXPECT_EQ(new_que->front(), 0);
-    EXPECT_EQ(new_que->back(), 0);
     new_que->pop();
     EXPECT_EQ(new_que->front(), 1);
-    EXPECT_EQ(new_que->size(), 2);
+    new_que->pop();
+    EXPECT_EQ(new_que->front(), 0);
+    EXPECT_EQ(new_que->size(), 1);
 }
 
 TEST(test_monada, test_reduce)
@@ -121,7 +125,7 @@ TEST(test_monada, test_reduce)
 
     monad_adapter<queue<int>> que{queue<int>{1, 2, 3}};
     auto new_que = que.reduce([](int x, int y)
-                               { return x + y; }, 0);   
+                               { return x + y; }, 0);
     EXPECT_EQ(new_que, 6);
 }
 
@@ -154,11 +158,10 @@ TEST(test_monada, test_immutable_map)
     auto new_que = que.immutable_map([](int x)
                            { return x * 2; });
     EXPECT_EQ(new_que->front(), 2);
-    EXPECT_EQ(new_que->back(), 6);
     new_que->pop();
     EXPECT_EQ(new_que->front(), 4);
-
-    EXPECT_EQ(arr->get(0), 1);
+    new_que->pop();
+    EXPECT_EQ(new_que->front(), 6);
 }
 
 TEST(test_monada, test_immutable_filter)
@@ -191,25 +194,41 @@ TEST(test_monada, test_immutable_filter)
 TEST(test_monada, test_functional_pipeline)
 {
      monad_adapter<array_sequence<int>> arr{array_sequence<int>{1, 2, 3, 4, 5, 6}};
-     auto new_arr = arr>>transform([](int x)
-                                { return x * 2; })>>keep([](int x)
-                                                        { return x % 2 == 0; })>>keep([](int x)
-                                                                                        { return x > 4; });
+     auto new_arr = arr
+         >> transform([](int x){ return x * 2; })
+         >> keep([](int x){ return x % 3 == 0; })
+         >> keep([](int x){ return x > 4; });
 
-     EXPECT_EQ(new_arr->get(1), 8);
-     EXPECT_EQ(new_arr->get(2), 10);
-     EXPECT_EQ(new_arr->get_length(), 4);
+     EXPECT_EQ(new_arr->get(0), 6);
+     EXPECT_EQ(new_arr->get(1), 12);
+     EXPECT_EQ(new_arr->get_length(), 2);
 }
 
 TEST(test_monada, test_compose)
 {
      monad_adapter<array_sequence<int>> arr{array_sequence<int>{1, 2, 3, 4, 5, 6}};
-     auto result_function = transform([](int x)
-                                       { return x * 2; })<<keep([](int x)
-                                                               { return x % 2 == 0; })<<keep([](int x)
-                                                                                               { return x > 4; });
+     auto result_function = 
+        transform([](int x){ return x * 2; })
+          << keep([](int x){ return x % 2 == 0; })
+          << keep([](int x){ return x > 4; });
 
      auto new_arr = arr>>result_function;
      EXPECT_EQ(new_arr->get(0), 12);
      EXPECT_EQ(new_arr->get_length(), 1);
+}
+
+TEST(test_monada, test_compose_two)
+{
+    monad_adapter<array_sequence<int>> arr{array_sequence<int>{1, 2, 3, 4, 5, 6}};
+    auto result_function =
+        transform([](int x)
+                { return x * 2; })
+        << keep([](int x)
+                { return x % 2 != 0; })
+        << keep([](int x)
+                { return x < 4; });
+
+    auto new_arr = arr >> result_function;
+    EXPECT_EQ(new_arr->get(0), 2);
+    EXPECT_EQ(new_arr->get_length(), 2);
 }

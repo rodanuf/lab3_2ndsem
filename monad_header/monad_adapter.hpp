@@ -11,7 +11,7 @@ concept monad_container = requires(T container, const typename T::value_type &va
     container.begin();
     container.end();
     container.clear();
-    { container + value };
+    { container += value };
 };
 
 template <typename F, typename T>
@@ -28,7 +28,7 @@ concept reduce_function = requires(F function, R &result, T &value) {
 };
 
 template <typename F>
-struct transform_st
+struct transform_functor
 {
     F func;
 
@@ -37,7 +37,7 @@ struct transform_st
 };
 
 template <typename P>
-struct keep_st
+struct keep_functor
 {
     P pred;
 
@@ -52,7 +52,7 @@ template <typename P>
 auto keep(P &&pred);
 
 template <typename first_op, typename second_op>
-struct compose_st
+struct compose_functor
 {
     first_op first;
     second_op second;
@@ -105,7 +105,7 @@ public:
 
     template <typename R, typename F>
         requires reduce_function<F, R, result_type>
-    R reduce(F &&func, R initial) const;
+    R reduce(F &&func, const R &initial) const;
 
     template <typename F>
         requires map_function<F, result_type>
@@ -117,14 +117,14 @@ public:
 
     template <typename F>
         requires callable<F, result_type>
-    auto operator>>(const transform_st<F> &st);
+    auto operator>>(const transform_functor<F> &st);
 
     template <typename F>
         requires where_function<F, result_type>
-    auto operator>>(const keep_st<F> &st);
+    auto operator>>(const keep_functor<F> &st);
 
     template <typename first_op, typename second_op>
-    auto operator>>(const compose_st<first_op, second_op> &st);
+    auto operator>>(const compose_functor<first_op, second_op> &st);
 };
 
 #include "../monad_template/monad_adapter.tpp"

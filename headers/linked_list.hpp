@@ -80,7 +80,11 @@ public:
     linked_list(const T *data, const int &size);
     linked_list(const std::initializer_list<T> &ini_list);
     linked_list(const linked_list &other);
+    linked_list(linked_list &&other) noexcept;
     ~linked_list();
+
+    linked_list &operator=(const linked_list &other);
+    linked_list &operator=(linked_list &&other) noexcept;
 
     T &get(const int index);
     T &get_first();

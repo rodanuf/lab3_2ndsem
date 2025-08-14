@@ -229,6 +229,14 @@ dynamic_array<T>::dynamic_array(const dynamic_array<T> &other) : data(new T[othe
 }
 
 template <typename T>
+dynamic_array<T>::dynamic_array(dynamic_array<T> &&other) : data(other.data), length(other.length), capacity(other.capacity)
+{
+    other.data = nullptr;
+    other.length = 0;
+    other.capacity = 0;
+}
+
+template <typename T>
 dynamic_array<T>::~dynamic_array()
 {
     delete[] data;

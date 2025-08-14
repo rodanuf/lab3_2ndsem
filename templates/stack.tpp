@@ -26,27 +26,33 @@ typename sequence<T>::const_iterator stack<T>::cend() const
 }
 
 template <typename T>
-stack<T>::stack(sequence<T> *s) : container(s) {}
+stack<T>::stack(sequence<T> *q) : container(q) {}
 
 template <typename T>
 stack<T>::stack(const std::initializer_list<T> &list, sequence<T> *s) : container(s)
 {
     for (int i = 0; i < list.size(); i++)
     {
-        container->append_element(*(list.begin() + i));
+        container = container->append_element(*(list.begin() + i));
     }
 }
 
 template <typename T>
-stack<T>::stack(const sequence<T> &sequence) : container(nullptr)
+stack<T>::stack(const sequence<T> &other) : container(nullptr)
 {
-    container = sequence.clone();
+    container = other.clone();
 }
 
 template <typename T>
 stack<T>::stack(const stack<T> &stack) : container(nullptr)
 {
     container = stack.container->clone();
+}
+
+template <typename T>
+stack<T>::stack(stack<T> &&other) : container(other.container)
+{
+    other.container = nullptr;
 }
 
 template <typename T>
@@ -67,10 +73,10 @@ stack<T> &stack<T>::operator=(const stack<T> &stack)
 }
 
 template <typename T>
-stack<T> &stack<T>::operator=(const sequence<T> &sequence)
+stack<T> &stack<T>::operator=(const sequence<T> &other)
 {
     delete container;
-    container = sequence.clone();
+    container = other.clone();
     return *this;
 }
 
@@ -118,6 +124,7 @@ void stack<T>::pop()
 {
     container = container->remove_at(size() - 1);
 }
+
 template <typename T>
 void stack<T>::clear()
 {

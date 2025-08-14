@@ -5,12 +5,6 @@
 template <typename T>
 class array_sequence : public sequence<T>
 {
-protected:
-    typename array_sequence<T>::as_iterator *begin_impl() override;
-    typename array_sequence<T>::as_iterator *end_impl() override;
-    typename array_sequence<T>::const_as_iterator *cbegin_impl() const override;
-    typename array_sequence<T>::const_as_iterator *cend_impl() const override;
-
 public:
     using value_type = T;
 
@@ -24,7 +18,7 @@ public:
         typename dynamic_array<T>::array_iterator it;
 
     public:
-        as_iterator(typename dynamic_array<T>::array_iterator it);
+        as_iterator(const typename dynamic_array<T>::array_iterator &it);
         as_iterator(const as_iterator &other);
 
         as_iterator &operator++() override;
@@ -52,7 +46,7 @@ public:
         typename dynamic_array<T>::const_array_iterator it;
 
     public:
-        const_as_iterator(typename dynamic_array<T>::const_array_iterator it);
+        const_as_iterator(const typename dynamic_array<T>::const_array_iterator &it);
         const_as_iterator(const const_as_iterator &other);
 
         const_as_iterator &operator++() override;
@@ -72,12 +66,22 @@ public:
         bool operator!=(const typename sequence<T>::iterator_impl &other) const override;
     };
 
+protected:
+    typename array_sequence<T>::as_iterator *begin_impl() override;
+    typename array_sequence<T>::as_iterator *end_impl() override;
+    typename array_sequence<T>::const_as_iterator *cbegin_impl() const override;
+    typename array_sequence<T>::const_as_iterator *cend_impl() const override;
+
+public:
+
     array_sequence();
     array_sequence(const int &size);
     array_sequence(const T *items, const int &size);
     array_sequence(const std::initializer_list<T> &items);
     array_sequence(const array_sequence<T> &other);
+    array_sequence(array_sequence<T> &&other);
     array_sequence(const sequence<T> &other);
+    array_sequence(sequence<T> &&other);
     ~array_sequence();
 
     array_sequence<T> &operator=(const array_sequence<T> &other);

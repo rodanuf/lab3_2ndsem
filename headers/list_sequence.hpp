@@ -5,12 +5,6 @@
 template <typename T>
 class list_sequence : public sequence<T>
 {
-protected:
-    typename list_sequence<T>::ls_iterator *begin_impl() override;
-    typename list_sequence<T>::ls_iterator *end_impl() override;
-    typename list_sequence<T>::const_ls_iterator *cbegin_impl() const override;
-    typename list_sequence<T>::const_ls_iterator *cend_impl() const override;
-
 public:
     using value_type = T;
 
@@ -72,11 +66,22 @@ public:
         bool operator!=(const typename sequence<T>::iterator_impl &other) const override;
     };
 
+protected:
+    typename list_sequence<T>::ls_iterator *begin_impl() override;
+    typename list_sequence<T>::ls_iterator *end_impl() override;
+    typename list_sequence<T>::const_ls_iterator *cbegin_impl() const override;
+    typename list_sequence<T>::const_ls_iterator *cend_impl() const override;
+    
+public:
+
     list_sequence();
     list_sequence(const int &size);
     list_sequence(const T *items, const int &size);
     list_sequence(const std::initializer_list<T> &items);
+    list_sequence(const list_sequence<T> &other);
+    list_sequence(list_sequence<T> &&other);
     list_sequence(const sequence<T> &other);
+    list_sequence(sequence<T> &&other);
     ~list_sequence();
 
     list_sequence &operator=(const list_sequence<T> &other);

@@ -114,26 +114,20 @@ TEST(test_linked_list_iterator_operators, operator_dereferencing)
 
 TEST(test_linked_list_iterator_operators, operator_equality)
 {
-    linked_list<int> list_one = {1, 2, 3, 4, 5};
-    linked_list<int> list_two = {1, 2, 3, 4, 5};
-    auto it_one = list_one.begin();
-    auto it_two = list_one.begin();
-    auto it_three = list_two.begin();
-    it_three = it_three + 3;
-    EXPECT_TRUE(it_one == it_two);
-    EXPECT_FALSE(it_two == it_three);
+    linked_list<int> list = {1, 2, 3, 4, 5};
+    auto it_one = list.cbegin();
+    auto it_two = list.cbegin();
+    it_two = it_two + 3;
+    EXPECT_FALSE(it_two == it_one);
 }
 
 TEST(test_linked_list_iterator_operators, operator_nonequality)
 {
-    linked_list<int> list_one = {1, 2, 3, 4, 5};
-    linked_list<int> list_two = {1, 2, 3, 4, 5};
-    auto it_one = list_one.begin();
-    auto it_two = list_one.begin();
-    auto it_three = list_two.begin();
-    it_three = it_three + 3;
-    EXPECT_TRUE(it_two != it_three);
-    EXPECT_FALSE(it_one != it_two);
+    linked_list<int> list = {1, 2, 3, 4, 5};
+    auto it_one = list.cbegin();
+    auto it_two = list.cbegin();
+    it_two = it_two + 3;
+    EXPECT_TRUE(it_two != it_one);
 }
 
 TEST(test_linked_list_iterator_functions, method_begin)
@@ -251,26 +245,20 @@ TEST(test_linked_list_const_iterator_operators, operator_dereferencing)
 
 TEST(test_linked_list_const_iterator_operators, operator_equality)
 {
-    linked_list<int> list_one = {1, 2, 3, 4, 5};
-    linked_list<int> list_two = {1, 2, 3, 4, 5};
-    auto it_one = list_one.cbegin();
-    auto it_two = list_one.cbegin();
-    auto it_three = list_two.cbegin();
-    it_three = it_three + 3;
-    EXPECT_TRUE(it_one == it_two);
-    EXPECT_FALSE(it_two == it_three);
+    linked_list<int> list = {1, 2, 3, 4, 5};
+    auto it_one = list.cbegin();
+    auto it_two = list.cbegin();
+    it_two = it_two + 3;
+    EXPECT_FALSE(it_two == it_one);
 }
 
 TEST(test_linked_list_const_iterator_operators, operator_nonequality)
 {
-    linked_list<int> list_one = {1, 2, 3, 4, 5};
-    linked_list<int> list_two = {1, 2, 3, 4, 5};
-    auto it_one = list_one.cbegin();
-    auto it_two = list_one.cbegin();
-    auto it_three = list_two.cbegin();
-    it_three = it_three + 3;
-    EXPECT_TRUE(it_two != it_three);
-    EXPECT_FALSE(it_one != it_two);
+    linked_list<int> list = {1, 2, 3, 4, 5};
+    auto it_one = list.cbegin();
+    auto it_two = list.cbegin();
+    it_two = it_two + 3;
+    EXPECT_TRUE(it_two != it_one);
 }
 
 TEST(test_linked_list_const_iterator_functions, method_begin)

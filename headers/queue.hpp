@@ -15,15 +15,16 @@ private:
     sequence<T> *container;
 
 public:
-    sequence<T>::iterator begin();
-    sequence<T>::iterator end();
-    sequence<T>::const_iterator cbegin() const;
-    sequence<T>::const_iterator cend() const;
+    typename sequence<T>::iterator begin();
+    typename sequence<T>::iterator end();
+    typename sequence<T>::const_iterator cbegin() const;
+    typename sequence<T>::const_iterator cend() const;
 
     queue(sequence<T> *q = new list_sequence<T>());
     queue(const std::initializer_list<T> &list, sequence<T> *s = new list_sequence<T>());
     queue(const sequence<T> &other);
     queue(const queue<T> &other);
+    queue(queue<T> &&other);
     ~queue();
 
     queue<T> &operator=(const queue<T> &other);
