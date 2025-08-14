@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../headers/sequence.hpp"
 
 template <typename T>

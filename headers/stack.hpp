@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <initializer_list>
 #include "array_sequence.hpp"
 #include "list_sequence.hpp"
 #include "sequence.hpp"

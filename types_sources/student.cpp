@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../types_headers/student.hpp"
 
 student::student() : name(""), surname(""), group_number(""), grade() {}

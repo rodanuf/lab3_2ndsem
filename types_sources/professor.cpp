@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../types_headers/professor.hpp"
 
 professor::professor() : name(""), surname(""), name_departament(""), num_departament(0) {}
