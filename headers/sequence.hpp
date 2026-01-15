@@ -3,6 +3,9 @@
 template <typename T>
 class sequence
 {
+public:
+    using value_type = T;
+
 protected:
     class iterator_impl
     {
