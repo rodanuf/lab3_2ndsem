@@ -479,6 +479,18 @@ TEST(test_array_sequence_functions, method_concat)
     EXPECT_EQ(array->get(3), 4);
 }
 
+TEST(test_array_sequence_functions, method_clone)
+{
+    array_sequence<int> array = {1, 2, 3, 4};
+    sequence<int> *other = array.clone();
+
+    EXPECT_EQ(array.get(3), other->get(3));
+    EXPECT_EQ(array.get_length(), other->get_length());
+
+    other->append_element(5);
+    EXPECT_EQ(array.get_last(), 4);
+}
+
 TEST(test_array_sequence_functions, method_immutable_append_element)
 {
     array_sequence<int> array = {1, 2, 3, 4};

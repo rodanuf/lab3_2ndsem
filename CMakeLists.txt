@@ -20,7 +20,6 @@ add_executable(lab3_2ndsem
     ui_sources/lab.cpp
     ${UI_SOURCES}
     ${TYPES_SOURCES}
-    ${TEMPLATES}
 )
 
 add_executable(tests 

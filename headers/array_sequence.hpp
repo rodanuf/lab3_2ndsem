@@ -1,6 +1,7 @@
 #pragma once
 #include "dynamic_array.hpp"
 #include "sequence.hpp"
+#include <algorithm>
 
 template <typename T>
 class array_sequence : public sequence<T>

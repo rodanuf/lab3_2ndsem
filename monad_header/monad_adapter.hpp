@@ -92,35 +92,35 @@ public:
     const container &operator*() const;
 
     template <typename F>
-        requires map_function<F, result_type>
+        requires map_function<F, typename container::value_type>
     void map(F &&func);
 
     template <typename F>
-        requires where_function<F, result_type>
+        requires where_function<F, typename container::value_type>
     void filter(F &&func);
 
     template <typename F>
-        requires where_function<F, result_type>
+        requires where_function<F, typename container::value_type>
     auto where(F &&func) const;
 
     template <typename R, typename F>
-        requires reduce_function<F, R, result_type>
+        requires reduce_function<F, R, typename container::value_type>
     R reduce(F &&func, const R &initial) const;
 
     template <typename F>
-        requires map_function<F, result_type>
+        requires map_function<F, typename container::value_type>
     auto immutable_map(F &&func) const;
 
     template <typename F>
-        requires where_function<F, result_type>
+        requires where_function<F, typename container::value_type>
     auto immutable_filter(F &&func) const;
 
     template <typename F>
-        requires callable<F, result_type>
+        requires callable<F, typename container::value_type>
     auto operator>>(const transform_functor<F> &st);
 
     template <typename F>
-        requires where_function<F, result_type>
+        requires where_function<F, typename container::value_type>
     auto operator>>(const keep_functor<F> &st);
 
     template <typename first_op, typename second_op>
