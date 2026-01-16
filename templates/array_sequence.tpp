@@ -256,9 +256,8 @@ template <typename T>
 array_sequence<T>::array_sequence(array_sequence<T> &&other) : a_sequence(std::move(other.a_sequence)) {}
 
 template <typename T>
-array_sequence<T>::array_sequence(const sequence<T> &other)
+array_sequence<T>::array_sequence(const sequence<T> &other) : a_sequence()
 {
-    a_sequence = new dynamic_array<T>();
     for (int i = 0; i < other.get_length(); i++)
     {
         a_sequence.append_element(other.get(i));
